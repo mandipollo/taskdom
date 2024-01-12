@@ -1,15 +1,15 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../assets/components/navbar/Navbar";
+import Navbar from "../components/navbar/Navbar";
 
 const Root = () => {
 	return (
-		<div className="flex">
+		<div className="flex flex-col w-full max-w-6xl ">
 			<header>
 				<Navbar />
 			</header>
-			<div className="flex">
+			<main>
 				<Outlet />
-			</div>
+			</main>
 		</div>
 	);
 };
