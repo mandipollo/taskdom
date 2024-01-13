@@ -19,6 +19,7 @@
 	transition: all 0.5s;
 	top: 0;
 	left: 0;
+	background: black;
 }
 
 .hamburger-middle {
@@ -35,6 +36,7 @@
 
 .open.hamburger-top {
 	transform: rotate(45deg) translateY(6px) translateX(6px);
+	background: white;
 }
 
 .open.hamburger-middle {
@@ -43,4 +45,5 @@
 
 .open.hamburger-bottom {
 	transform: rotate(-45deg) translateY(6px) translateX(-6px);
+	background: white;
 }

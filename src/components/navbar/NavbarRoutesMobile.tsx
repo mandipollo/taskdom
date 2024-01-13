@@ -10,18 +10,23 @@ const NavbarRoutesMobile: React.FC = () => {
 				</Link>
 			</li>
 			<li>
-				<Link to="products">
+				<Link to="/products">
 					<button>PRODUCTS</button>
 				</Link>
 			</li>
 			<li>
-				<Link to="about">
+				<Link to="/about">
 					<button>ABOUT</button>
 				</Link>
 			</li>
 			<li>
-				<Link to="contact">
+				<Link to="/contact">
 					<button>CONTACT</button>
+				</Link>
+			</li>
+			<li>
+				<Link to="/login">
+					<button>LOGIN</button>
 				</Link>
 			</li>
 		</ul>
