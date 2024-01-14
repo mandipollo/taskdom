@@ -25,7 +25,7 @@ const Navbar: React.FC = () => {
 		open && "open"
 	}`;
 	return (
-		<div className="flex flex-1 h-12 p-2  w-full rounded shadow-lg bg-white">
+		<div className="flex flex-1 h-14 p-2  w-full rounded shadow-lg bg-white">
 			{/* logo medium screen */}
 			<Link to="/">
 				<div className="hidden md:flex w-40  justify-center items-center space-x-4 h-full">

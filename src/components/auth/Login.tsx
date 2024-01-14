@@ -1,20 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import loginLogo from "../../assets/loginLogo.svg";
 import { Link } from "react-router-dom";
 import facebookLogo from "../../assets/facebook.svg";
 import instagramLogo from "../../assets/instagram.svg";
 
 const Login: React.FC = () => {
+	const [email, setEmail] = useState<string | null>(null);
+
+	const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setEmail(e.target.value);
+	};
+
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+	};
 	return (
-		<div className="flex h-full  flex-col bg-gray-200">
+		<div className="flex h-full flex-col bg-gray-200">
 			<div className="flex justify-center items-center h-2/4 flex-col space-y-2">
 				<img src={loginLogo} height={40} width={40}></img>
 				<p className="text-lg md:text-sm ">iDon'tKnowUI</p>
 			</div>
 			<div className="flex flex-col h-2/4 justify-center items-center flex-1">
-				<div className="flex relative flex-col justify-center items-center h-2/4  md:w-2/4 sm:w-3/4 w-3/4 bg-white shadow-lg  ">
+				<form className="flex relative flex-col justify-center items-center h-2/4  md:w-2/4 sm:w-3/4 w-3/4 bg-white shadow-lg  ">
 					<div className="flex  flex-col w-full h-full justify-center items-center space-y-4 flex-1 ">
 						<input
+							onChange={emailHandler}
+							value={email ?? ""}
 							className="border-gray-300  outline-none border-b  text-center w-3/4 "
 							placeholder="Enter your email"
 							type="email"
@@ -34,10 +45,13 @@ const Login: React.FC = () => {
 							/>
 						</div>
 					</div>
-					<button className="absolute -bottom-5 rounded-2xl bg-black text-white py-2 px-12">
+					<button
+						type="submit"
+						className="absolute -bottom-5 rounded-2xl bg-black text-white py-2 px-12"
+					>
 						NEXT
 					</button>
-				</div>
+				</form>
 
 				<div className="flex h-2/4 w-3/4 justify-center items-center  ">
 					<Link to="/signup">
