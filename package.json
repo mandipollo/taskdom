@@ -13,6 +13,7 @@
 	},
 	"dependencies": {
 		"@reduxjs/toolkit": "^2.0.1",
+		"firebase": "^10.7.1",
 		"jest-environment-jsdom": "^29.7.0",
 		"localforage": "^1.10.0",
 		"match-sorter": "^6.3.1",

@@ -10,15 +10,15 @@ const emailSlice = createSlice({
 	name: "email",
 	initialState,
 	reducers: {
-		setEmail: (state, action: PayloadAction<string>) => {
+		setEmailState: (state, action: PayloadAction<string | null>) => {
 			state.email = action.payload;
 		},
-		resetEmail: state => {
+		resetEmailState: state => {
 			state.email = null;
 		},
 	},
 });
 
-export const { setEmail, resetEmail } = emailSlice.actions;
+export const { setEmailState, resetEmailState } = emailSlice.actions;
 
 export default emailSlice.reducer;
