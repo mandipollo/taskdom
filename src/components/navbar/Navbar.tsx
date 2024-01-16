@@ -66,7 +66,7 @@ const Navbar: React.FC = () => {
 				</div>
 			</nav>
 
-			<div className=" h-full flex w-40  justify-center items-center text-[#4B98F9]">
+			<div className=" h-full flex w-40 justify-center items-center bg-black   text-white rounded-md">
 				<Link to="/login">LOGIN</Link>
 			</div>
 		</div>
