@@ -1,11 +1,8 @@
 import React from "react";
+import Products from "../components/products/Products";
 
 const Productspage: React.FC = () => {
-	return (
-		<div>
-			<h1>Productspage</h1>
-		</div>
-	);
+	return <Products />;
 };
 
 export default Productspage;

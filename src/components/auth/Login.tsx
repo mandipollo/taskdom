@@ -59,7 +59,6 @@ const Login: React.FC = () => {
 				setPasswordValidity(true);
 				const { user, error } = await signInUser({ email, password });
 				console.log(user, error);
-
 				setError(error);
 			} catch (err) {
 				if (err instanceof Error) {

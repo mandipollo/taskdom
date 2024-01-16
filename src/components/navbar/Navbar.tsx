@@ -4,10 +4,15 @@ import NavbarRoutes from "./NavbarRoutes";
 import "./navbar.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { auth } from "../../../firebase.config";
+import signOutUser from "../../firebaseAuth/signOutUser";
 
 import NavbarRoutesMobile from "./NavbarRoutesMobile";
 
 const Navbar: React.FC = () => {
+	const user = auth.currentUser;
+	console.log(user);
+
 	const [open, setOpen] = useState<boolean>(false);
 
 	const handlerToggle = (): void => {
@@ -66,9 +71,18 @@ const Navbar: React.FC = () => {
 				</div>
 			</nav>
 
-			<div className=" h-full flex w-40 justify-center items-center bg-black   text-white rounded-md">
-				<Link to="/login">LOGIN</Link>
-			</div>
+			{user ? (
+				<button
+					onClick={signOutUser}
+					className=" h-full flex w-40 justify-center items-center bg-black   text-white rounded-md"
+				>
+					<p>SIGN OUT</p>
+				</button>
+			) : (
+				<button className=" h-full flex w-40 justify-center items-center bg-black   text-white rounded-md">
+					<Link to="/login">LOGIN</Link>
+				</button>
+			)}
 		</div>
 	);
 };
