@@ -1,8 +1,9 @@
+import { signOut } from "firebase/auth";
 import { auth } from "../../firebase.config";
 
-const signOutUser = (): void => {
+const signOutUser = async () => {
 	if (auth.currentUser) {
-		auth.signOut();
+		await signOut(auth);
 	}
 };
 

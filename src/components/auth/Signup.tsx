@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 import facebookLogo from "../../assets/facebook.svg";
@@ -12,16 +13,18 @@ import isPasswordValid from "../utilities/passwordValidation";
 import signUpUser from "../../firebaseAuth/signUpUser";
 
 const Signup: React.FC = () => {
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
 	const [email, setEmail] = useState<string | null>(null);
 	const [emailValidity, setEmailValidity] = useState<boolean>(true);
 	const [password, setPassword] = useState<string | null>(null);
 	const [passwordValidity, setPasswordValidity] = useState<boolean>(true);
+	const [displayName, setDisplayName] = useState<string | null>(null);
 
 	const [error, setError] = useState<string | null>(null);
 
-	// email validation
+	//  validation
 
 	const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value);
@@ -30,7 +33,9 @@ const Signup: React.FC = () => {
 	const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPassword(e.target.value);
 	};
-
+	const displayNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setDisplayName(e.target.value);
+	};
 	const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		if (isPasswordValid(password) === false || isValidEmail(email) === false) {
@@ -46,10 +51,15 @@ const Signup: React.FC = () => {
 				setPasswordValidity(true);
 				setEmailValidity(true);
 				dispatch(setEmailState(email));
-				const { user, error } = await signUpUser({ email, password });
+				const { user, error } = await signUpUser({
+					email,
+					password,
+					displayName,
+				});
 				console.log(user, error);
 
 				setError(error);
+				navigate("/");
 			} catch (err) {
 				if (err instanceof Error) {
 					setError(err.message);
@@ -76,6 +86,13 @@ const Signup: React.FC = () => {
 					<p className="text-sm text-gray-400 flex text-wrap">
 						We are limited by only our imagination
 					</p>
+					<input
+						onChange={displayNameHandler}
+						value={displayName ?? ""}
+						className="border-gray-300  outline-none border-b  text-center w-3/4 "
+						placeholder="What should we call you?"
+						type="text"
+					></input>
 					<input
 						onChange={emailHandler}
 						value={email ?? ""}

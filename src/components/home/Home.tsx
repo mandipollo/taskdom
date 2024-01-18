@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Home: React.FC = () => {
 	return (
-		<div className="flex flex-1 flex-col">
+		<div className="flex flex-1 flex-col bg-gradient-to-r from-pink-200 to-blue-200">
 			<section className="sm:py-16 ">
 				<div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 					<div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">

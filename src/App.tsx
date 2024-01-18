@@ -14,6 +14,7 @@ import Contactpage from "./pages/Contactpage";
 import Productspage from "./pages/Productspage";
 import Loginpage from "./pages/Loginpage";
 import Signuppage from "./pages/Signuppage";
+import UserDashboardPage from "./pages/UserDashboardPage";
 
 let persistor = persistStore(store);
 
@@ -43,13 +44,17 @@ const Route = createBrowserRouter([
 				path: "signup",
 				element: <Signuppage />,
 			},
+			{
+				path: "userDashboard",
+				element: <UserDashboardPage />,
+			},
 		],
 	},
 ]);
 
 function App() {
 	return (
-		<div className="flex flex-col items-center  h-screen w-screen bg-gradient-to-r from-pink-200 to-blue-200 font-mono">
+		<div className="flex flex-col items-center  h-screen w-screen  font-mono">
 			<Provider store={store}>
 				<PersistGate loading={null} persistor={persistor}>
 					<RouterProvider router={Route}></RouterProvider>

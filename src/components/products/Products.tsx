@@ -4,9 +4,9 @@ import officemeeting from "../../assets/officeMeeting.jpg";
 
 const Products: React.FC = () => {
 	return (
-		<div className="flex flex-col h-full md:space-y-20 bg-white">
+		<div className="flex flex-col h-full   bg-white">
 			<div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
-				<div className="flex flex-row justify-center items-center flex-wrap p-20">
+				<div className="flex  flex-row justify-center items-center flex-wrap p-20">
 					<p className=" md:text-2xl sm:text-sm lg:text:4xl">
 						In built calender
 					</p>
@@ -16,15 +16,15 @@ const Products: React.FC = () => {
 						collaboration and streamlined calendar planning.
 					</p>
 				</div>
-				<div className="flex justify-center items-center">
+				<div className="flex  justify-center items-center">
 					<img src={calender} alt="calender"></img>
 				</div>
 			</div>
 			<div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
-				<div className="flex justify-center items-center">
+				<div className=" flex justify-center items-center">
 					<img src={officemeeting} alt="meeting"></img>
 				</div>
-				<div className="flex flex-row justify-center items-center flex-wrap p-20">
+				<div className=" flex  flex-row justify-center items-center flex-wrap p-20">
 					<p className=" md:text-2xl sm:text-sm lg:text:4xl">
 						Communication and file sharing platform
 					</p>

@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "../../assets/logo.svg";
 import NavbarRoutes from "./NavbarRoutes";
 import "./navbar.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../../../firebase.config";
-import signOutUser from "../../firebaseAuth/signOutUser";
 
 import NavbarRoutesMobile from "./NavbarRoutesMobile";
+import { User } from "firebase/auth";
+import manAvatar from "../../assets/manAvatar.svg";
 
 const Navbar: React.FC = () => {
-	const user = auth.currentUser;
-	console.log(user);
+	const [user, setUser] = useState<User | null>(null);
+	const [isLoading, setIsLoading] = useState<Boolean>(true);
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged(user => {
+			setUser(user);
+			setIsLoading(false); // Set loading to false once user data is retrieved
+		});
+
+		return () => unsubscribe(); // Cleanup function to unsubscribe from the listener
+	}, []);
 
 	const [open, setOpen] = useState<boolean>(false);
 
@@ -63,21 +73,34 @@ const Navbar: React.FC = () => {
 
 				{/* desktop menu */}
 				<div className="hidden md:flex flex-1 justify-center items-center h-full">
-					<NavbarRoutes />
+					<NavbarRoutes email={user?.email} />
 				</div>
 				{/* mobile menu */}
 				<div className={classRoutes}>
-					<NavbarRoutesMobile />
+					<NavbarRoutesMobile
+						userUid={user?.uid}
+						handleToggle={handlerToggle}
+					/>
 				</div>
 			</nav>
 
-			{user ? (
-				<button
-					onClick={signOutUser}
-					className=" h-full flex w-40 justify-center items-center bg-black   text-white rounded-md"
-				>
-					<p>SIGN OUT</p>
-				</button>
+			{isLoading ? (
+				<div className="flex justify-center items-center">
+					<p>Loading...</p>
+				</div>
+			) : user ? (
+				<div className=" h-full flex justify-center items-center space-x-2  ">
+					<p className="sm:block hidden">Hello,</p>
+					<p className="font-mono sm:block hidden text-[#4B98F9]">
+						{user.displayName}
+					</p>
+					<img
+						src={manAvatar}
+						height={30}
+						width={30}
+						className="rounded-full sm:hidden block"
+					></img>
+				</div>
 			) : (
 				<button className=" h-full flex w-40 justify-center items-center bg-black   text-white rounded-md">
 					<Link to="/login">LOGIN</Link>

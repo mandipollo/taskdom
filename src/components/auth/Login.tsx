@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import prev from "../../assets/previous.svg";
 
 import loginLogo from "../../assets/loginLogo.svg";
@@ -13,6 +14,7 @@ import isPasswordValid from "../utilities/passwordValidation";
 import signInUser from "../../firebaseAuth/signInUser";
 
 const Login: React.FC = () => {
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
 	const [email, setEmail] = useState<string | null>(null);
@@ -50,7 +52,6 @@ const Login: React.FC = () => {
 		e.preventDefault();
 		if (isPasswordValid(password) === false) {
 			setPasswordValidity(false);
-			console.log("invalid pw");
 
 			return;
 		} else {
@@ -60,6 +61,7 @@ const Login: React.FC = () => {
 				const { user, error } = await signInUser({ email, password });
 				console.log(user, error);
 				setError(error);
+				navigate("/");
 			} catch (err) {
 				if (err instanceof Error) {
 					setError(err.message);

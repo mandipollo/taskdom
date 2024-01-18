@@ -1,9 +1,14 @@
-import React from "react";
 import { Link } from "react-router-dom";
+import signOutUser from "../../firebaseAuth/signOutUser";
 
-const NavbarRoutesMobile: React.FC = () => {
+type navProps = {
+	userUid: string | null | undefined;
+	handleToggle: () => void;
+};
+
+const NavbarRoutesMobile = ({ userUid, handleToggle }: navProps) => {
 	return (
-		<ul className="space-y-4 text-lg font-thin">
+		<ul onClick={handleToggle} className="space-y-4 text-lg font-thin">
 			<li>
 				<Link to="/">
 					<button>HOME</button>
@@ -24,11 +29,25 @@ const NavbarRoutesMobile: React.FC = () => {
 					<button>CONTACT</button>
 				</Link>
 			</li>
-			<li>
-				<Link to="/login">
-					<button>LOGIN</button>
-				</Link>
-			</li>
+			{userUid && (
+				<li>
+					<Link to="/userDashboard">
+						<button>DASHBOARD</button>
+					</Link>
+				</li>
+			)}
+
+			{userUid ? (
+				<li>
+					<button onClick={signOutUser}>SIGN OUT</button>
+				</li>
+			) : (
+				<li>
+					<Link to="/login">
+						<button>LOGIN</button>
+					</Link>
+				</li>
+			)}
 		</ul>
 	);
 };

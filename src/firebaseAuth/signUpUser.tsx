@@ -1,9 +1,10 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase.config";
 
 type signupProps = {
 	email: string | null;
 	password: string | null;
+	displayName: string | null;
 };
 
 type signUpResult = {
@@ -14,6 +15,7 @@ type signUpResult = {
 const signUpUser = async ({
 	email,
 	password,
+	displayName,
 }: signupProps): Promise<signUpResult> => {
 	if (!email || !password) {
 		const errorMessage = "oops something went wrong!";
@@ -28,6 +30,8 @@ const signUpUser = async ({
 			email,
 			password
 		);
+
+		await updateProfile(userCredential.user, { displayName });
 		const user = userCredential.user;
 		return {
 			user: user,
