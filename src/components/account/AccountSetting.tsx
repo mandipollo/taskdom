@@ -1,0 +1,25 @@
+import React from "react";
+import PersonalInfo from "./PersonalInfo";
+import LoginAndSecurity from "./LoginAndSecurity";
+
+const AccountSetting: React.FC = () => {
+	return (
+		<div className="flex flex-col h-full">
+			<div className="flex h-1/5 flex-col items-center border-gray-300 border-b mx-14">
+				<div className="flex items-end h-1/2 w-full">
+					<p className="text-2xl font-bold">Settings</p>
+				</div>
+				<div className="flex items-center space-x-6 h-1/2 w-full">
+					<button>Personal Info</button>
+					<button>Login & Security</button>
+				</div>
+			</div>
+			<div className="flex flex-1 justify-center items-center relative mx-14">
+				<PersonalInfo />
+				<LoginAndSecurity />
+			</div>
+		</div>
+	);
+};
+
+export default AccountSetting;

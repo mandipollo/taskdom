@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import signOutUser from "../../firebaseAuth/signOutUser";
+import { useNavigate } from "react-router-dom";
 
 type navProps = {
 	userUid: string | null | undefined;
@@ -7,6 +8,12 @@ type navProps = {
 };
 
 const NavbarRoutesMobile = ({ userUid, handleToggle }: navProps) => {
+	const navigate = useNavigate();
+
+	const signOutHandler = () => {
+		signOutUser();
+		navigate("/");
+	};
 	return (
 		<ul onClick={handleToggle} className="space-y-4 text-lg font-thin">
 			<li>
@@ -39,7 +46,7 @@ const NavbarRoutesMobile = ({ userUid, handleToggle }: navProps) => {
 
 			{userUid ? (
 				<li>
-					<button onClick={signOutUser}>SIGN OUT</button>
+					<button onClick={signOutHandler}>SIGN OUT</button>
 				</li>
 			) : (
 				<li>

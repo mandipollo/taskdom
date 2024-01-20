@@ -15,6 +15,7 @@ import Productspage from "./pages/Productspage";
 import Loginpage from "./pages/Loginpage";
 import Signuppage from "./pages/Signuppage";
 import UserDashboardPage from "./pages/UserDashboardPage";
+import AccountSettingpage from "./pages/AccountSettingpage";
 
 let persistor = persistStore(store);
 
@@ -47,6 +48,10 @@ const Route = createBrowserRouter([
 			{
 				path: "userDashboard",
 				element: <UserDashboardPage />,
+			},
+			{
+				path: "accountSetting",
+				element: <AccountSettingpage />,
 			},
 		],
 	},

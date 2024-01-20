@@ -78,7 +78,7 @@ const Login: React.FC = () => {
 
 	const passwordFormClass: string = `${
 		showPasswordForm ? "flex" : "hidden"
-	}  relative flex-col justify-center items-center h-2/4  md:w-2/4 sm:w-3/4 w-3/4 bg-white shadow-lg`;
+	}  relative flex-col justify-center items-center h-2/4   md:w-2/4 sm:w-3/4 w-3/4 bg-white shadow-lg`;
 
 	const previousBtnClass: string = `${
 		showPasswordForm ? "flex" : "hidden"
@@ -130,7 +130,7 @@ const Login: React.FC = () => {
 						disabled={!email}
 						onClick={handleNext}
 						type="button"
-						className="absolute -bottom-5 rounded-2xl bg-black text-white py-2 px-12"
+						className="absolute -bottom-5 rounded-2xl bg-black text-white py-2 px-12 z-10"
 					>
 						NEXT
 					</button>
@@ -169,13 +169,13 @@ const Login: React.FC = () => {
 						disabled={!password}
 						onClick={handleSubmit}
 						type="submit"
-						className="absolute -bottom-5 rounded-2xl bg-black text-white py-2 px-12"
+						className="absolute -bottom-5 rounded-2xl bg-black text-white py-2 px-12 z-10"
 					>
 						SIGN IN
 					</button>
 				</form>
 
-				<div className="flex relative h-2/4 w-3/4  justify-center items-center  ">
+				<div className="flex relative h-2/4 w-3/4 justify-center items-center  ">
 					<div className={previousBtnClass}>
 						<button type="button" onClick={handlePrev}>
 							<img src={prev} height={40} width={40}></img>

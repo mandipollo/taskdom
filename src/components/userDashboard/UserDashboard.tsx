@@ -1,4 +1,4 @@
-import Sidebar from "./SIdebar";
+import Sidebar from "./Sidebar";
 
 const UserDashboard: React.FC = () => {
 	return (

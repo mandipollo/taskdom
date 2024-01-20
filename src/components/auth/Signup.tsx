@@ -133,7 +133,7 @@ const Signup: React.FC = () => {
 					disabled={!password}
 					onClick={handleSubmit}
 					type="submit"
-					className="absolute -bottom-5 rounded-2xl bg-black text-white py-2 px-12"
+					className="absolute -bottom-5 rounded-2xl bg-black z-10 text-white py-2 px-12"
 				>
 					CREATE FREE ACCOUNT
 				</button>
