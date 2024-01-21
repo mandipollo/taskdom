@@ -21,11 +21,7 @@ const NavbarRoutesMobile = ({ userUid, handleToggle }: navProps) => {
 					<button>HOME</button>
 				</Link>
 			</li>
-			<li>
-				<Link to="/products">
-					<button>PRODUCTS</button>
-				</Link>
-			</li>
+
 			<li>
 				<Link to="/about">
 					<button>ABOUT</button>

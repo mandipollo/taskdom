@@ -8,7 +8,7 @@ import { auth } from "../../../firebase.config";
 
 import NavbarRoutesMobile from "./NavbarRoutesMobile";
 import { User } from "firebase/auth";
-import manAvatar from "../../assets/manAvatar.svg";
+import manAvatar from "../../assets/avatar.jpg";
 
 const Navbar: React.FC = () => {
 	const [user, setUser] = useState<User | null>(null);

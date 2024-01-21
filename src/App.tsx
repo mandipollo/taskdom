@@ -11,7 +11,7 @@ import Homepage from "./pages/Homepage";
 import Aboutpage from "./pages/Aboutpage";
 import Root from "./pages/Root";
 import Contactpage from "./pages/Contactpage";
-import Productspage from "./pages/Productspage";
+
 import Loginpage from "./pages/Loginpage";
 import Signuppage from "./pages/Signuppage";
 import UserDashboardPage from "./pages/UserDashboardPage";
@@ -35,10 +35,6 @@ const Route = createBrowserRouter([
 			{
 				path: "contact",
 				element: <Contactpage />,
-			},
-			{
-				path: "products",
-				element: <Productspage />,
 			},
 			{ path: "login", element: <Loginpage /> },
 			{

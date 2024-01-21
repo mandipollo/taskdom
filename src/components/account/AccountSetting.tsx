@@ -1,8 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PersonalInfo from "./PersonalInfo";
 import LoginAndSecurity from "./LoginAndSecurity";
+import getFirestoreData from "../../firebaseAuth/getFirestoreData";
 
+type userData = {
+	displayName: string;
+	contactNo: number | null;
+	jobTitle: string | null;
+	email: string;
+	uid: string;
+	workHours: number | null;
+};
 const AccountSetting: React.FC = () => {
+	const [userFirestoreData, setUserFirestoreData] = useState<userData | null>(
+		null
+	);
+
+	useEffect(() => {
+		const callFirestoreData = async () => {
+			const data = await getFirestoreData();
+			setUserFirestoreData(data as userData);
+		};
+		callFirestoreData();
+	}, []);
+
 	return (
 		<div className="flex flex-col h-full">
 			<div className="flex h-1/5 flex-col items-center border-gray-300 border-b mx-14">
@@ -15,7 +36,7 @@ const AccountSetting: React.FC = () => {
 				</div>
 			</div>
 			<div className="flex flex-1 justify-center items-center relative mx-14">
-				<PersonalInfo />
+				<PersonalInfo userFirestoreData={userFirestoreData} />
 				<LoginAndSecurity />
 			</div>
 		</div>

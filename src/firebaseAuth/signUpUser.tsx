@@ -1,10 +1,11 @@
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "../../firebase.config";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase.config";
 
 type signupProps = {
 	email: string | null;
 	password: string | null;
-	displayName: string | null;
+	displayName: string | undefined;
 };
 
 type signUpResult = {
@@ -25,14 +26,26 @@ const signUpUser = async ({
 	}
 
 	try {
+		// sign up user with email and password
 		const userCredential = await createUserWithEmailAndPassword(
 			auth,
 			email,
 			password
 		);
-
-		await updateProfile(userCredential.user, { displayName });
 		const user = userCredential.user;
+		// update displayName
+		await updateProfile(user, { displayName });
+
+		// Add a new document in collection "cities"
+		await setDoc(doc(db, "users", user.uid), {
+			uid: user.uid,
+			displayName: displayName,
+			email: email,
+			jobTitle: null,
+			workHours: null,
+			contactNo: null,
+		});
+
 		return {
 			user: user,
 			error: null,

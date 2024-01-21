@@ -13,13 +13,6 @@ const NavbarRoutes = ({ email }: navProps) => {
 					</button>
 				</Link>
 			</li>
-			<li>
-				<Link to="/products">
-					<button className=" hover:bg-black hover:text-white pl-4 pr-4 rounded-md">
-						PRODUCTS
-					</button>
-				</Link>
-			</li>
 
 			<li>
 				<Link to="/about">
