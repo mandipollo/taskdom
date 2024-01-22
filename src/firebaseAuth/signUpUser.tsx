@@ -5,7 +5,7 @@ import { auth, db } from "../../firebase.config";
 type signupProps = {
 	email: string | null;
 	password: string | null;
-	displayName: string | undefined;
+	displayName: string | null;
 };
 
 type signUpResult = {

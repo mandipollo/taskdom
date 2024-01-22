@@ -5,11 +5,12 @@ import getFirestoreData from "../../firebaseAuth/getFirestoreData";
 
 type userData = {
 	displayName: string;
-	contactNo: number | null;
+	contactNo: string | null;
 	jobTitle: string | null;
 	email: string;
 	uid: string;
-	workHours: number | null;
+	workHours: string | null;
+	profileImage: string | null;
 };
 const AccountSetting: React.FC = () => {
 	const [userFirestoreData, setUserFirestoreData] = useState<userData | null>(

@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import avatar from "../../assets/avatar.jpg";
 import updateUserInfo from "../../firebaseAuth/updateUserInfo";
+import { ref } from "firebase/storage";
+import { storage } from "../../../firebase.config";
+import { uploadBytes } from "firebase/storage";
+import { db } from "../../../firebase.config";
+import { doc, updateDoc } from "firebase/firestore";
+import getProfileImage from "../../firebaseAuth/getProfileImage";
 
 type personalProps = {
 	userFirestoreData: unknown | null;
@@ -11,11 +17,52 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 		// Render a loading state or return null if userFirestoreData is null
 		return null;
 	}
+	// retrieve user info from the firebase firestore
+	const { displayName, contactNo, workHours, jobTitle, uid, profileImage } =
+		userFirestoreData as {
+			displayName: string;
+			contactNo: string;
+			workHours: string | null;
+			jobTitle: string | null;
+			uid: string;
+			profileImage: string;
+		};
+	// inputs
+
+	const [image, setImage] = useState<string | null>(null);
 	const [job, setJob] = useState<string | null>(null);
 	const [name, setName] = useState<string | null>(null);
 	const [workTime, setWorkTime] = useState<string | null>(null);
 	const [contactPh, setContactPh] = useState<string | null>(null);
 
+	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	// get profile picture
+
+	useEffect(() => {
+		const handlePicture = async () => {
+			const url = await getProfileImage(profileImage);
+			setImage(url);
+		};
+
+		handlePicture();
+	}, [profileImage]);
+	//user data handlers
+	const imageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files.length > 0) {
+			const selectedFile = e.target.files[0];
+			const userFirestoreRef = doc(db, `users/${uid}`);
+			const profileImageRef = ref(
+				storage,
+				`${uid}/profileImage/${selectedFile.name}`
+			);
+			uploadBytes(profileImageRef, selectedFile).then(snapshot => {
+				updateDoc(userFirestoreRef, {
+					profileImage: snapshot.metadata.fullPath,
+				});
+			});
+		}
+	};
 	const jobHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setJob(e.target.value);
 	};
@@ -28,31 +75,30 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 	const contactPhHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setContactPh(e.target.value);
 	};
-	const { displayName, contactNo, workHours, jobTitle } = userFirestoreData as {
-		displayName: string;
-		contactNo: string;
-		workHours: string | null;
-		jobTitle: string | null;
-	};
 
+	// toggle paragraph and inputs visibility
 	const [showEdit, setShowEdit] = useState<string>("hidden");
+	const [showEditBtn, setShowEditBtn] = useState<string>("hidden");
 	const [text, setText] = useState<string>("flex");
 
 	const inputClass = `${showEdit} focus:outline-0`;
-
+	const editBtn = `${showEditBtn} h-10 bottom-0 left-0 right-0  bg-gray-300`;
 	const editBtnDiv = `${showEdit} flex-row py-2 justify-between w-3/4`;
 	const showEditHandler: React.MouseEventHandler<HTMLButtonElement> = e => {
 		e.preventDefault();
 		setShowEdit("flex");
 		setText("hidden");
+		setShowEditBtn("absolute");
 	};
 
 	const hideEditHandler: React.MouseEventHandler<HTMLButtonElement> = e => {
 		e.preventDefault();
 		setShowEdit("hidden");
 		setText("flex");
+		setShowEditBtn("hidden");
 	};
 
+	// update user info on the firestore
 	const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		await updateUserInfo({
@@ -61,19 +107,31 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 			jobTitle: job,
 			workHours: workTime,
 		});
+		setShowEdit("hidden");
+		setText("flex");
 		console.log("submitted");
 	};
 	return (
 		<div className="flex h-full w-4/5 pt-2 pl-2 md:flex-row md:space-x-10 flex-col z-10 absolute top-0 left-0 bg-white">
 			<div className="h-36 w-36 overflow-hidden flex justify-center items-center rounded-full relative 0">
 				<img
-					src={avatar}
+					src={image ? image : avatar}
 					height="100%"
 					width="100%"
 					alt="Profile picture"
 					className="rounded-full "
 				></img>
-				<button className="absolute h-10 bottom-0 left-0 right-0  bg-gray-300">
+				<input
+					type="file"
+					accept="image/*"
+					onChange={imageHandler}
+					style={{ display: "none" }}
+					ref={fileInputRef}
+				/>
+				<button
+					onClick={() => fileInputRef.current && fileInputRef.current.click()}
+					className={editBtn}
+				>
 					EDIT
 				</button>
 			</div>
@@ -91,6 +149,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 
 					<p className={text}>{displayName}</p>
 					<input
+						placeholder={displayName}
 						onChange={nameHandler}
 						value={name || ""}
 						type="text"
@@ -102,6 +161,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 					<p className="text-gray-400">Job Title</p>
 					<p className={text}>{jobTitle}</p>
 					<input
+						placeholder={jobTitle || ""}
 						type="text"
 						onChange={jobHandler}
 						value={job || ""}
@@ -112,6 +172,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 					<p className="text-gray-400">Work hours</p>
 					<p className={text}>{workHours}</p>
 					<input
+						placeholder={workHours || ""}
 						onChange={workTimeHandler}
 						value={workTime || ""}
 						className={inputClass}
@@ -122,6 +183,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 					<p className="text-gray-400">Contact no.</p>
 					<p className={text}>{contactNo}</p>
 					<input
+						placeholder={contactNo}
 						onChange={contactPhHandler}
 						value={contactPh || ""}
 						className={inputClass}

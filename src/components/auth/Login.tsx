@@ -35,7 +35,7 @@ const Login: React.FC = () => {
 		setPassword(e.target.value);
 	};
 
-	const handleNext = (e: React.FormEvent<HTMLButtonElement>) => {
+	const handleNext = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (isValidEmail(email) === false) {
 			setEmailValidity(false);
@@ -48,7 +48,7 @@ const Login: React.FC = () => {
 	const handlePrev = () => {
 		setShowPasswordForm(false);
 	};
-	const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (isPasswordValid(password) === false) {
 			setPasswordValidity(false);
@@ -99,7 +99,7 @@ const Login: React.FC = () => {
 			</div>
 			<div className="flex flex-col h-2/4 justify-center items-center flex-1">
 				{/* email section */}
-				<form className={emailFormClass}>
+				<form onSubmit={handleNext} className={emailFormClass}>
 					<div className="flex  flex-col w-full h-full justify-center items-center space-y-4 flex-1 ">
 						<input
 							onChange={emailHandler}
@@ -128,8 +128,7 @@ const Login: React.FC = () => {
 					</div>
 					<button
 						disabled={!email}
-						onClick={handleNext}
-						type="button"
+						type="submit"
 						className="absolute -bottom-5 rounded-2xl bg-black text-white py-2 px-12 z-10"
 					>
 						NEXT
@@ -137,7 +136,7 @@ const Login: React.FC = () => {
 				</form>
 
 				{/* password section */}
-				<form className={passwordFormClass}>
+				<form onSubmit={handleSubmit} className={passwordFormClass}>
 					<div className="flex  flex-col w-full h-full justify-center items-center space-y-4 flex-1 ">
 						<input
 							onChange={passwordHandler}
@@ -167,7 +166,6 @@ const Login: React.FC = () => {
 					</div>
 					<button
 						disabled={!password}
-						onClick={handleSubmit}
 						type="submit"
 						className="absolute -bottom-5 rounded-2xl bg-black text-white py-2 px-12 z-10"
 					>

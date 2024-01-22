@@ -8,6 +8,7 @@ import chat from "../../assets/chat.svg";
 import calender from "../../assets/calender.svg";
 import support from "../../assets/support.svg";
 import setting from "../../assets/setting.svg";
+import { Link } from "react-router-dom";
 
 const Sidebar: React.FC = () => {
 	return (
@@ -62,10 +63,12 @@ const Sidebar: React.FC = () => {
 					</button>
 				</li>
 				<li>
-					<button className="flex flex-row space-x-2">
-						<img src={setting} width={20} height={20} alt="setting" />
-						<p className="text-gray-400 sm:block hidden">Settings</p>
-					</button>
+					<Link to="/accountSetting">
+						<button className="flex flex-row space-x-2">
+							<img src={setting} width={20} height={20} alt="setting" />
+							<p className="text-gray-400 sm:block hidden">Settings</p>
+						</button>
+					</Link>
 				</li>
 			</ul>
 		</div>
