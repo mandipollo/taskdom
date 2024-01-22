@@ -1,17 +1,40 @@
 import React, { useState } from "react";
 import avatar from "../../assets/avatar.jpg";
+import updateUserInfo from "../../firebaseAuth/updateUserInfo";
 
 type personalProps = {
 	userFirestoreData: unknown | null;
 };
 
 const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
+	if (!userFirestoreData) {
+		// Render a loading state or return null if userFirestoreData is null
+		return null;
+	}
+	const [job, setJob] = useState<string | null>(null);
+	const [name, setName] = useState<string | null>(null);
+	const [workTime, setWorkTime] = useState<string | null>(null);
+	const [contactPh, setContactPh] = useState<string | null>(null);
+
+	const jobHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setJob(e.target.value);
+	};
+	const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setName(e.target.value);
+	};
+	const workTimeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setWorkTime(e.target.value);
+	};
+	const contactPhHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setContactPh(e.target.value);
+	};
 	const { displayName, contactNo, workHours, jobTitle } = userFirestoreData as {
 		displayName: string;
-		contactNo: number | null;
-		workHours: number | null;
+		contactNo: string;
+		workHours: string | null;
 		jobTitle: string | null;
 	};
+
 	const [showEdit, setShowEdit] = useState<string>("hidden");
 	const [text, setText] = useState<string>("flex");
 
@@ -29,6 +52,17 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 		setShowEdit("hidden");
 		setText("flex");
 	};
+
+	const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		await updateUserInfo({
+			displayName: name,
+			contactNo: contactPh,
+			jobTitle: job,
+			workHours: workTime,
+		});
+		console.log("submitted");
+	};
 	return (
 		<div className="flex h-full w-4/5 pt-2 pl-2 md:flex-row md:space-x-10 flex-col z-10 absolute top-0 left-0 bg-white">
 			<div className="h-36 w-36 overflow-hidden flex justify-center items-center rounded-full relative 0">
@@ -43,7 +77,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 					EDIT
 				</button>
 			</div>
-			<form className="flex flex-col flex-1 ">
+			<form onSubmit={submitHandler} className="flex flex-col flex-1 ">
 				<div className="flex flex-col space-y-2 w-3/4 border-b">
 					<div className="flex justify-between">
 						<p className="text-gray-400">Display Name</p>
@@ -56,23 +90,43 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 					</div>
 
 					<p className={text}>{displayName}</p>
-					<input type="text" className={inputClass} placeholder="mandip" />
+					<input
+						onChange={nameHandler}
+						value={name || ""}
+						type="text"
+						className={inputClass}
+					/>
 				</div>
 
 				<div className="flex flex-col space-y-2 w-3/4 border-b">
 					<p className="text-gray-400">Job Title</p>
 					<p className={text}>{jobTitle}</p>
-					<input type="text" className={inputClass} />
+					<input
+						type="text"
+						onChange={jobHandler}
+						value={job || ""}
+						className={inputClass}
+					/>
 				</div>
 				<div className="flex flex-col space-y-2 w-3/4 border-b">
 					<p className="text-gray-400">Work hours</p>
 					<p className={text}>{workHours}</p>
-					<input className={inputClass} type="number" />
+					<input
+						onChange={workTimeHandler}
+						value={workTime || ""}
+						className={inputClass}
+						type="text"
+					/>
 				</div>
 				<div className="flex flex-col space-y-2 w-3/4 border-b">
 					<p className="text-gray-400">Contact no.</p>
 					<p className={text}>{contactNo}</p>
-					<input className={inputClass} type="number" />
+					<input
+						onChange={contactPhHandler}
+						value={contactPh || ""}
+						className={inputClass}
+						type="text"
+					/>
 				</div>
 				<div className={editBtnDiv}>
 					<button
