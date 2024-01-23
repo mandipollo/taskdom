@@ -5,14 +5,36 @@ import "./navbar.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../../../firebase.config";
-
+import avatar from "../../assets/avatar.jpg";
 import NavbarRoutesMobile from "./NavbarRoutesMobile";
 import { User } from "firebase/auth";
-import manAvatar from "../../assets/avatar.jpg";
+import { useAppSelector } from "../../store/store";
+import getProfileImage from "../../firebaseAuth/getProfileImage";
 
 const Navbar: React.FC = () => {
+	const userState = useAppSelector(state => state.userFirestoreData);
+
+	const { profileImage } = userState as {
+		displayName: string;
+		contactNo: string;
+		workHours: string | null;
+		jobTitle: string | null;
+		uid: string;
+		profileImage: string;
+	};
+
 	const [user, setUser] = useState<User | null>(null);
 	const [isLoading, setIsLoading] = useState<Boolean>(true);
+	const [image, setImage] = useState<string | null>(null);
+
+	useEffect(() => {
+		const handlePicture = async () => {
+			const url = await getProfileImage(profileImage);
+			setImage(url);
+		};
+
+		handlePicture();
+	}, [profileImage]);
 
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged(user => {
@@ -65,10 +87,14 @@ const Navbar: React.FC = () => {
 			{/* nav routes */}
 			<nav className="flex flex-1 justify-center items-center h-full">
 				{/* logo small screen */}
-				<div className=" flex md:hidden w-full  justify-center items-center space-x-4 ">
+
+				<Link
+					to="/"
+					className=" flex md:hidden w-full  justify-center items-center space-x-4 "
+				>
 					<img src={logo} alt="logo" height={30} width={30} />
 					<p className="font-mono text-lg font-thin text-[#508D69]">TASKDOM</p>
-				</div>
+				</Link>
 
 				{/* desktop menu */}
 				<div className="hidden md:flex flex-1 justify-center items-center h-full">
@@ -85,17 +111,17 @@ const Navbar: React.FC = () => {
 
 			{isLoading ? (
 				<div className="flex justify-center items-center">
-					<p>Loading...</p>
+					<p>Loading ...</p>
 				</div>
 			) : user ? (
 				<Link to="/accountSetting">
 					<div className=" h-full flex justify-center items-center space-x-2 hover:cursor-pointer ">
 						<p className="sm:block hidden">Hello,</p>
 						<p className="font-mono sm:block hidden text-[#508D69]">
-							{user.displayName}
+							{userState.displayName}
 						</p>
 						<img
-							src={manAvatar}
+							src={image || avatar}
 							height={30}
 							width={30}
 							className="rounded-full"

@@ -1,29 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PersonalInfo from "./PersonalInfo";
 import LoginAndSecurity from "./LoginAndSecurity";
-import getFirestoreData from "../../firebaseAuth/getFirestoreData";
+import { useAppSelector } from "../../store/store";
 
-type userData = {
-	displayName: string;
-	contactNo: string | null;
-	jobTitle: string | null;
-	email: string;
-	uid: string;
-	workHours: string | null;
-	profileImage: string | null;
-};
 const AccountSetting: React.FC = () => {
-	const [userFirestoreData, setUserFirestoreData] = useState<userData | null>(
-		null
-	);
+	// const uid = auth && auth.currentUser?.uid;
+	const userState = useAppSelector(state => state.userFirestoreData);
+	// const [userFirestoreData, setUserFirestoreData] = useState<userData | null>(
+	// 	null
+	// );
 
-	useEffect(() => {
-		const callFirestoreData = async () => {
-			const data = await getFirestoreData();
-			setUserFirestoreData(data as userData);
-		};
-		callFirestoreData();
-	}, []);
+	// useEffect(() => {
+	// 	const callFirestoreData = async () => {
+	// 		const data = await getFirestoreData(uid);
+	// 		setUserFirestoreData(data as userData);
+	// 	};
+	// 	callFirestoreData();
+	// }, []);
 
 	return (
 		<div className="flex flex-col h-full">
@@ -37,7 +30,7 @@ const AccountSetting: React.FC = () => {
 				</div>
 			</div>
 			<div className="flex flex-1 justify-center items-center relative mx-14">
-				<PersonalInfo userFirestoreData={userFirestoreData} />
+				<PersonalInfo userFirestoreData={userState} />
 				<LoginAndSecurity />
 			</div>
 		</div>

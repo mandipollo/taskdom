@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import avatar from "../../assets/avatar.jpg";
+import avatar from "../../assets/manAvatar.svg";
 import updateUserInfo from "../../firebaseAuth/updateUserInfo";
 import { ref } from "firebase/storage";
 import { storage } from "../../../firebase.config";
@@ -17,7 +17,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 		// Render a loading state or return null if userFirestoreData is null
 		return null;
 	}
-	// retrieve user info from the firebase firestore
+	// retrieve user info from the redux
 	const { displayName, contactNo, workHours, jobTitle, uid, profileImage } =
 		userFirestoreData as {
 			displayName: string;
@@ -27,9 +27,11 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 			uid: string;
 			profileImage: string;
 		};
+
 	// inputs
 
 	const [image, setImage] = useState<string | null>(null);
+
 	const [job, setJob] = useState<string | null>(null);
 	const [name, setName] = useState<string | null>(null);
 	const [workTime, setWorkTime] = useState<string | null>(null);
@@ -54,7 +56,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 			const userFirestoreRef = doc(db, `users/${uid}`);
 			const profileImageRef = ref(
 				storage,
-				`${uid}/profileImage/${selectedFile.name}`
+				`${uid}/profileImage/${selectedFile}`
 			);
 			uploadBytes(profileImageRef, selectedFile).then(snapshot => {
 				updateDoc(userFirestoreRef, {
@@ -112,7 +114,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 		console.log("submitted");
 	};
 	return (
-		<div className="flex h-full w-4/5 pt-2 pl-2 md:flex-row md:space-x-10 flex-col z-10 absolute top-0 left-0 bg-white">
+		<div className="flex h-full w-full pt-2 pl-2 md:flex-row md:space-x-10 flex-col  bg-white">
 			<div className="h-36 w-36 overflow-hidden flex justify-center items-center rounded-full relative 0">
 				<img
 					src={image ? image : avatar}

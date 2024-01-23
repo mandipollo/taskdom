@@ -12,6 +12,9 @@ import { setEmailState } from "../../store/emailSlice";
 import isValidEmail from "../utilities/emailValidation";
 import isPasswordValid from "../utilities/passwordValidation";
 import signInUser from "../../firebaseAuth/signInUser";
+import getFirestoreData from "../../firebaseAuth/getFirestoreData";
+import { setUserFirestoreData } from "../../store/userFirestoreData";
+import { userDataProps } from "../utilities/userDataProps";
 
 const Login: React.FC = () => {
 	const navigate = useNavigate();
@@ -25,8 +28,7 @@ const Login: React.FC = () => {
 
 	const [error, setError] = useState<string | null>(null);
 
-	// email validation
-
+	// input handlers
 	const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value);
 	};
@@ -35,6 +37,7 @@ const Login: React.FC = () => {
 		setPassword(e.target.value);
 	};
 
+	// email validation then show password section
 	const handleNext = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (isValidEmail(email) === false) {
@@ -45,11 +48,16 @@ const Login: React.FC = () => {
 			setShowPasswordForm(true);
 		}
 	};
+
 	const handlePrev = () => {
 		setShowPasswordForm(false);
 	};
+
+	// submit function
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+
+		// handle password validation
 		if (isPasswordValid(password) === false) {
 			setPasswordValidity(false);
 
@@ -58,7 +66,15 @@ const Login: React.FC = () => {
 			try {
 				isPasswordValid(password);
 				setPasswordValidity(true);
+
+				// sign in user
 				const { user, error } = await signInUser({ email, password });
+
+				// store the user data in the redux
+
+				const data = (await getFirestoreData(user.uid)) as userDataProps;
+				dispatch(setUserFirestoreData(data));
+				console.log(data);
 				console.log(user, error);
 				setError(error);
 				navigate("/");
@@ -71,7 +87,7 @@ const Login: React.FC = () => {
 			}
 		}
 	};
-	// page turn animation
+	// dynamic classes
 	const emailFormClass: string = ` ${
 		showPasswordForm ? "hidden " : "flex"
 	}  relative flex-col justify-center items-center h-2/4  md:w-2/4 sm:w-3/4 w-3/4 bg-white shadow-lg  `;
