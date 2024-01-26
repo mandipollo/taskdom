@@ -6,17 +6,6 @@ import { useAppSelector } from "../../store/store";
 const AccountSetting: React.FC = () => {
 	// const uid = auth && auth.currentUser?.uid;
 	const userState = useAppSelector(state => state.userFirestoreData);
-	// const [userFirestoreData, setUserFirestoreData] = useState<userData | null>(
-	// 	null
-	// );
-
-	// useEffect(() => {
-	// 	const callFirestoreData = async () => {
-	// 		const data = await getFirestoreData(uid);
-	// 		setUserFirestoreData(data as userData);
-	// 	};
-	// 	callFirestoreData();
-	// }, []);
 
 	return (
 		<div className="flex flex-col h-full">

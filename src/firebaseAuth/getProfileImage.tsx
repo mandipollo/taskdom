@@ -1,17 +1,25 @@
 import { ref, getDownloadURL } from "firebase/storage";
-import { storage } from "../../firebase.config";
+import { auth, storage } from "../../firebase.config";
+import avatar from "../assets/avatar.jpg";
 
-const getProfileImage = (profileImagePath: string) => {
-	const url = getDownloadURL(ref(storage, profileImagePath)).then(url => {
-		// `url` is the download URL for 'images/stars.jpg'
-		// Or inserted into an <img> element
-		// const img = document.getElementById("myimg");
-		// img.setAttribute("src", url);
+// fetch and return image url from storage
+const getProfileImage = async (profileImagePath: string) => {
+	const user = auth.currentUser?.uid;
 
-		return url;
-	});
+	if (user) {
+		const storageRef = ref(storage, profileImagePath);
 
-	return url;
+		try {
+			const url = await getDownloadURL(storageRef);
+
+			return url;
+		} catch (error) {
+			console.error("Error getting download URL:", error);
+			return avatar; // Replace with the default image URL
+		}
+	}
+
+	return avatar;
 };
 
 export default getProfileImage;

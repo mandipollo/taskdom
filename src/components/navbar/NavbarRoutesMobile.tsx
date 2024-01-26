@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import signOutUser from "../../firebaseAuth/signOutUser";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../store/store";
+import { resetUserFirestoreData } from "../../store/userFirestoreData";
 
 type navProps = {
 	userUid: string | null | undefined;
@@ -9,9 +11,13 @@ type navProps = {
 
 const NavbarRoutesMobile = ({ userUid, handleToggle }: navProps) => {
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
 	const signOutHandler = () => {
+		dispatch(resetUserFirestoreData());
 		signOutUser();
+		console.log("signed out");
+
 		navigate("/");
 	};
 	return (

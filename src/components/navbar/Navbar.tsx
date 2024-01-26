@@ -4,17 +4,21 @@ import NavbarRoutes from "./NavbarRoutes";
 import "./navbar.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { auth } from "../../../firebase.config";
+import { auth, db } from "../../../firebase.config";
 import avatar from "../../assets/avatar.jpg";
 import NavbarRoutesMobile from "./NavbarRoutesMobile";
 import { User } from "firebase/auth";
-import { useAppSelector } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import getProfileImage from "../../firebaseAuth/getProfileImage";
+import { doc, onSnapshot } from "firebase/firestore";
+import { setUserFirestoreData } from "../../store/userFirestoreData";
+import { userDataProps } from "../utilities/userDataProps";
 
 const Navbar: React.FC = () => {
+	const dispatch = useAppDispatch();
 	const userState = useAppSelector(state => state.userFirestoreData);
 
-	const { profileImage } = userState as {
+	const { profileImage, uid } = userState as {
 		displayName: string;
 		contactNo: string;
 		workHours: string | null;
@@ -25,15 +29,30 @@ const Navbar: React.FC = () => {
 
 	const [user, setUser] = useState<User | null>(null);
 	const [isLoading, setIsLoading] = useState<Boolean>(true);
-	const [image, setImage] = useState<string | null>(null);
+	const [image, setImage] = useState<string | undefined>(undefined);
 
+	//fetch user profile pic
 	useEffect(() => {
-		const handlePicture = async () => {
-			const url = await getProfileImage(profileImage);
-			setImage(url);
-		};
+		if (user) {
+			let isMounted = true;
 
-		handlePicture();
+			const handlePicture = async () => {
+				try {
+					const url = await getProfileImage(profileImage);
+					if (isMounted) setImage(url);
+					console.log(user);
+					console.log("fetching user image");
+				} catch (error) {
+					console.log("error fetching user profile", error);
+				}
+			};
+
+			handlePicture();
+
+			return () => {
+				isMounted = false;
+			};
+		}
 	}, [profileImage]);
 
 	useEffect(() => {
@@ -61,6 +80,23 @@ const Navbar: React.FC = () => {
 	const menu = `flex  button z-40 block hamburger md:hidden focus:outline-none${
 		open && "open"
 	}`;
+
+	// attach a listener to the firestore database
+
+	useEffect(() => {
+		const dataRef = doc(db, `users/${uid}`);
+
+		const unsubscribe = onSnapshot(dataRef, doc => {
+			const data = doc.data() as userDataProps;
+			if (data === undefined) return;
+			dispatch(setUserFirestoreData(data));
+		});
+
+		return () => {
+			unsubscribe();
+		};
+	}, [uid]);
+
 	return (
 		<div className="flex flex-1 h-14 p-2  w-full justify-center items-center rounded shadow-lg bg-white">
 			{/* logo medium screen */}
@@ -87,14 +123,17 @@ const Navbar: React.FC = () => {
 			{/* nav routes */}
 			<nav className="flex flex-1 justify-center items-center h-full">
 				{/* logo small screen */}
-
-				<Link
-					to="/"
-					className=" flex md:hidden w-full  justify-center items-center space-x-4 "
-				>
-					<img src={logo} alt="logo" height={30} width={30} />
-					<p className="font-mono text-lg font-thin text-[#508D69]">TASKDOM</p>
-				</Link>
+				<div>
+					<Link
+						to="/"
+						className="flex md:hidden w-full  justify-center items-center space-x-4"
+					>
+						<img src={logo} alt="logo" height={30} width={30} />
+						<p className="font-mono text-lg font-thin text-[#508D69]">
+							TASKDOM
+						</p>
+					</Link>
+				</div>
 
 				{/* desktop menu */}
 				<div className="hidden md:flex flex-1 justify-center items-center h-full">

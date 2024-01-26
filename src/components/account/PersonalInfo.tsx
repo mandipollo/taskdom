@@ -7,9 +7,9 @@ import { uploadBytes } from "firebase/storage";
 import { db } from "../../../firebase.config";
 import { doc, updateDoc } from "firebase/firestore";
 import getProfileImage from "../../firebaseAuth/getProfileImage";
-
+import { userDataProps } from "../utilities/userDataProps";
 type personalProps = {
-	userFirestoreData: unknown | null;
+	userFirestoreData: userDataProps | null;
 };
 
 const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
@@ -19,19 +19,18 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 	}
 	// retrieve user info from the redux
 	const { displayName, contactNo, workHours, jobTitle, uid, profileImage } =
-		userFirestoreData as {
-			displayName: string;
-			contactNo: string;
-			workHours: string | null;
-			jobTitle: string | null;
-			uid: string;
-			profileImage: string;
+		userFirestoreData || {
+			displayName: "",
+			contactNo: "",
+			workHours: null,
+			jobTitle: null,
+			uid: "",
+			profileImage: "",
 		};
 
 	// inputs
 
-	const [image, setImage] = useState<string | null>(null);
-
+	const [image, setImage] = useState<string | undefined>(undefined);
 	const [job, setJob] = useState<string | null>(null);
 	const [name, setName] = useState<string | null>(null);
 	const [workTime, setWorkTime] = useState<string | null>(null);
@@ -43,6 +42,9 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 
 	useEffect(() => {
 		const handlePicture = async () => {
+			if (profileImage === null) {
+				return;
+			}
 			const url = await getProfileImage(profileImage);
 			setImage(url);
 		};
@@ -117,7 +119,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 		<div className="flex h-full w-full pt-2 pl-2 md:flex-row md:space-x-10 flex-col  bg-white">
 			<div className="h-36 w-36 overflow-hidden flex justify-center items-center rounded-full relative 0">
 				<img
-					src={image ? image : avatar}
+					src={image || avatar}
 					height="100%"
 					width="100%"
 					alt="Profile picture"
@@ -185,7 +187,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 					<p className="text-gray-400">Contact no.</p>
 					<p className={text}>{contactNo}</p>
 					<input
-						placeholder={contactNo}
+						placeholder={contactNo || ""}
 						onChange={contactPhHandler}
 						value={contactPh || ""}
 						className={inputClass}

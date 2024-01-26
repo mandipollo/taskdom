@@ -29,3 +29,21 @@ const getFirestoreData = async (uid: string | undefined) => {
 };
 
 export default getFirestoreData;
+
+// const listenToFirestoreData =async (uid: string) => {
+// 	const docRef = doc(db, `users/${uid}`);
+
+// 	// Set up a real-time listener
+// 	 onSnapshot(docRef, doc => {
+// 		if (doc.exists()) {
+// 			const docData = doc.data();
+// 			// Dispatch the action to update Redux state
+
+// 			return docData;
+// 		} else {
+// 			console.log("No such document!");
+// 		}
+// 	});
+// };
+
+// export default listenToFirestoreData;
