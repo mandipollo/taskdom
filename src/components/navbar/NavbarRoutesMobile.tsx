@@ -16,7 +16,6 @@ const NavbarRoutesMobile = ({ userUid, handleToggle }: navProps) => {
 	const signOutHandler = () => {
 		dispatch(resetUserFirestoreData());
 		signOutUser();
-		console.log("signed out");
 
 		navigate("/");
 	};

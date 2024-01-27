@@ -5,7 +5,7 @@ import "./navbar.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { auth, db } from "../../../firebase.config";
-import avatar from "../../assets/avatar.jpg";
+
 import NavbarRoutesMobile from "./NavbarRoutesMobile";
 import { User } from "firebase/auth";
 import { useAppDispatch, useAppSelector } from "../../store/store";
@@ -33,15 +33,18 @@ const Navbar: React.FC = () => {
 
 	//fetch user profile pic
 	useEffect(() => {
-		if (user) {
+		if (auth.currentUser === null) return;
+		if (auth.currentUser) {
 			let isMounted = true;
 
 			const handlePicture = async () => {
 				try {
-					const url = await getProfileImage(profileImage);
-					if (isMounted) setImage(url);
-					console.log(user);
-					console.log("fetching user image");
+					console.log(profileImage);
+					if (profileImage !== null) {
+						const url = await getProfileImage(profileImage);
+
+						if (isMounted) setImage(url);
+					}
 				} catch (error) {
 					console.log("error fetching user profile", error);
 				}
@@ -52,7 +55,7 @@ const Navbar: React.FC = () => {
 			return () => {
 				isMounted = false;
 			};
-		}
+		} else setImage(undefined);
 	}, [profileImage]);
 
 	useEffect(() => {
@@ -84,17 +87,20 @@ const Navbar: React.FC = () => {
 	// attach a listener to the firestore database
 
 	useEffect(() => {
-		const dataRef = doc(db, `users/${uid}`);
+		if (auth.currentUser && uid) {
+			const dataRef = doc(db, `users/${uid}`);
 
-		const unsubscribe = onSnapshot(dataRef, doc => {
-			const data = doc.data() as userDataProps;
-			if (data === undefined) return;
-			dispatch(setUserFirestoreData(data));
-		});
+			const unsubscribe = onSnapshot(dataRef, doc => {
+				const data = doc.data() as userDataProps;
+				if (data === undefined) return;
+				dispatch(setUserFirestoreData(data));
+				console.log("listener");
+			});
 
-		return () => {
-			unsubscribe();
-		};
+			return () => {
+				unsubscribe();
+			};
+		}
 	}, [uid]);
 
 	return (
@@ -160,7 +166,7 @@ const Navbar: React.FC = () => {
 							{userState.displayName}
 						</p>
 						<img
-							src={image || avatar}
+							src={image}
 							height={30}
 							width={30}
 							className="rounded-full"

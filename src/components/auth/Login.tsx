@@ -73,7 +73,6 @@ const Login: React.FC = () => {
 				// store the user data in the redux
 
 				const data = (await getFirestoreData(user.uid)) as userDataProps;
-				console.log(data);
 
 				dispatch(setUserFirestoreData(data));
 				setError(error);
