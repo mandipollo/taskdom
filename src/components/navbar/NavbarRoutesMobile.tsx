@@ -21,22 +21,29 @@ const NavbarRoutesMobile = ({ userUid, handleToggle }: navProps) => {
 	};
 	return (
 		<ul onClick={handleToggle} className="space-y-4 text-lg font-thin">
-			<li>
-				<Link to="/">
-					<button>HOME</button>
-				</Link>
-			</li>
+			{!userUid && (
+				<li>
+					<Link to="/">
+						<button>HOME</button>
+					</Link>
+				</li>
+			)}
+			{!userUid && (
+				<li>
+					<Link to="/about">
+						<button>ABOUT</button>
+					</Link>
+				</li>
+			)}
 
-			<li>
-				<Link to="/about">
-					<button>ABOUT</button>
-				</Link>
-			</li>
-			<li>
-				<Link to="/contact">
-					<button>CONTACT</button>
-				</Link>
-			</li>
+			{!userUid && (
+				<li>
+					<Link to="/contact">
+						<button>CONTACT</button>
+					</Link>
+				</li>
+			)}
+
 			{userUid && (
 				<li>
 					<Link to="/userDashboard">

@@ -8,9 +8,22 @@ import chat from "../../assets/chat.svg";
 import calender from "../../assets/calender.svg";
 import support from "../../assets/support.svg";
 import setting from "../../assets/setting.svg";
+import logout from "../../assets/logout.svg";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../store/store";
+import signOutUser from "../../firebaseAuth/signOutUser";
+import { resetUserFirestoreData } from "../../store/userFirestoreData";
 const Sidebar: React.FC = () => {
+	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+
+	const signOutHandler = () => {
+		dispatch(resetUserFirestoreData());
+		signOutUser();
+
+		navigate("/");
+	};
 	return (
 		<div className="flex flex-col w-1/5  items-center shadow-lg ">
 			<ul className="flex flex-col space-y-8 md:pt-20 pt-10">
@@ -69,6 +82,12 @@ const Sidebar: React.FC = () => {
 							<p className="text-gray-400 sm:block hidden">Settings</p>
 						</button>
 					</Link>
+				</li>
+				<li>
+					<button onClick={signOutHandler} className="flex flex-row space-x-2">
+						<img src={logout} width={20} height={20} alt="setting" />
+						<p className="text-gray-400 sm:block hidden">Sign out</p>
+					</button>
 				</li>
 			</ul>
 		</div>

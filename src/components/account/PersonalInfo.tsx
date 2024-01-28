@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import avatar from "../../assets/manAvatar.svg";
 import updateUserInfo from "../../firebaseAuth/updateUserInfo";
 import { ref } from "firebase/storage";
-import { storage } from "../../../firebase.config";
+import { storage, auth } from "../../../firebase.config";
 import { uploadBytes } from "firebase/storage";
 import { db } from "../../../firebase.config";
 import { doc, updateDoc } from "firebase/firestore";
 import getProfileImage from "../../firebaseAuth/getProfileImage";
 import { userDataProps } from "../utilities/userDataProps";
+import { User, updateProfile } from "firebase/auth";
 type personalProps = {
 	userFirestoreData: userDataProps | null;
 };
@@ -17,8 +18,9 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 		// Render a loading state or return null if userFirestoreData is null
 		return null;
 	}
+
 	// retrieve user info from the redux
-	const { displayName, contactNo, workHours, jobTitle, uid, profileImage } =
+	const { displayName, contactNo, workHours, jobTitle, uid } =
 		userFirestoreData || {
 			displayName: "",
 			contactNo: "",
@@ -30,43 +32,25 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 
 	// inputs
 
-	const [image, setImage] = useState<string | undefined>(undefined);
+	const [image, setImage] = useState<File | null>(null);
+	const [error, setError] = useState<boolean>(false);
 	const [job, setJob] = useState<string | null>(null);
 	const [name, setName] = useState<string | null>(null);
 	const [workTime, setWorkTime] = useState<string | null>(null);
 	const [contactPh, setContactPh] = useState<string | null>(null);
+	const [user, setUser] = useState<User | null>(null);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
-	// get profile picture
-
+	// get auth user
 	useEffect(() => {
-		const handlePicture = async () => {
-			if (profileImage === null) {
-				return;
-			}
-			const url = await getProfileImage(profileImage);
-			setImage(url);
-		};
+		const unsubscribe = auth.onAuthStateChanged(user => {
+			setUser(user);
+		});
 
-		handlePicture();
-	}, [profileImage]);
-	//user data handlers
-	const imageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files && e.target.files.length > 0) {
-			const selectedFile = e.target.files[0];
-			const userFirestoreRef = doc(db, `users/${uid}`);
-			const profileImageRef = ref(
-				storage,
-				`${uid}/profileImage/${selectedFile}`
-			);
-			uploadBytes(profileImageRef, selectedFile).then(snapshot => {
-				updateDoc(userFirestoreRef, {
-					profileImage: snapshot.metadata.fullPath,
-				});
-			});
-		}
-	};
+		return () => unsubscribe(); // Cleanup the subscription on component unmount
+	}, []);
+
 	const jobHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setJob(e.target.value);
 	};
@@ -102,24 +86,84 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 		setShowEditBtn("hidden");
 	};
 
+	//image handler
+	const imageHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files.length > 0) {
+			// input file
+			const selectedFile = e.target.files[0];
+			setImage(selectedFile);
+		}
+	};
 	// update user info on the firestore
 	const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		await updateUserInfo({
-			displayName: name,
-			contactNo: contactPh,
-			jobTitle: job,
-			workHours: workTime,
-		});
-		setShowEdit("hidden");
-		setText("flex");
-		console.log("submitted");
+
+		try {
+			if (user === null) {
+				console.log("no user");
+				return;
+			}
+
+			// image file check
+
+			if (image === null) {
+				console.log("no image selected");
+				return;
+			}
+			// firestore ref
+			const userFirestoreRef = doc(db, `users/${uid}`);
+			const profileImageRef = ref(storage, `${uid}/profileImage/${image}`);
+
+			// upload the image to the storage
+
+			const snapshot = await uploadBytes(
+				profileImageRef,
+				await image!.arrayBuffer()
+			);
+			console.log(snapshot);
+			// get image url
+
+			const url = await getProfileImage(snapshot.metadata.fullPath);
+
+			// upload the image ref to the firestore
+
+			await updateDoc(userFirestoreRef, {
+				profileImage: url,
+			});
+
+			if (auth.currentUser === null) {
+				console.log("current user not found");
+				return;
+			}
+			// upload the url to the user auth
+			await updateProfile(auth.currentUser, {
+				photoURL: url,
+			});
+
+			// update firestore data
+			await updateUserInfo({
+				displayName: name,
+				contactNo: contactPh,
+				jobTitle: job,
+				workHours: workTime,
+			});
+
+			// update auth
+			await updateProfile(user, {
+				displayName: name,
+			});
+			setShowEdit("hidden");
+			setText("flex");
+			console.log("submitted");
+		} catch (error) {
+			setError(true);
+		}
 	};
 	return (
 		<div className="flex h-full w-full pt-2 pl-2 md:flex-row md:space-x-10 flex-col  bg-white">
 			<div className="h-36 w-36 overflow-hidden flex justify-center items-center rounded-full relative 0">
 				<img
-					src={image || avatar}
+					src={user?.photoURL || avatar}
 					height="100%"
 					width="100%"
 					alt="Profile picture"
@@ -209,6 +253,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 					</button>
 				</div>
 			</form>
+			{error && <span>{error}</span>}
 		</div>
 	);
 };

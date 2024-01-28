@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
-type navProps = {
-	email: string | null | undefined;
-};
-const NavbarRoutes = ({ email }: navProps) => {
+// type navProps = {
+// 	email: string | null | undefined;
+// };
+const NavbarRoutes = () => {
 	return (
 		<ul className="flex w-full  justify-center items-center  font-mono text-md ">
 			<li>
@@ -28,16 +28,6 @@ const NavbarRoutes = ({ email }: navProps) => {
 					</button>
 				</Link>
 			</li>
-
-			{email && (
-				<li>
-					<Link to="/userDashboard">
-						<button className=" hover:bg-black hover:text-white pl-4 pr-4 rounded-md">
-							DASHBOARD
-						</button>
-					</Link>
-				</li>
-			)}
 		</ul>
 	);
 };
