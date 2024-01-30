@@ -11,6 +11,9 @@ import isValidEmail from "../utilities/emailValidation";
 import isPasswordValid from "../utilities/passwordValidation";
 
 import signUpUser from "../../firebaseAuth/signUpUser";
+import { setDoc } from "firebase/firestore";
+import { doc } from "firebase/firestore";
+import { db } from "../../../firebase.config";
 
 const Signup: React.FC = () => {
 	const navigate = useNavigate();
@@ -56,6 +59,9 @@ const Signup: React.FC = () => {
 					password,
 					displayName,
 				});
+
+				await setDoc(doc(db, "usersChat", user.uid), {});
+
 				console.log(user, error);
 
 				setError(error);

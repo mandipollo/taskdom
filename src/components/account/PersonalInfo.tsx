@@ -88,38 +88,37 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 
 	//image handler
 	const imageHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		console.log("image handler 1st");
 		if (e.target.files && e.target.files.length > 0) {
 			// input file
 			const selectedFile = e.target.files[0];
 			setImage(selectedFile);
+			console.log("image handler");
+
+			await submitNewImageHandler(selectedFile);
 		}
 	};
-	// update user info on the firestore
-	const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+
+	// submit newImage
+
+	const submitNewImageHandler = async (selectedFile: File) => {
+		// image file check
 
 		try {
-			if (user === null) {
-				console.log("no user");
-				return;
-			}
-
-			// image file check
-
-			if (image === null) {
+			if (selectedFile === null || uid === null) {
 				console.log("no image selected");
 				return;
 			}
 			// firestore ref
 			const userFirestoreRef = doc(db, `users/${uid}`);
-			const profileImageRef = ref(storage, `${uid}/profileImage/${image}`);
+			const profileImageRef = ref(
+				storage,
+				`${uid}/profileImage/${selectedFile}`
+			);
 
 			// upload the image to the storage
 
-			const snapshot = await uploadBytes(
-				profileImageRef,
-				await image!.arrayBuffer()
-			);
+			const snapshot = await uploadBytes(profileImageRef, selectedFile);
 			console.log(snapshot);
 			// get image url
 
@@ -139,6 +138,55 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 			await updateProfile(auth.currentUser, {
 				photoURL: url,
 			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	// update user info on the firestore
+	const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		try {
+			if (user === null) {
+				console.log("no user");
+				return;
+			}
+
+			// // image file check
+
+			// if (image === null) {
+			// 	console.log("no image selected");
+			// 	return;
+			// }
+			// // firestore ref
+			// const userFirestoreRef = doc(db, `users/${uid}`);
+			// const profileImageRef = ref(storage, `${uid}/profileImage/${image}`);
+
+			// // upload the image to the storage
+
+			// const snapshot = await uploadBytes(
+			// 	profileImageRef,
+			// 	await image!.arrayBuffer()
+			// );
+			// console.log(snapshot);
+			// // get image url
+
+			// const url = await getProfileImage(snapshot.metadata.fullPath);
+
+			// // upload the image ref to the firestore
+
+			// await updateDoc(userFirestoreRef, {
+			// 	profileImage: url,
+			// });
+
+			// if (auth.currentUser === null) {
+			// 	console.log("current user not found");
+			// 	return;
+			// }
+			// // upload the url to the user auth
+			// await updateProfile(auth.currentUser, {
+			// 	photoURL: url,
+			// });
 
 			// update firestore data
 			await updateUserInfo({

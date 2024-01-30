@@ -14,6 +14,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { setUserFirestoreData } from "../../store/userFirestoreData";
 import { userDataProps } from "../utilities/userDataProps";
 import avatar from "../../assets/manAvatar.svg";
+import SearchNavbar from "./SearchNavbar";
 
 const Navbar: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -51,7 +52,7 @@ const Navbar: React.FC = () => {
 	const hamburgerTop = `hamburger-top ${open && "open"}`;
 	const hamburgerMiddle = `hamburger-middle ${open && "open"}`;
 	const hamburgerBottom = `hamburger-bottom ${open && "open"}`;
-	const menu = `flex  button z-40 block hamburger md:hidden focus:outline-none${
+	const menu = `flex ml-6 button z-40 block hamburger md:hidden focus:outline-none${
 		open && "open"
 	}`;
 
@@ -117,7 +118,9 @@ const Navbar: React.FC = () => {
 				)}
 
 				{/* desktop menu */}
-				{!user && (
+				{user ? (
+					<SearchNavbar />
+				) : (
 					<div className="hidden md:flex flex-1 justify-center items-center h-full">
 						<NavbarRoutes />
 					</div>
