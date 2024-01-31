@@ -20,7 +20,10 @@ const NavbarRoutesMobile = ({ userUid, handleToggle }: navProps) => {
 		navigate("/");
 	};
 	return (
-		<ul onClick={handleToggle} className="space-y-4 text-lg font-thin">
+		<ul
+			onClick={handleToggle}
+			className="space-y-4 text-lg font-thin text-[#E6EDF3]"
+		>
 			{!userUid && (
 				<li>
 					<Link to="/">

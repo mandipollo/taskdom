@@ -8,7 +8,7 @@ const NavbarRoutes = () => {
 		<ul className="flex w-full  justify-center items-center  font-mono text-md ">
 			<li>
 				<Link to="/">
-					<button className=" hover:bg-black hover:text-white pl-4 pr-4 rounded-md ">
+					<button className="text-[#E6EDF3] hover:bg-white hover:text-black pl-4 pr-4 rounded-md ">
 						HOME
 					</button>
 				</Link>
@@ -16,14 +16,14 @@ const NavbarRoutes = () => {
 
 			<li>
 				<Link to="/about">
-					<button className=" hover:bg-black hover:text-white pl-4 pr-4 rounded-md">
+					<button className="text-[#E6EDF3] hover:bg-white hover:text-black pl-4 pr-4 rounded-md">
 						ABOUT
 					</button>
 				</Link>
 			</li>
 			<li>
 				<Link to="/contact">
-					<button className=" hover:bg-black hover:text-white pl-4 pr-4 rounded-md">
+					<button className="text-[#E6EDF3] hover:bg-white hover:text-black pl-4 pr-4 rounded-md">
 						CONTACT
 					</button>
 				</Link>

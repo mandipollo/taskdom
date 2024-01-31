@@ -9,7 +9,7 @@ const Products: React.FC = () => {
 		<div className="flex flex-col px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 ">
 			<div className="grid items-center grid-cols-1 lg:grid-cols-2">
 				<div className="flex  flex-row  flex-wrap ">
-					<h1 className="text-2xl font-bold text-black sm:text-2xl lg:text-5xl">
+					<h1 className="text-2xl font-bold text-[#E6EDF3] sm:text-2xl lg:text-5xl">
 						In built calender
 					</h1>
 					<p className="text-md text-gray-400">
@@ -24,7 +24,7 @@ const Products: React.FC = () => {
 			</div>
 			<div className="grid items-center grid-cols-1  lg:grid-cols-2">
 				<div className=" flex  flex-row justify-center items-center flex-wrap ">
-					<h1 className="text-2xl font-bold text-black sm:text-2xl lg:text-5xl">
+					<h1 className="text-2xl font-bold text-[#E6EDF3] sm:text-2xl lg:text-5xl">
 						Communication and file sharing platform
 					</h1>
 					<p className="text-md text-gray-400">

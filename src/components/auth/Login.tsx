@@ -90,15 +90,15 @@ const Login: React.FC = () => {
 	// dynamic classes
 	const emailFormClass: string = ` ${
 		showPasswordForm ? "hidden " : "flex"
-	}  relative flex-col justify-center items-center h-2/4  md:w-2/4 sm:w-3/4 w-3/4 bg-white shadow-lg  `;
+	}  relative flex-col justify-center items-center h-2/4  md:w-2/4 sm:w-3/4 w-3/4 bg-[#0D1117] border-[#30363E] shadow-lg  border  `;
 
 	const passwordFormClass: string = `${
 		showPasswordForm ? "flex" : "hidden"
-	}  relative flex-col justify-center items-center h-2/4   md:w-2/4 sm:w-3/4 w-3/4 bg-white shadow-lg`;
+	}  relative flex-col justify-center items-center h-2/4   md:w-2/4 sm:w-3/4 w-3/4 bg-[#0D1117] border-[#30363E] shadow-lg  border`;
 
 	const previousBtnClass: string = `${
 		showPasswordForm ? "flex" : "hidden"
-	} absolute  top-0 bottom-0 left-0 `;
+	} absolute  top-0 bottom-0 left-0 h-10`;
 
 	const emailTextHelper: string = `${
 		emailValidity ? "hidden" : "flex"
@@ -108,19 +108,19 @@ const Login: React.FC = () => {
 		passwordValidity ? "hidden" : "flex"
 	}  text-red-500`;
 	return (
-		<div className="flex h-full flex-col ">
+		<div className="flex h-full flex-col bg-[#000408]">
 			<div className="flex justify-center items-center h-2/4 flex-col space-y-2">
 				<img src={loginLogo} height={40} width={40}></img>
-				<p className="text-lg md:text-sm ">iDon'tKnowUI</p>
+				<p className="text-lg md:text-sm text-[#E6EDF3]">iDon'tKnowUI</p>
 			</div>
-			<div className="flex flex-col h-2/4 justify-center items-center flex-1">
+			<div className="flex flex-col h-2/4 justify-center items-center flex-1  ">
 				{/* email section */}
 				<form onSubmit={handleNext} className={emailFormClass}>
 					<div className="flex  flex-col w-full h-full justify-center items-center space-y-4 flex-1 ">
 						<input
 							onChange={emailHandler}
 							value={email ?? ""}
-							className="border-gray-300  outline-none border-b  text-center w-3/4 "
+							className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center w-3/4 "
 							placeholder="Enter your email"
 							type="email"
 						></input>
@@ -145,7 +145,7 @@ const Login: React.FC = () => {
 					<button
 						disabled={!email}
 						type="submit"
-						className="absolute -bottom-5 rounded-2xl bg-black text-white py-2 px-12 z-10"
+						className="absolute -bottom-5 rounded-2xl bg-[#0D1117] border-[#30363E] border text-[#E6EDF3] py-2 px-12 z-10"
 					>
 						NEXT
 					</button>
@@ -157,7 +157,7 @@ const Login: React.FC = () => {
 						<input
 							onChange={passwordHandler}
 							value={password ?? ""}
-							className="border-gray-300  outline-none border-b  text-center w-3/4 "
+							className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center w-3/4 "
 							placeholder="Enter your password"
 							type="password"
 						></input>
@@ -183,7 +183,7 @@ const Login: React.FC = () => {
 					<button
 						disabled={!password}
 						type="submit"
-						className="absolute -bottom-5 rounded-2xl bg-black text-white py-2 px-12 z-10"
+						className="absolute -bottom-5 rounded-2xl bg-black text-[#E6EDF3] py-2 px-12 z-10"
 					>
 						SIGN IN
 					</button>
@@ -192,12 +192,12 @@ const Login: React.FC = () => {
 				<div className="flex relative h-2/4 w-3/4 justify-center items-center  ">
 					<div className={previousBtnClass}>
 						<button type="button" onClick={handlePrev}>
-							<img src={prev} height={40} width={40}></img>
+							<img src={prev} height={20} width={20}></img>
 						</button>
 					</div>
 
 					<Link to="/signup">
-						<button className="font-semibold font-montserrat tracking-wider">
+						<button className="text-[#E6EDF3] font-semibold font-montserrat tracking-wider">
 							SIGN UP
 						</button>
 					</Link>

@@ -76,7 +76,7 @@ const Navbar: React.FC = () => {
 	}, [uid]);
 
 	return (
-		<div className="flex flex-1 h-14 p-2  w-full justify-center items-center rounded shadow-lg bg-white">
+		<div className="flex flex-1 h-14 p-2  w-full justify-center items-center border-b border-[#30363E] bg-[#000408]">
 			{/* logo medium screen */}
 
 			<Link to={linkHomeLogo}>
@@ -110,7 +110,7 @@ const Navbar: React.FC = () => {
 							className="flex md:hidden w-full  justify-center items-center space-x-4"
 						>
 							<img src={logo} alt="logo" height={30} width={30} />
-							<p className="font-mono text-lg font-thin text-[#508D69]">
+							<p className="font-mono text-lg font-thin text-red-500">
 								TASKDOM
 							</p>
 						</Link>
@@ -156,7 +156,7 @@ const Navbar: React.FC = () => {
 				</Link>
 			) : (
 				<Link to="/login" className="h-full">
-					<button className=" h-full flex w-40 justify-center items-center bg-black   text-white rounded-md">
+					<button className=" h-full flex w-40 justify-center items-center  rounded-md border-[#30363E] border text-[#E6EDF3]">
 						LOGIN
 					</button>
 				</Link>

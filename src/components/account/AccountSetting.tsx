@@ -9,7 +9,7 @@ const AccountSetting: React.FC = () => {
 
 	return (
 		<div className="flex flex-col h-full">
-			<div className="flex h-1/5 flex-col items-center border-gray-300 border-b mx-14">
+			<div className="flex h-1/5 flex-col items-center  mx-14">
 				<div className="flex items-end h-1/2 w-full">
 					<p className="text-2xl font-bold">Settings</p>
 				</div>

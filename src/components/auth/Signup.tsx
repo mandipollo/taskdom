@@ -85,24 +85,24 @@ const Signup: React.FC = () => {
 		passwordValidity ? "hidden" : "flex"
 	}  text-red-500`;
 	return (
-		<div className="flex flex-1 justify-center items-center flex-col ">
-			<form className="flex  relative flex-col justify-center items-center h-3/4  md:w-2/4 sm:w-3/4 w-3/4 bg-white shadow-lg">
+		<div className="flex flex-1 justify-center items-center flex-col bg-[#000408] ">
+			<form className="flex  relative flex-col justify-center items-center h-3/4  md:w-2/4 sm:w-3/4 w-3/4 bg-[#0D1117]  border-[#30363E]   border">
 				<div className="flex  flex-col w-full h-full justify-center items-center space-y-4 flex-1 ">
-					<p className="flex text-2xl font-bold">Get started</p>
+					<p className="flex text-2xl font-bold text-[#E6EDF3]">Get started</p>
 					<p className="text-sm text-gray-400 flex text-wrap">
 						We are limited by only our imagination
 					</p>
 					<input
 						onChange={displayNameHandler}
 						value={displayName ?? ""}
-						className="border-gray-300  outline-none border-b  text-center w-3/4 "
+						className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center w-3/4 "
 						placeholder="What should we call you?"
 						type="text"
 					></input>
 					<input
 						onChange={emailHandler}
 						value={email ?? ""}
-						className="border-gray-300  outline-none border-b  text-center w-3/4 "
+						className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center w-3/4 "
 						placeholder="Email"
 						type="email"
 					></input>
@@ -112,7 +112,7 @@ const Signup: React.FC = () => {
 					<input
 						onChange={passwordHandler}
 						value={password ?? ""}
-						className="border-gray-300  outline-none border-b  text-center w-3/4 "
+						className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center w-3/4 "
 						placeholder="Password"
 						type="password"
 					></input>
@@ -139,7 +139,7 @@ const Signup: React.FC = () => {
 					disabled={!password}
 					onClick={handleSubmit}
 					type="submit"
-					className="absolute -bottom-5 rounded-2xl bg-black z-10 text-white py-2 px-12"
+					className="absolute -bottom-5 rounded-2xl  z-10  bg-[#0D1117] border-[#30363E] border text-[#E6EDF3] py-2 px-12"
 				>
 					CREATE FREE ACCOUNT
 				</button>
@@ -147,7 +147,7 @@ const Signup: React.FC = () => {
 
 			<div className="flex relative h-1/6 w-3/4  justify-center items-center  ">
 				<Link to="/login">
-					<button className="font-semibold font-montserrat tracking-wider">
+					<button className="font-semibold font-montserrat tracking-wider text-[#E6EDF3]">
 						LOG IN
 					</button>
 				</Link>

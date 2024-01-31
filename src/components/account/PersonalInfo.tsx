@@ -69,8 +69,8 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 	const [showEditBtn, setShowEditBtn] = useState<string>("hidden");
 	const [text, setText] = useState<string>("flex");
 
-	const inputClass = `${showEdit} focus:outline-0`;
-	const editBtn = `${showEditBtn} h-10 bottom-0 left-0 right-0  bg-gray-300`;
+	const inputClass = `${showEdit} p-2 focus:outline-0 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E]`;
+	const editBtn = `${showEditBtn} h-10 bottom-0 left-0 right-0  bg-[#161B22] text-[#E6EDF3] `;
 	const editBtnDiv = `${showEdit} flex-row py-2 justify-between w-3/4`;
 	const showEditHandler: React.MouseEventHandler<HTMLButtonElement> = e => {
 		e.preventDefault();
@@ -172,7 +172,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 		}
 	};
 	return (
-		<div className="flex h-full w-full pt-2 pl-2 md:flex-row md:space-x-10 flex-col  bg-white">
+		<div className="flex h-full w-full pt-2 pl-2 md:flex-row md:space-x-10 flex-col  bg-[#0D1117] border-[#30363E] border text-[#E6EDF3] ">
 			<div className="h-36 w-36 overflow-hidden flex justify-center items-center rounded-full relative 0">
 				<img
 					src={user?.photoURL || avatar}
