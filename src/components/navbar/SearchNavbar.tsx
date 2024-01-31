@@ -64,9 +64,8 @@ const SearchNavbar = ({ uid, displayName, profileImage }: searchProps) => {
 
 	const handleSelect = async (user: DocumentData) => {
 		// check whether the group chat exists in firestore if not create
-		if (uid === null) {
+		if (uid === null || uid === user.uid) {
 			console.log("no uid");
-
 			return;
 		}
 
@@ -118,20 +117,23 @@ const SearchNavbar = ({ uid, displayName, profileImage }: searchProps) => {
 				onKeyDown={handleKey}
 				onChange={handleUserName}
 				value={userName}
-				className="flex h-full w-10/12 rounded-sm border-b outline-gray-400 pl-2"
+				className="flex h-full w-10/12 rounded-sm  outline-[#30363E] outline-2 pl-2 border-[#30363E] bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]"
 			/>
 			{users.length > 0 && (
-				<button onClick={clearHandler} className="absolute right-14 p-2">
+				<button
+					onClick={clearHandler}
+					className="absolute md:right-24 right-14 p-2"
+				>
 					<img src={cross} width={20} height={20} alt="" />
 				</button>
 			)}
 			{err && (
-				<span className="absolute flex flex-col top-full w-10/12 space-y-4 bg-black bg-opacity-50 divide-y divide-gray-400 text-white font-ephisis  p-2">
+				<span className="absolute flex flex-col top-full w-10/12 space-y-4 bg-black  divide-y divide-gray-400 border-[#30363E] border p-2">
 					No users found
 				</span>
 			)}
 			{users.length > 0 && (
-				<ul className="absolute flex flex-col top-full w-10/12 space-y-4 bg-black bg-opacity-50 divide-y divide-gray-400 text-white font-ephisis  p-2">
+				<ul className="absolute flex flex-col top-full w-10/12 space-y-4 border-[#30363E] border divide-y divide-gray-400 p-2 bg-[#0D1117] ">
 					{users.map(user => (
 						<li
 							key={user.uid}

@@ -16,6 +16,7 @@ import Loginpage from "./pages/Loginpage";
 import Signuppage from "./pages/Signuppage";
 import UserDashboardPage from "./pages/UserDashboardPage";
 import AccountSettingpage from "./pages/AccountSettingpage";
+import TeamsPage from "./pages/TeamsPage";
 
 let persistor = persistStore(store);
 
@@ -48,6 +49,10 @@ const Route = createBrowserRouter([
 			{
 				path: "accountSetting",
 				element: <AccountSettingpage />,
+			},
+			{
+				path: "teams",
+				element: <TeamsPage />,
 			},
 		],
 	},

@@ -11,15 +11,31 @@ const dummyData = [
 		id: "test3",
 		task: "unit testing form submission",
 	},
+	{
+		id: "test4",
+		task: "another test",
+	},
+	{
+		id: "test5",
+		task: "unit testing form submission",
+	},
+	{
+		id: "test6",
+		task: "another test",
+	},
 ];
 
 const TaskDashboard = () => {
 	return (
-		<div className="hidden justify-center items-center  w-1/3 h-full sm:flex p-2">
-			<ul className="space-y-2 ">
+		<div className=" max-h-full h-full pt-10 ">
+			<button className="text-xl py-2 px-4 border border-[#30363E] bg-[#0D1117]">
+				Task for today
+			</button>
+
+			<ul className="space-y-2 overflow-y-auto max-h-full h-full">
 				{dummyData.map(task => (
 					<li key={task.id} className="space-x-2">
-						<button className="inline-flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded">
+						<button className="inline-flex items-center space-x-2 px-4 py-2 rounded border-b border-[#30363E]">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
@@ -28,9 +44,9 @@ const TaskDashboard = () => {
 								className="h-5 w-5"
 							>
 								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth="2"
 									d="M5 13l4 4L19 7"
 								/>
 							</svg>

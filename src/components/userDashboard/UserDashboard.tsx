@@ -1,4 +1,3 @@
-import Sidebar from "./Sidebar";
 import { useState, useEffect } from "react";
 
 import { useAppSelector } from "../../store/store";
@@ -31,18 +30,17 @@ const UserDashboard: React.FC = () => {
 	});
 
 	return (
-		<div className="flex flex-row  h-full  bg-[#000408] text-[#E6EDF3]">
-			<Sidebar />
-			<div className="flex w-4/5 flex-col ">
-				<div className="flex justify-center items-center h-1/2  ">
-					<div className="flex sm:w-2/3 w-full p-2 h-full">
-						<DateTaskDisplay date={date} day={day} time={time} />
-						<UpcomingMeetingDisplay profileImage={userState.profileImage} />
-					</div>
+		<div className="flex flex-col w-full  h-full  bg-[#000408] text-[#E6EDF3]">
+			<div className="flex justify-center items-center h-1/2  ">
+				<div className="flex sm:w-2/3 w-full p-2 h-full">
+					<DateTaskDisplay date={date} day={day} time={time} />
+					<UpcomingMeetingDisplay profileImage={userState.profileImage} />
+				</div>
+				<div className=" hidden justify-center items-center  w-1/3 h-full max-h-full sm:flex p-2">
 					<TaskDashboard />
 				</div>
-				<div className="flex justify-center items-center h-1/2 bg-[#0D1117] border-[#30363E] border "></div>
 			</div>
+			<div className="flex justify-center items-center h-1/2 bg-[#0D1117] border-[#30363E] border "></div>
 		</div>
 	);
 };
