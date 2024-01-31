@@ -152,42 +152,6 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 				return;
 			}
 
-			// // image file check
-
-			// if (image === null) {
-			// 	console.log("no image selected");
-			// 	return;
-			// }
-			// // firestore ref
-			// const userFirestoreRef = doc(db, `users/${uid}`);
-			// const profileImageRef = ref(storage, `${uid}/profileImage/${image}`);
-
-			// // upload the image to the storage
-
-			// const snapshot = await uploadBytes(
-			// 	profileImageRef,
-			// 	await image!.arrayBuffer()
-			// );
-			// console.log(snapshot);
-			// // get image url
-
-			// const url = await getProfileImage(snapshot.metadata.fullPath);
-
-			// // upload the image ref to the firestore
-
-			// await updateDoc(userFirestoreRef, {
-			// 	profileImage: url,
-			// });
-
-			// if (auth.currentUser === null) {
-			// 	console.log("current user not found");
-			// 	return;
-			// }
-			// // upload the url to the user auth
-			// await updateProfile(auth.currentUser, {
-			// 	photoURL: url,
-			// });
-
 			// update firestore data
 			await updateUserInfo({
 				displayName: name,

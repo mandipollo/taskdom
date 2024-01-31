@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const userState = useAppSelector(state => state.userFirestoreData);
 
-	const { uid } = userState as {
+	const { uid, displayName, profileImage } = userState as {
 		displayName: string;
 		contactNo: string;
 		workHours: string | null;
@@ -119,7 +119,11 @@ const Navbar: React.FC = () => {
 
 				{/* desktop menu */}
 				{user ? (
-					<SearchNavbar />
+					<SearchNavbar
+						uid={user.uid}
+						profileImage={profileImage}
+						displayName={displayName}
+					/>
 				) : (
 					<div className="hidden md:flex flex-1 justify-center items-center h-full">
 						<NavbarRoutes />

@@ -1,6 +1,5 @@
 import React from "react";
 import home from "../../assets/home.svg";
-import invoice from "../../assets/invoice.svg";
 import project from "../../assets/project.svg";
 import task from "../../assets/task.svg";
 import client from "../../assets/client.svg";
@@ -31,12 +30,6 @@ const Sidebar: React.FC = () => {
 					<button className="flex flex-row space-x-2 hover:underline underline-offset-4 hover:text-[#4B98F9]">
 						<img src={home} width={20} height={20} alt="dashboard" />
 						<p className="text-gray-400 sm:block hidden">Dashboard</p>
-					</button>
-				</li>
-				<li>
-					<button className="flex flex-row space-x-2 hover:underline underline-offset-4 hover:text-[#4B98F9]">
-						<img src={invoice} width={20} height={20} alt="invoice" />
-						<p className="text-gray-400 sm:block hidden">Invoice</p>
 					</button>
 				</li>
 				<li>
