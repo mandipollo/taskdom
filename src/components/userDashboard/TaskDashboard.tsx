@@ -11,18 +11,6 @@ const dummyData = [
 		id: "test3",
 		task: "unit testing form submission",
 	},
-	{
-		id: "test4",
-		task: "another test",
-	},
-	{
-		id: "test5",
-		task: "unit testing form submission",
-	},
-	{
-		id: "test6",
-		task: "another test",
-	},
 ];
 
 const TaskDashboard = () => {

@@ -55,10 +55,12 @@ const Sidebar: React.FC = () => {
 					</button>
 				</li>
 				<li>
-					<button className={classBtn}>
-						<img src={chat} width={20} height={20} alt="chat" />
-						<p className=" sm:block hidden"> Chat</p>
-					</button>
+					<Link to="/chats">
+						<button className={classBtn}>
+							<img src={chat} width={20} height={20} alt="chat" />
+							<p className=" sm:block hidden"> Chat</p>
+						</button>
+					</Link>
 				</li>
 				<li>
 					<button className={classBtn}>

@@ -20,14 +20,15 @@ const Navbar: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const userState = useAppSelector(state => state.userFirestoreData);
 
-	const { uid, displayName, profileImage } = userState as {
-		displayName: string;
-		contactNo: string;
-		workHours: string | null;
-		jobTitle: string | null;
-		uid: string;
-		profileImage: string;
-	};
+	const { uid, displayName, profileImage, contactNo, workHours, jobTitle } =
+		userState as {
+			displayName: string;
+			contactNo: string;
+			workHours: string | null;
+			jobTitle: string | null;
+			uid: string;
+			profileImage: string;
+		};
 
 	const [user, setUser] = useState<User | null>(null);
 
@@ -123,6 +124,9 @@ const Navbar: React.FC = () => {
 						uid={user.uid}
 						profileImage={profileImage}
 						displayName={displayName}
+						contactNo={contactNo}
+						workHours={workHours}
+						jobTitle={jobTitle}
 					/>
 				) : (
 					<div className="hidden md:flex flex-1 justify-center items-center h-full">

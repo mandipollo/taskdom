@@ -17,6 +17,7 @@ import Signuppage from "./pages/Signuppage";
 import UserDashboardPage from "./pages/UserDashboardPage";
 import AccountSettingpage from "./pages/AccountSettingpage";
 import TeamsPage from "./pages/TeamsPage";
+import ChatPage from "./pages/ChatPage";
 
 let persistor = persistStore(store);
 
@@ -54,13 +55,14 @@ const Route = createBrowserRouter([
 				path: "teams",
 				element: <TeamsPage />,
 			},
+			{ path: "chats", element: <ChatPage /> },
 		],
 	},
 ]);
 
 function App() {
 	return (
-		<div className="flex flex-col items-center h-screen w-screen font-mono bg-[#000408] text-[#E6EDF3]">
+		<div className=" flex flex-col items-center h-screen w-screen font-mono bg-[#000408] text-[#E6EDF3]">
 			<Provider store={store}>
 				<PersistGate loading={null} persistor={persistor}>
 					<RouterProvider router={Route}></RouterProvider>

@@ -20,8 +20,18 @@ type searchProps = {
 	uid: string | null;
 	displayName: string | null;
 	profileImage: string | null;
+	contactNo: string | null;
+	workHours: string | null;
+	jobTitle: string | null;
 };
-const SearchNavbar = ({ uid, displayName, profileImage }: searchProps) => {
+const SearchNavbar = ({
+	uid,
+	displayName,
+	profileImage,
+	contactNo,
+	workHours,
+	jobTitle,
+}: searchProps) => {
 	const [userName, setUserName] = useState<string>("");
 	const [users, setUsers] = useState<DocumentData[]>([]);
 	const [err, setErr] = useState<boolean>(false);
@@ -85,6 +95,9 @@ const SearchNavbar = ({ uid, displayName, profileImage }: searchProps) => {
 					uid: user.uid,
 					profileImage: user.profileImage,
 					displayName: user.displayName,
+					contactNo: user.contactNo,
+					workHours: user.workHours,
+					jobTitle: user.jobTitle,
 				},
 				[combinedUserId + ".date"]: serverTimestamp(),
 			});
@@ -93,6 +106,9 @@ const SearchNavbar = ({ uid, displayName, profileImage }: searchProps) => {
 					uid: uid,
 					profileImage: profileImage,
 					displayName: displayName,
+					contactNo: contactNo,
+					workHours: workHours,
+					jobTitle: jobTitle,
 				},
 				[combinedUserId + ".date"]: serverTimestamp(),
 			});

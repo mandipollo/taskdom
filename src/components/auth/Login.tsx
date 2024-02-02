@@ -108,7 +108,7 @@ const Login: React.FC = () => {
 		passwordValidity ? "hidden" : "flex"
 	}  text-red-500`;
 	return (
-		<div className="flex h-full flex-col bg-[#000408]">
+		<div className="flex h-full w-full flex-col bg-[#000408]">
 			<div className="flex justify-center items-center h-2/4 flex-col space-y-2">
 				<img src={loginLogo} height={40} width={40}></img>
 				<p className="text-lg md:text-sm text-[#E6EDF3]">iDon'tKnowUI</p>

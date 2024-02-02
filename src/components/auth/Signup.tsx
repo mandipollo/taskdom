@@ -85,7 +85,7 @@ const Signup: React.FC = () => {
 		passwordValidity ? "hidden" : "flex"
 	}  text-red-500`;
 	return (
-		<div className="flex flex-1 justify-center items-center flex-col bg-[#000408] ">
+		<div className="flex w-full h-full flex-1 justify-center items-center flex-col bg-[#000408] ">
 			<form className="flex  relative flex-col justify-center items-center h-3/4  md:w-2/4 sm:w-3/4 w-3/4 bg-[#0D1117]  border-[#30363E]   border">
 				<div className="flex  flex-col w-full h-full justify-center items-center space-y-4 flex-1 ">
 					<p className="flex text-2xl font-bold text-[#E6EDF3]">Get started</p>

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { userDataProps } from "../components/utilities/userDataProps";
 
-const initialUserData: null | userDataProps = {
+const initialUserData: userDataProps = {
 	contactNo: null,
 	displayName: "",
 	email: "",

@@ -32,7 +32,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 
 	// inputs
 
-	const [image, setImage] = useState<File | null>(null);
+	// const [image, setImage] = useState<File | null>(null);
 	const [error, setError] = useState<boolean>(false);
 	const [job, setJob] = useState<string | null>(null);
 	const [name, setName] = useState<string | null>(null);
@@ -92,7 +92,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 		if (e.target.files && e.target.files.length > 0) {
 			// input file
 			const selectedFile = e.target.files[0];
-			setImage(selectedFile);
+			// setImage(selectedFile);
 			console.log("image handler");
 
 			await submitNewImageHandler(selectedFile);
