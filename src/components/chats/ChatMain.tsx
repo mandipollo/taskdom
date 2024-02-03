@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { getDoc, doc, DocumentData } from "firebase/firestore";
+import { getDoc, doc, DocumentData, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase.config";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { setUserChat } from "../../store/chatSlice";
@@ -12,8 +12,12 @@ const ChatMain: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const uid = useAppSelector(state => state.auth.uid);
 	const chatUser = useAppSelector(state => state.chat);
+	const chatId = chatUser.chatId;
 
 	const [chatList, setChatList] = useState<DocumentData[]>([]);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+
+	const [message, setMessage] = useState<DocumentData | null>(null);
 
 	// dispatch the selected user for chat state
 	const handleSelect = ({
@@ -40,7 +44,6 @@ const ChatMain: React.FC = () => {
 			const res = await getDoc(doc(db, `usersChat/${uid}`));
 			if (res.exists()) {
 				const chat = Object.entries(res.data());
-
 				setChatList(chat);
 			}
 		};
@@ -50,10 +53,27 @@ const ChatMain: React.FC = () => {
 		};
 	}, [uid]);
 
+	// retrieve message from firestore
+
+	useEffect(() => {
+		const unsub = async () => {
+			if (chatId) {
+				onSnapshot(doc(db, `chats/${chatId}`), doc => {
+					doc.exists() && setMessage(doc.data().message);
+				});
+			}
+		};
+
+		return () => {
+			unsub();
+			setMessage(null);
+		};
+	}, [chatId]);
+
 	return (
 		<div className="flex flex-col h-full w-full space-y-4 ">
 			<ChatList chatList={chatList} handleSelect={handleSelect} />
-			<Chat chatUser={chatUser} />
+			<Chat chatUser={chatUser} message={message} isLoading={isLoading} />
 		</div>
 	);
 };
