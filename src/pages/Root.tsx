@@ -19,7 +19,7 @@ const Root = () => {
 						displayName: user.displayName,
 						email: user.email,
 						uid: user.uid,
-						photoURL: user.photoURL,
+						photoURL: user.photoURL || undefined,
 					})
 				);
 			} else {

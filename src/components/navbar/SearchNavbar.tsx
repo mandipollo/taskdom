@@ -19,7 +19,7 @@ import cross from "../../assets/cross.svg";
 type searchProps = {
 	uid: string | null;
 	displayName: string | null;
-	profileImage: string | null;
+	profileImage: string | undefined;
 	contactNo: string | null;
 	workHours: string | null;
 	jobTitle: string | null;

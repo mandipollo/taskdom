@@ -20,7 +20,7 @@ type chatProps = {
 const ChatInput = ({ chatId, chatUserUid }: chatProps) => {
 	const uid = useAppSelector(state => state.auth.uid);
 	const [text, setText] = useState<string | null>(null);
-	const [img, setImg] = useState<File | null>(null);
+	const [img, setImg] = useState<File | undefined>(undefined);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	// message
@@ -38,7 +38,9 @@ const ChatInput = ({ chatId, chatUserUid }: chatProps) => {
 	};
 
 	// send message to the chatId collection
-	const handleSend = async () => {
+	const handleSend = async (e: React.FormEvent<HTMLElement>) => {
+		e.preventDefault();
+
 		if (img) {
 			const storageRef = ref(storage, uuid());
 
@@ -56,14 +58,16 @@ const ChatInput = ({ chatId, chatUserUid }: chatProps) => {
 				}),
 			});
 		} else {
-			await updateDoc(doc(db, `chats/${chatId}`), {
-				message: arrayUnion({
-					id: uuid(),
-					text,
-					senderId: uid,
-					date: Timestamp.now(),
-				}),
-			});
+			if (text) {
+				await updateDoc(doc(db, `chats/${chatId}`), {
+					message: arrayUnion({
+						id: uuid(),
+						text,
+						senderId: uid,
+						date: Timestamp.now(),
+					}),
+				});
+			}
 
 			// update current user last message
 
@@ -82,10 +86,13 @@ const ChatInput = ({ chatId, chatUserUid }: chatProps) => {
 			});
 		}
 		setText(null);
-		setImg(null);
+		setImg(undefined);
 	};
 	return (
-		<div className="flex h-20 w-full border-t border-[#30363E] space-x-4 justify-center items-center">
+		<form
+			onSubmit={handleSend}
+			className="flex h-20 w-full border-t border-[#30363E] space-x-4 justify-center items-center"
+		>
 			<div className="relative">
 				<input
 					onChange={imageHandler}
@@ -108,13 +115,14 @@ const ChatInput = ({ chatId, chatUserUid }: chatProps) => {
 				type="text"
 			/>
 			<button
+				type="submit"
 				onClick={handleSend}
 				className="h-10 rounded-md bg-[#508D69] flex flex-row w-32 justify-around items-center "
 			>
 				<p>Send</p>
 				<img src={sendIcon} alt="send message" width={20} height={20} />
 			</button>
-		</div>
+		</form>
 	);
 };
 

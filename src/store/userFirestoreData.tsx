@@ -6,7 +6,7 @@ const initialUserData: userDataProps = {
 	displayName: "",
 	email: "",
 	jobTitle: null,
-	profileImage: null,
+	profileImage: undefined,
 	uid: "",
 	workHours: null,
 };

@@ -1,8 +1,8 @@
 import { DocumentData } from "firebase/firestore";
 import React from "react";
-import { selectProps } from "../teams/Teams";
+import { selectProps } from "../utilities/userDataProps";
 type chatListProps = {
-	chatList: DocumentData[];
+	chatList: DocumentData[string];
 	handleSelect: (selectMember: selectProps) => void;
 };
 
@@ -10,7 +10,7 @@ const ChatList: React.FC<chatListProps> = ({ chatList, handleSelect }) => {
 	return (
 		<ul className="flex">
 			{chatList &&
-				chatList.map(chat => (
+				chatList.map((chat: DocumentData[string]) => (
 					<li
 						onClick={() =>
 							handleSelect({

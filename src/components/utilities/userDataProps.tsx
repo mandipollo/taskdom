@@ -5,5 +5,12 @@ export type userDataProps = {
 	email: string;
 	uid: string;
 	workHours: string | null;
-	profileImage: string | null;
+	profileImage: string | undefined;
+};
+
+export type selectProps = {
+	userUid: string;
+	displayName: string;
+	chatId: string;
+	profileImage: string;
 };

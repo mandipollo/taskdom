@@ -2,7 +2,7 @@ import React from "react";
 import avatar from "../../assets/manAvatar.svg";
 
 type upcomingProps = {
-	profileImage: string | null;
+	profileImage: string | undefined;
 };
 const UpcomingMeetingDisplay: React.FC<upcomingProps> = ({ profileImage }) => {
 	const image = profileImage || avatar;

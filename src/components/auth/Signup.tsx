@@ -46,7 +46,6 @@ const Signup: React.FC = () => {
 			setPasswordValidity(false);
 
 			console.log("Invalid credentials");
-
 			return;
 		} else {
 			try {

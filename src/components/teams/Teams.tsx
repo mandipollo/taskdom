@@ -6,12 +6,7 @@ import TeamMembersList from "./TeamMembersList";
 import TeamLists from "./TeamLists";
 import { setUserChat } from "../../store/chatSlice";
 
-export type selectProps = {
-	userUid: string;
-	displayName: string;
-	chatId: string;
-	profileImage: string;
-};
+import { selectProps } from "../utilities/userDataProps";
 const Teams = () => {
 	const dispatch = useAppDispatch();
 
@@ -43,7 +38,6 @@ const Teams = () => {
 			const res = await getDoc(doc(db, `usersChat/${uid}`));
 			if (res.exists()) {
 				const teamMembers = Object.entries(res.data());
-
 				setTeamMembers(teamMembers);
 			}
 		};

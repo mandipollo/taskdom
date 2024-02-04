@@ -7,7 +7,7 @@ interface chatState {
 	user: {
 		uid: string | null;
 		displayName: string | null;
-		profileImage: string | null;
+		profileImage: string | undefined;
 	};
 }
 
@@ -16,7 +16,7 @@ const initialState: chatState = {
 	user: {
 		uid: null,
 		displayName: null,
-		profileImage: null,
+		profileImage: undefined,
 	},
 };
 
