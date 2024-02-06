@@ -29,16 +29,20 @@ const Sidebar: React.FC = () => {
 		<div className="flex flex-col w-full items-center border border-[#30363E] bg-[#0D1117] ">
 			<ul className="flex flex-col space-y-8 md:pt-20 pt-10">
 				<li>
-					<button className={classBtn}>
-						<img src={project} width={20} height={20} alt="projects" />
-						<p className=" sm:block hidden">Projects</p>
-					</button>
+					<Link to="projects">
+						<button className={classBtn}>
+							<img src={project} width={20} height={20} alt="projects" />
+							<p className=" sm:block hidden">Projects</p>
+						</button>
+					</Link>
 				</li>
 				<li>
-					<button className={classBtn}>
-						<img src={task} width={20} height={20} alt="task" />
-						<p className=" sm:block hidden">Task</p>
-					</button>
+					<Link to="tasks">
+						<button className={classBtn}>
+							<img src={task} width={20} height={20} alt="task" />
+							<p className=" sm:block hidden">Task</p>
+						</button>
+					</Link>
 				</li>
 				<li>
 					<Link to="/teams">
@@ -49,10 +53,12 @@ const Sidebar: React.FC = () => {
 					</Link>
 				</li>
 				<li>
-					<button className={classBtn}>
-						<img src={client} width={20} height={20} alt="clients" />
-						<p className=" sm:block hidden"> Clients</p>
-					</button>
+					<Link to="clients">
+						<button className={classBtn}>
+							<img src={client} width={20} height={20} alt="clients" />
+							<p className=" sm:block hidden"> Clients</p>
+						</button>
+					</Link>
 				</li>
 				<li>
 					<Link to="/chats">
@@ -63,16 +69,20 @@ const Sidebar: React.FC = () => {
 					</Link>
 				</li>
 				<li>
-					<button className={classBtn}>
-						<img src={calender} width={20} height={20} alt="calender" />
-						<p className=" sm:block hidden">Calender</p>
-					</button>
+					<Link to="calendar">
+						<button className={classBtn}>
+							<img src={calender} width={20} height={20} alt="calender" />
+							<p className=" sm:block hidden">Calender</p>
+						</button>
+					</Link>
 				</li>
 				<li>
-					<button className={classBtn}>
-						<img src={support} width={20} height={20} alt="support" />
-						<p className=" sm:block hidden">Support</p>
-					</button>
+					<Link to="support">
+						<button className={classBtn}>
+							<img src={support} width={20} height={20} alt="support" />
+							<p className=" sm:block hidden">Support</p>
+						</button>
+					</Link>
 				</li>
 				<li>
 					<Link to="/accountSetting">

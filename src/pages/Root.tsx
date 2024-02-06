@@ -32,7 +32,7 @@ const Root = () => {
 		return () => unsubscribe(); // Cleanup function to unsubscribe from the listener
 	}, [dispatch]);
 	return (
-		<div className="flex relative min-h-screen flex-col  w-full max-w-screen-2xl ">
+		<div className="flex relative h-full flex-col  w-full max-w-screen-2xl ">
 			<header>
 				<Navbar />
 			</header>

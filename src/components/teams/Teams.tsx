@@ -37,11 +37,12 @@ const Teams = () => {
 		const unsub = async () => {
 			const res = await getDoc(doc(db, `usersChat/${uid}`));
 			if (res.exists()) {
-				const teamMembers = Object.entries(res.data());
+				const teamMembers = Object.entries(res.data()).sort(
+					(a, b) => b[1].date - a[1].date
+				);
 				setTeamMembers(teamMembers);
 			}
 		};
-
 		return () => {
 			unsub();
 		};

@@ -16,7 +16,7 @@ const UserDashboard: React.FC = () => {
 		}, 1000); // Update every second
 
 		return () => clearInterval(intervalId); // Cleanup on component unmount
-	}, []); // Empty dependency array ensures the effect runs only once
+	}, []);
 
 	const day = currentDateTime.toLocaleString("en-UK", { weekday: "long" });
 	const date = currentDateTime.toLocaleString("en-US", {
@@ -32,7 +32,7 @@ const UserDashboard: React.FC = () => {
 	return (
 		<div className="flex flex-col w-full  h-full  bg-[#000408] text-[#E6EDF3]">
 			<div className="flex justify-center items-center h-1/2 max-h-80  ">
-				<div className="flex sm:w-2/3 w-full p-2 h-full">
+				<div className="flex sm:w-2/3 w-full justify-center p-2 h-full">
 					<DateTaskDisplay date={date} day={day} time={time} />
 					<UpcomingMeetingDisplay profileImage={userState.profileImage} />
 				</div>
@@ -40,7 +40,9 @@ const UserDashboard: React.FC = () => {
 					<TaskDashboard />
 				</div>
 			</div>
-			<div className="flex justify-center items-center flex-1 bg-[#0D1117] border-[#30363E] border "></div>
+			<div className="flex justify-center items-center flex-1 bg-[#0D1117] border-[#30363E] border ">
+				<p>weekly progress</p>
+			</div>
 		</div>
 	);
 };

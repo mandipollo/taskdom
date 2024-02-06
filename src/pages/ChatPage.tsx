@@ -1,7 +1,7 @@
-import ChatMain from "../components/chats/ChatMain";
+import Chat from "../components/chats/Chat";
 
 const ChatPage = () => {
-	return <ChatMain />;
+	return <Chat />;
 };
 
 export default ChatPage;
