@@ -14,3 +14,9 @@ export type selectProps = {
 	chatId: string;
 	profileImage: string;
 };
+
+export type task = {
+	id: string;
+	title: string;
+	status: string;
+};
