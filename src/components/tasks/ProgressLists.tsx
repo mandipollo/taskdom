@@ -1,14 +1,17 @@
 import React from "react";
+import deleteImg from "../../assets/delete.svg";
 
 type progressListProps = {
 	handleDragOver: (e: React.DragEvent) => void;
 	handleDrop: (e: React.DragEvent, targetList: string) => void;
 	handleDragStart: (e: React.DragEvent, id: string, list: string) => void;
 	handleMoveToComplete: (id: string) => void;
+	handleDelete: (id: string) => void;
 	firebaseTodo: { id: string; title: string; status: string }[];
 };
 
 const ProgressLists: React.FC<progressListProps> = ({
+	handleDelete,
 	handleDragOver,
 	handleDrop,
 	handleDragStart,
@@ -33,7 +36,13 @@ const ProgressLists: React.FC<progressListProps> = ({
 							key={todo.id}
 							className="flex items-center justify-between w-5/6 h-10 border-[#30363E] bg-[#161B22] border rounded-md"
 						>
-							<p className="pl-2 flex  items-center text-ellipsis whitespace-nowrap w-4/5 overflow-hidden">
+							<button
+								onClick={() => handleDelete(todo.id)}
+								className="p-2 h-full w-1/5  rounded-sm"
+							>
+								<img src={deleteImg} alt="delete" width={20} height={20} />
+							</button>
+							<p className="pl-2 flex overflow-x-auto items-center text-ellipsis whitespace-nowrap w-4/5 overflow-hidden">
 								{todo.title}
 							</p>
 							<button

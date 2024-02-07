@@ -22,8 +22,8 @@ const TaskDashboard: React.FC<taskBoardProps> = ({ taskList }) => {
 								className={`${
 									task.status === "todo"
 										? "border-orange-400"
-										: "borderblue-400"
-								}  flex p-2 w-full border bg-[#0D1117]`}
+										: "border-blue-400"
+								}  flex p-2 w-full border bg-[#0D1117] overflow-hidden overflow-x-auto text-ellipsis whitespace-nowrap`}
 							>
 								{task.title}
 							</p>

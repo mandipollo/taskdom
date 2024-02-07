@@ -156,6 +156,25 @@ const Task = () => {
 		}
 	};
 
+	// handle delete
+
+	const handleDelete = async (id: string) => {
+		const selectedTask = firebaseTodo.find(todo => id === todo.id);
+		if (selectedTask) {
+			if (firebaseTodo) {
+				const tasks = firebaseTodo.filter((task: TaskProps) => task.id !== id);
+
+				// overwrite the task array with updated tasks
+
+				await updateDoc(taskCollectionRef, {
+					tasks,
+				});
+			}
+		}
+	};
+
+	// listener for task update , cleanup on exit
+
 	useEffect(() => {
 		let unsubscribe: Unsubscribe | undefined;
 
@@ -193,6 +212,7 @@ const Task = () => {
 			</div>
 			<div className="grid sm:grid-cols-3 grid-cols-1 h-full  ">
 				<TodoLists
+					handleDelete={handleDelete}
 					firebaseTodo={firebaseTodo}
 					handleDragOver={handleDragOver}
 					handleDragStart={handleDragStart}
@@ -200,6 +220,7 @@ const Task = () => {
 					handleMoveToProgress={handleMoveToProgress}
 				/>
 				<ProgressLists
+					handleDelete={handleDelete}
 					firebaseTodo={firebaseTodo}
 					handleDragOver={handleDragOver}
 					handleDragStart={handleDragStart}
@@ -207,6 +228,7 @@ const Task = () => {
 					handleMoveToComplete={handleMoveToComplete}
 				/>
 				<CompleteLists
+					handleDelete={handleDelete}
 					firebaseTodo={firebaseTodo}
 					handleDragOver={handleDragOver}
 					handleDrop={handleDrop}

@@ -1,10 +1,17 @@
 import React from "react";
+
 type dateTaskProps = {
 	date: string;
 	day: string;
 	time: string;
+	noTask: number;
 };
-const DateTaskDisplay: React.FC<dateTaskProps> = ({ day, date, time }) => {
+const DateTaskDisplay: React.FC<dateTaskProps> = ({
+	day,
+	date,
+	time,
+	noTask,
+}) => {
 	return (
 		<div className="w-1/3 hidden sm:flex pt-10">
 			<div className="flex flex-col h-full w-full space-y-2 ">
@@ -13,7 +20,10 @@ const DateTaskDisplay: React.FC<dateTaskProps> = ({ day, date, time }) => {
 				</p>
 
 				<p className=" text-2xl">{time}</p>
-				<p className="text-sm">Display number of task for today</p>
+				<p className="text-sm">
+					You have <span className="text-green-400">{noTask} </span> tasks
+					today.
+				</p>
 			</div>
 		</div>
 	);
