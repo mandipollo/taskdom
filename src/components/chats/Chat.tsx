@@ -5,7 +5,7 @@ import { db } from "../../../firebase.config";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { setUserChat } from "../../store/chatSlice";
 import ChatMessage from "./ChatMessage";
-import { selectProps } from "../utilities/userDataProps";
+import { SelectProps } from "../utilities/userDataProps";
 import ChatList from "./ChatList";
 import { Unsubscribe } from "firebase/auth";
 
@@ -26,7 +26,7 @@ const Chat: React.FC = () => {
 		userUid,
 		displayName,
 		profileImage,
-	}: selectProps) => {
+	}: SelectProps) => {
 		dispatch(
 			setUserChat({
 				chatId,

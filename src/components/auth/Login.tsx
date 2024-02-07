@@ -14,7 +14,7 @@ import isPasswordValid from "../utilities/passwordValidation";
 import signInUser from "../../firebaseAuth/signInUser";
 import getFirestoreData from "../../firebaseAuth/getFirestoreData";
 import { setUserFirestoreData } from "../../store/userFirestoreData";
-import { userDataProps } from "../utilities/userDataProps";
+import { UserDataProps } from "../utilities/userDataProps";
 
 const Login: React.FC = () => {
 	const navigate = useNavigate();
@@ -72,7 +72,7 @@ const Login: React.FC = () => {
 
 				// store the user data in the redux
 
-				const data = (await getFirestoreData(user.uid)) as userDataProps;
+				const data = (await getFirestoreData(user.uid)) as UserDataProps;
 				console.log(data);
 
 				dispatch(setUserFirestoreData(data));

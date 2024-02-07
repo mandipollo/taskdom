@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 
 import { doc, onSnapshot } from "firebase/firestore";
 import { setUserFirestoreData } from "../../store/userFirestoreData";
-import { userDataProps } from "../utilities/userDataProps";
+import { UserDataProps } from "../utilities/userDataProps";
 import avatar from "../../assets/manAvatar.svg";
 import SearchNavbar from "./SearchNavbar";
 
@@ -65,7 +65,7 @@ const Navbar: React.FC = () => {
 			const dataRef = doc(db, `users/${uid}`);
 
 			const unsubscribe = onSnapshot(dataRef, doc => {
-				const data = doc.data() as userDataProps;
+				const data = doc.data() as UserDataProps;
 				if (data === undefined) return;
 				dispatch(setUserFirestoreData(data));
 			});

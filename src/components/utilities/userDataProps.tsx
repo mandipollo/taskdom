@@ -1,4 +1,4 @@
-export type userDataProps = {
+export type UserDataProps = {
 	displayName: string;
 	contactNo: string | null;
 	jobTitle: string | null;
@@ -8,14 +8,14 @@ export type userDataProps = {
 	profileImage: string | undefined;
 };
 
-export type selectProps = {
+export type SelectProps = {
 	userUid: string;
 	displayName: string;
 	chatId: string;
 	profileImage: string;
 };
 
-export type task = {
+export type TaskProps = {
 	id: string;
 	title: string;
 	status: string;

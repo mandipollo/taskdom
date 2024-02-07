@@ -6,7 +6,7 @@ import TeamMembersList from "./TeamMembersList";
 import TeamLists from "./TeamLists";
 import { setUserChat } from "../../store/chatSlice";
 
-import { selectProps } from "../utilities/userDataProps";
+import { SelectProps } from "../utilities/userDataProps";
 const Teams = () => {
 	const dispatch = useAppDispatch();
 
@@ -19,7 +19,7 @@ const Teams = () => {
 		userUid,
 		displayName,
 		profileImage,
-	}: selectProps) => {
+	}: SelectProps) => {
 		dispatch(
 			setUserChat({
 				chatId,

@@ -7,10 +7,10 @@ import { uploadBytes } from "firebase/storage";
 import { db } from "../../../firebase.config";
 import { doc, updateDoc } from "firebase/firestore";
 import getProfileImage from "../../firebaseAuth/getProfileImage";
-import { userDataProps } from "../utilities/userDataProps";
+import { UserDataProps } from "../utilities/userDataProps";
 import { User, updateProfile } from "firebase/auth";
 type personalProps = {
-	userFirestoreData: userDataProps | null;
+	userFirestoreData: UserDataProps | null;
 };
 
 const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { userDataProps } from "../components/utilities/userDataProps";
+import { UserDataProps } from "../components/utilities/userDataProps";
 
-const initialUserData: userDataProps = {
+const initialUserData: UserDataProps = {
 	contactNo: null,
 	displayName: "",
 	email: "",
@@ -14,7 +14,7 @@ const userFirestoreData = createSlice({
 	name: "userData",
 	initialState: initialUserData,
 	reducers: {
-		setUserFirestoreData: (state, action: PayloadAction<userDataProps>) => {
+		setUserFirestoreData: (state, action: PayloadAction<UserDataProps>) => {
 			return { ...state, ...action.payload };
 		},
 		resetUserFirestoreData: () => {

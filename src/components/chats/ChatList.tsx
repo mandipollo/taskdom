@@ -1,9 +1,9 @@
 import { DocumentData } from "firebase/firestore";
 import React from "react";
-import { selectProps } from "../utilities/userDataProps";
+import { SelectProps } from "../utilities/userDataProps";
 type chatListProps = {
 	chatList: DocumentData[string];
-	handleSelect: (selectMember: selectProps) => void;
+	handleSelect: (selectMember: SelectProps) => void;
 };
 
 const ChatList: React.FC<chatListProps> = ({ chatList, handleSelect }) => {

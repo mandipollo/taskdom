@@ -1,10 +1,10 @@
 import { DocumentData } from "firebase/firestore";
 import React from "react";
 
-import { selectProps } from "../utilities/userDataProps";
+import { SelectProps } from "../utilities/userDataProps";
 type teamMemberProps = {
 	teamMembers: DocumentData[];
-	handleSelect: (selectMember: selectProps) => void;
+	handleSelect: (selectMember: SelectProps) => void;
 };
 
 const TeamMembersList: React.FC<teamMemberProps> = ({

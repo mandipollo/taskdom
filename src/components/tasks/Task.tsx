@@ -15,7 +15,7 @@ import {
 	updateDoc,
 } from "firebase/firestore";
 import { db } from "../../../firebase.config";
-import { task } from "../utilities/userDataProps";
+import { TaskProps } from "../utilities/userDataProps";
 const Task = () => {
 	const userId = useAppSelector(state => state.auth.uid);
 	const taskCollectionRef = doc(db, `tasks/${userId}`);
@@ -66,7 +66,7 @@ const Task = () => {
 		if (selectedTodo) {
 			if (firebaseTodo) {
 				//find the task to update its status
-				const tasks = firebaseTodo.map((task: task) =>
+				const tasks = firebaseTodo.map((task: TaskProps) =>
 					task.id === id ? { ...task, status: "progress" } : task
 				);
 				// overwrite the task array with updated task, note * not a ideal solution to scale because of overwriting cost * to be changed later
@@ -83,7 +83,7 @@ const Task = () => {
 		const selectedProgress = firebaseTodo.find(todo => id === todo.id);
 		if (selectedProgress) {
 			if (firebaseTodo) {
-				const tasks = firebaseTodo.map((task: task) =>
+				const tasks = firebaseTodo.map((task: TaskProps) =>
 					task.id === id ? { ...task, status: "complete" } : task
 				);
 
@@ -129,7 +129,7 @@ const Task = () => {
 				switch (targetList) {
 					case "progressList":
 						if (firebaseTodo) {
-							const tasks = firebaseTodo.map((t: task) =>
+							const tasks = firebaseTodo.map((t: TaskProps) =>
 								task.id === t.id ? { ...t, status: "progress" } : t
 							);
 							// overwrite the task array with updated tasks
@@ -140,7 +140,7 @@ const Task = () => {
 						break;
 					case "completeList":
 						if (firebaseTodo) {
-							const tasks = firebaseTodo.map((t: task) =>
+							const tasks = firebaseTodo.map((t: TaskProps) =>
 								task.id === t.id ? { ...t, status: "complete" } : t
 							);
 							// overwrite the task array with updated tasks

@@ -4,9 +4,14 @@ import { useAppSelector } from "../../store/store";
 import DateTaskDisplay from "./DateTaskDisplay";
 import UpcomingMeetingDisplay from "./UpcomingMeetingDisplay";
 import TaskDashboard from "./TaskDashboard";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../../firebase.config";
 
 const UserDashboard: React.FC = () => {
 	const userState = useAppSelector(state => state.userFirestoreData);
+	const [taskList, setTaskList] = useState<
+		{ id: string; title: string; status: string }[]
+	>([]);
 
 	const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
@@ -29,6 +34,19 @@ const UserDashboard: React.FC = () => {
 		hour12: true, // Use 12-hour clock format
 	});
 
+	useEffect(() => {
+		const fetchTask = async () => {
+			if (userState.uid) {
+				const taskRef = doc(db, `tasks/${userState.uid}`);
+				const data = (await getDoc(taskRef)).data();
+				if (data && data.tasks) {
+					setTaskList(data.tasks);
+				}
+			}
+		};
+
+		fetchTask();
+	}, []);
 	return (
 		<div className="flex flex-col w-full  h-full  bg-[#000408] text-[#E6EDF3]">
 			<div className="flex justify-center items-center h-1/2 max-h-80  ">
@@ -37,7 +55,7 @@ const UserDashboard: React.FC = () => {
 					<UpcomingMeetingDisplay profileImage={userState.profileImage} />
 				</div>
 				<div className=" hidden justify-center items-center  w-1/3 h-full max-h-full sm:flex p-2">
-					<TaskDashboard />
+					<TaskDashboard taskList={taskList} />
 				</div>
 			</div>
 			<div className="flex justify-center items-center flex-1 bg-[#0D1117] border-[#30363E] border ">
