@@ -1,25 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import TodoLists from "./TodoLists";
 import ProgressLists from "./ProgressLists";
 import CompleteLists from "./CompleteLists";
 import { useAppSelector } from "../../store/store";
-import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+	DocumentData,
+	Unsubscribe,
+	arrayUnion,
+	doc,
+	getDoc,
+	onSnapshot,
+	setDoc,
+	updateDoc,
+} from "firebase/firestore";
 import { db } from "../../../firebase.config";
 import { task } from "../utilities/userDataProps";
 const Task = () => {
 	const userId = useAppSelector(state => state.auth.uid);
 	const taskCollectionRef = doc(db, `tasks/${userId}`);
 
+	// input state
 	const [todo, setTodo] = useState<string>("");
-	const [todoList, setTodoList] = useState<
-		{ id: string; title: string; status: string }[]
-	>([]);
-	const [progressList, setProgressList] = useState<
-		{ id: string; title: string; status: string }[]
-	>([]);
 
-	const [completeList, setCompleteList] = useState<
+	// firebase task state
+	const [firebaseTodo, setFirebaseTodo] = useState<
 		{ id: string; title: string; status: string }[]
 	>([]);
 
@@ -32,7 +37,6 @@ const Task = () => {
 		e.preventDefault();
 		if (todo) {
 			const newTodo = { id: uuid(), title: todo, status: "todo" };
-			setTodoList(prev => [...prev, newTodo]);
 
 			// task collection snapshot
 
@@ -44,7 +48,7 @@ const Task = () => {
 				// collection does not exists create it
 				await setDoc(taskCollectionRef, {});
 			}
-			//create users task
+			//create users task and spread the newTodo in a array of object
 
 			await updateDoc(taskCollectionRef, {
 				tasks: arrayUnion({
@@ -57,18 +61,12 @@ const Task = () => {
 
 	// move todo to progressList and update the status in firebase for the task
 	const handleMoveToProgress = async (id: string) => {
-		const selectedTodo = todoList.find(todo => todo.id === id);
+		const selectedTodo = firebaseTodo.find(todo => todo.id === id);
 
 		if (selectedTodo) {
-			const updatedTodo = { ...selectedTodo, status: "progress" };
-			setProgressList(prev => [...prev, updatedTodo]);
-			setTodoList(prev => prev.filter(todo => todo.id !== updatedTodo.id));
-			// change the task status
-
-			const documentData = (await getDoc(taskCollectionRef)).data();
-			if (documentData && documentData.tasks) {
+			if (firebaseTodo) {
 				//find the task to update its status
-				const tasks = documentData.tasks.map((task: task) =>
+				const tasks = firebaseTodo.map((task: task) =>
 					task.id === id ? { ...task, status: "progress" } : task
 				);
 				// overwrite the task array with updated task, note * not a ideal solution to scale because of overwriting cost * to be changed later
@@ -82,20 +80,11 @@ const Task = () => {
 	// move to complete and update the task status in firebase
 
 	const handleMoveToComplete = async (id: string) => {
-		const selectedProgress = progressList.find(progress => id === progress.id);
-
+		const selectedProgress = firebaseTodo.find(todo => id === todo.id);
 		if (selectedProgress) {
-			const udpatedProgress = { ...selectedProgress, status: "complete" };
-			setCompleteList(prev => [...prev, udpatedProgress]);
-			setProgressList(prev =>
-				prev.filter(progress => progress.id !== udpatedProgress.id)
-			);
-
-			const documentData = (await getDoc(taskCollectionRef)).data();
-
-			if (documentData && documentData.tasks) {
-				const tasks = await documentData.tasks.map((task: task) =>
-					task.id === id ? { ...task, status: "completed" } : task
+			if (firebaseTodo) {
+				const tasks = firebaseTodo.map((task: task) =>
+					task.id === id ? { ...task, status: "complete" } : task
 				);
 
 				// overwrite the task array with updated tasks
@@ -131,25 +120,17 @@ const Task = () => {
 		if (taskId && sourceList && targetList !== sourceList) {
 			const task =
 				sourceList === "todoList"
-					? todoList.find(task => task.id === taskId)
+					? firebaseTodo.find(task => task.id === taskId)
 					: sourceList === "progressList"
-					? progressList.find(progress => progress.id === taskId)
-					: completeList.find(complete => complete.id === taskId);
+					? firebaseTodo.find(progress => progress.id === taskId)
+					: firebaseTodo.find(complete => complete.id === taskId);
 
 			if (task) {
 				switch (targetList) {
-					case "todoList":
-						setTodoList(prev => [...prev, task]);
-						break;
-
 					case "progressList":
-						const updatedTodoTask = { ...task, status: "progress" };
-						setProgressList(prev => [...prev, updatedTodoTask]);
-						const documentData = (await getDoc(taskCollectionRef)).data();
-
-						if (documentData && documentData.tasks) {
-							const tasks = await documentData.tasks.map((t: task) =>
-								task.id === task.id ? { ...t, status: "progress" } : t
+						if (firebaseTodo) {
+							const tasks = firebaseTodo.map((t: task) =>
+								task.id === t.id ? { ...t, status: "progress" } : t
 							);
 							// overwrite the task array with updated tasks
 							await updateDoc(taskCollectionRef, {
@@ -158,15 +139,9 @@ const Task = () => {
 						}
 						break;
 					case "completeList":
-						const updatedProgressTask = { ...task, status: "complete" };
-						setCompleteList(prev => [...prev, updatedProgressTask]);
-						const documentDataComplete = (
-							await getDoc(taskCollectionRef)
-						).data();
-
-						if (documentDataComplete && documentDataComplete.tasks) {
-							const tasks = await documentDataComplete.tasks.map((t: task) =>
-								task.id === task.id ? { ...t, status: "complete" } : t
+						if (firebaseTodo) {
+							const tasks = firebaseTodo.map((t: task) =>
+								task.id === t.id ? { ...t, status: "complete" } : t
 							);
 							// overwrite the task array with updated tasks
 							await updateDoc(taskCollectionRef, {
@@ -178,21 +153,28 @@ const Task = () => {
 						break;
 				}
 			}
-
-			// remove task from the sourceList
-
-			switch (sourceList) {
-				case "todoList":
-					setTodoList(prev => prev.filter(task => taskId !== task.id));
-					break;
-				case "progressList":
-					setProgressList(prev => prev.filter(task => task.id !== taskId));
-					break;
-				default:
-					break;
-			}
 		}
 	};
+
+	useEffect(() => {
+		let unsubscribe: Unsubscribe | undefined;
+
+		if (userId) {
+			const docRef = doc(db, `tasks/${userId}`);
+			unsubscribe = onSnapshot(docRef, (doc: DocumentData) => {
+				if (doc.exists()) {
+					const data = doc.data().tasks;
+					setFirebaseTodo(data);
+				}
+			});
+		}
+
+		return () => {
+			if (unsubscribe) {
+				unsubscribe();
+			}
+		};
+	}, [userId]);
 	return (
 		<div className="flex flex-col h-full w-full ">
 			<div className="flex justify-center items-center h-20 ">
@@ -211,21 +193,21 @@ const Task = () => {
 			</div>
 			<div className="grid sm:grid-cols-3 grid-cols-1 h-full  ">
 				<TodoLists
+					firebaseTodo={firebaseTodo}
 					handleDragOver={handleDragOver}
 					handleDragStart={handleDragStart}
 					handleDrop={handleDrop}
 					handleMoveToProgress={handleMoveToProgress}
-					todoList={todoList}
 				/>
 				<ProgressLists
-					progressList={progressList}
+					firebaseTodo={firebaseTodo}
 					handleDragOver={handleDragOver}
 					handleDragStart={handleDragStart}
 					handleDrop={handleDrop}
 					handleMoveToComplete={handleMoveToComplete}
 				/>
 				<CompleteLists
-					completeList={completeList}
+					firebaseTodo={firebaseTodo}
 					handleDragOver={handleDragOver}
 					handleDrop={handleDrop}
 				/>
