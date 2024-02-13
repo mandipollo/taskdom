@@ -11,15 +11,15 @@ type ProjectInputProps = {
 };
 const ProjectInput: React.FC<ProjectInputProps> = ({
 	handleProjectDescription,
+	handleProjectSubmit,
 	handleProjectTitle,
 	handleToggleForm,
-	handleProjectSubmit,
-	projectTitle,
 	projectDescription,
+	projectTitle,
 }) => {
 	return (
 		<form
-			onSubmit={e => handleProjectSubmit(e)}
+			onSubmit={handleProjectSubmit}
 			className="rounded-md border p-4 border-[#30363E] bg-[#0D1117] z-20 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  sm:w-1/2 sm:h-1/2 w-3/4 h-3/4"
 			aria-label="add project form"
 		>
@@ -31,8 +31,8 @@ const ProjectInput: React.FC<ProjectInputProps> = ({
 			</div>
 			<div className="flex pt-2 w-full">
 				<input
-					value={projectTitle}
 					onChange={e => handleProjectTitle(e)}
+					value={projectTitle}
 					type="text"
 					placeholder="Project name"
 					className="p-2 w-full rounded-sm placeholder-gray-400 outline-[#30363E] outline-2 pl-2 border-[#30363E] bg-[#161B22] text-[#E6EDF3] "

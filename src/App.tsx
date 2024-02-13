@@ -20,9 +20,6 @@ import TeamsPage from "./pages/TeamsPage";
 import ChatPage from "./pages/ChatPage";
 import ProjectPage from "./pages/ProjectPage";
 import TaskPage from "./pages/TaskPage";
-import ClientPage from "./pages/ClientPage";
-import CalenderPage from "./pages/CalenderPage";
-import SupportPage from "./pages/SupportPage";
 
 let persistor = persistStore(store);
 
@@ -63,12 +60,6 @@ const Route = createBrowserRouter([
 			{ path: "chats", element: <ChatPage /> },
 			{ path: "projects", element: <ProjectPage /> },
 			{ path: "tasks", element: <TaskPage /> },
-			{ path: "clients", element: <ClientPage /> },
-			{ path: "calendar", element: <CalenderPage /> },
-			{
-				path: "support",
-				element: <SupportPage />,
-			},
 		],
 	},
 ]);
