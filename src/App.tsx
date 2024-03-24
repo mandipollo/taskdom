@@ -58,7 +58,7 @@ const Route = createBrowserRouter([
 				element: <TeamsPage />,
 			},
 			{ path: "chats", element: <ChatPage /> },
-			{ path: "projects", element: <ProjectPage /> },
+			{ path: "projects/:projectId", element: <ProjectPage /> },
 			{ path: "tasks", element: <TaskPage /> },
 		],
 	},

@@ -8,7 +8,7 @@ import chat from "../../assets/chat.svg";
 import setting from "../../assets/setting.svg";
 import logout from "../../assets/logout.svg";
 import add from "../../assets/add.svg";
-import subProject from "../../assets/subProject.svg";
+
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/store";
@@ -38,7 +38,12 @@ const Sidebar: React.FC = () => {
 	const projectCollectionRef = doc(db, `projects/${userId}`);
 
 	const [projectList, setProjectList] = useState<
-		{ id: string; status: string; description: string; title: string }[]
+		{
+			id: string;
+			status: string;
+			description: string;
+			title: string;
+		}[]
 	>([]);
 
 	const [projectTitle, setProjectTitle] = useState<string>("");
@@ -68,10 +73,10 @@ const Sidebar: React.FC = () => {
 		e.preventDefault();
 		if (projectTitle && projectDescription) {
 			const newProject = {
-				id: uuid(),
 				title: projectTitle,
 				description: projectDescription,
 				status: "new",
+				id: uuid(),
 			};
 
 			// task collection snapshot
@@ -87,9 +92,7 @@ const Sidebar: React.FC = () => {
 			//create users task and spread the newTodo in a array of object
 
 			await updateDoc(projectCollectionRef, {
-				projects: arrayUnion({
-					...newProject,
-				}),
+				projects: arrayUnion({ ...newProject }),
 			});
 
 			setProjectTitle("");
@@ -146,7 +149,7 @@ const Sidebar: React.FC = () => {
 				/>
 			)}
 
-			<ul className="flex flex-col space-y-8 md:pt-20 pt-10">
+			<ul className="flex flex-col space-y-6 md:pt-20 pt-10">
 				<li>
 					<Link to="userDashboard">
 						<button className={classBtn}>
@@ -163,31 +166,27 @@ const Sidebar: React.FC = () => {
 					</button>
 					{showProject && (
 						<ul className="space-y-4 translate-x-2">
-							<li>
-								<button
-									onClick={handleToggleForm}
-									className="flex flex-row space-x-2 hover:underline   duration-300"
-								>
+							<li key={1}>
+								<button onClick={handleToggleForm} className="flex flex-row">
 									<img src={add} width={20} height={20} alt="projects" />
 								</button>
 							</li>
-							{projectList.map(project => (
-								<li key={project.id}>
-									<Link key={project.id} to="/projects">
-										<button className="flex flex-row space-x-2 ">
-											<img
-												src={subProject}
-												width={20}
-												height={20}
-												alt="sub projects"
-											/>
-											<p className=" sm:block hidden text-[#508D69]">
-												{project.title}
-											</p>
-										</button>
-									</Link>
-								</li>
-							))}
+							{projectList &&
+								projectList.map(project => (
+									<li key={project.id}>
+										<Link
+											key={project.id}
+											to={`/projects/${project.id}`}
+											state={project}
+										>
+											<button className="flex flex-row space-x-2 ">
+												<p className=" sm:block hidden text-[#508D69]">
+													{project.title}
+												</p>
+											</button>
+										</Link>
+									</li>
+								))}
 						</ul>
 					)}
 				</li>
