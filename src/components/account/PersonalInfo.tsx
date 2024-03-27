@@ -172,7 +172,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 		}
 	};
 	return (
-		<div className="flex h-full w-full pt-2 pl-2 md:flex-row md:space-x-10 flex-col  bg-[#0D1117] border-[#30363E] border text-[#E6EDF3] ">
+		<div className="flex h-full w-full pt-2 pl-2 md:flex-row md:space-x-10 flex-col border-t-[#30363E] border-t text-[#E6EDF3] ">
 			<div className="h-36 w-36 overflow-hidden flex justify-center items-center rounded-full relative 0">
 				<img
 					src={user?.photoURL || avatar}

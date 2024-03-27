@@ -33,7 +33,7 @@ const Root = () => {
 	}, [dispatch]);
 	return (
 		<div className="flex relative h-full flex-col  w-full max-w-screen-2xl ">
-			<header>
+			<header className="sticky top-0">
 				<Navbar />
 			</header>
 			<main className="main flex flex-1">

@@ -24,48 +24,9 @@ const NavbarRoutesMobile = ({ userUid, handleToggle }: navProps) => {
 			onClick={handleToggle}
 			className="space-y-4 text-lg font-thin text-[#E6EDF3]"
 		>
-			{!userUid && (
-				<li>
-					<Link to="/">
-						<button>HOME</button>
-					</Link>
-				</li>
-			)}
-			{!userUid && (
-				<li>
-					<Link to="/about">
-						<button>ABOUT</button>
-					</Link>
-				</li>
-			)}
-
-			{!userUid && (
-				<li>
-					<Link to="/contact">
-						<button>CONTACT</button>
-					</Link>
-				</li>
-			)}
-
-			{userUid && (
-				<li>
-					<Link to="/userDashboard">
-						<button>DASHBOARD</button>
-					</Link>
-				</li>
-			)}
-
-			{userUid ? (
-				<li>
-					<button onClick={signOutHandler}>SIGN OUT</button>
-				</li>
-			) : (
-				<li>
-					<Link to="/login">
-						<button>LOGIN</button>
-					</Link>
-				</li>
-			)}
+			<li>
+				<p className="text-sm">Just wanted to put the hamburger menu...</p>
+			</li>
 		</ul>
 	);
 };

@@ -53,7 +53,7 @@ const Navbar: React.FC = () => {
 	const hamburgerTop = `hamburger-top ${open && "open"}`;
 	const hamburgerMiddle = `hamburger-middle ${open && "open"}`;
 	const hamburgerBottom = `hamburger-bottom ${open && "open"}`;
-	const menu = `flex ml-6 button z-40 block hamburger md:hidden focus:outline-none${
+	const menu = `flex ml-6 justify-center items-center button z-40 block hamburger md:hidden focus:outline-none${
 		open && "open"
 	}`;
 
@@ -108,18 +108,16 @@ const Navbar: React.FC = () => {
 					<div>
 						<Link
 							to={linkHomeLogo}
-							className="flex md:hidden w-full  justify-center items-center space-x-4"
+							className="flex md:hidden w-full  justify-center items-center space-x-2"
 						>
-							<img src={logo} alt="logo" height={30} width={30} />
-							<p className="font-mono text-lg font-thin text-red-500">
-								TASKDOM
-							</p>
+							<img src={logo} alt="logo" height={20} width={20} />
+							<p className="font-mono text-lg font-thin ">TASKDOM</p>
 						</Link>
 					</div>
 				)}
 
 				{/* desktop menu */}
-				{user ? (
+				{user && (
 					<SearchNavbar
 						uid={user.uid}
 						profileImage={profileImage}
@@ -128,10 +126,6 @@ const Navbar: React.FC = () => {
 						workHours={workHours}
 						jobTitle={jobTitle}
 					/>
-				) : (
-					<div className="hidden md:flex flex-1 justify-center items-center h-full">
-						<NavbarRoutes />
-					</div>
 				)}
 
 				{/* mobile menu */}
@@ -160,7 +154,7 @@ const Navbar: React.FC = () => {
 				</Link>
 			) : (
 				<Link to="/login" className="h-full">
-					<button className=" h-full flex w-40 justify-center items-center  rounded-md border-[#30363E] border text-[#E6EDF3]">
+					<button className=" h-full flex w-20 sm:w-40 justify-center items-center  rounded-md border-[#30363E] border text-[#E6EDF3]">
 						LOGIN
 					</button>
 				</Link>

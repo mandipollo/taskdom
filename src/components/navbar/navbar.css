@@ -11,6 +11,7 @@
 .hamburger-top,
 .hamburger-middle,
 .hamburger-bottom {
+	margin-top: 4px;
 	position: absolute;
 	width: 24px;
 	height: 2px;
