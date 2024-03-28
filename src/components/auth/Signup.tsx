@@ -4,20 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import facebookLogo from "../../assets/facebook.svg";
 import instagramLogo from "../../assets/instagram.svg";
-import { useAppDispatch } from "../../store/store";
-import { setEmailState } from "../../store/emailSlice";
 
 import isValidEmail from "../utilities/emailValidation";
 import isPasswordValid from "../utilities/passwordValidation";
 
 import signUpUser from "../../firebaseAuth/signUpUser";
-import { setDoc } from "firebase/firestore";
-import { doc } from "firebase/firestore";
-import { db } from "../../../firebase.config";
 
 const Signup: React.FC = () => {
 	const navigate = useNavigate();
-	const dispatch = useAppDispatch();
 
 	const [email, setEmail] = useState<string | null>(null);
 	const [emailValidity, setEmailValidity] = useState<boolean>(true);
@@ -52,14 +46,12 @@ const Signup: React.FC = () => {
 				isPasswordValid(password);
 				setPasswordValidity(true);
 				setEmailValidity(true);
-				dispatch(setEmailState(email));
+
 				const { user, error } = await signUpUser({
 					email,
 					password,
 					displayName,
 				});
-
-				await setDoc(doc(db, "usersChat", user.uid), {});
 
 				console.log(user, error);
 
@@ -74,7 +66,6 @@ const Signup: React.FC = () => {
 			}
 		}
 	};
-	// page turn animation
 
 	const emailTextHelper: string = `${
 		emailValidity ? "hidden" : "flex"

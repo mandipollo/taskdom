@@ -1,4 +1,8 @@
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+	createUserWithEmailAndPassword,
+	sendEmailVerification,
+	updateProfile,
+} from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase.config";
 
@@ -32,11 +36,13 @@ const signUpUser = async ({
 			email,
 			password
 		);
+
 		const user = userCredential.user;
+		await sendEmailVerification(user);
 		// update displayName
 		await updateProfile(user, { displayName });
 
-		// Add a new document in collection "cities"
+		// Add a new document in users collection
 		await setDoc(doc(db, "users", user.uid), {
 			uid: user.uid,
 			displayName: displayName,
@@ -45,7 +51,8 @@ const signUpUser = async ({
 			workHours: null,
 			contactNo: null,
 		});
-
+		// Add a new document in userschat collection
+		await setDoc(doc(db, "usersChat", user.uid), {});
 		return {
 			user: user,
 			error: null,
