@@ -105,7 +105,6 @@ const Sidebar: React.FC = () => {
 	const signOutHandler = () => {
 		dispatch(resetUserFirestoreData());
 		signOutUser();
-
 		navigate("/");
 	};
 

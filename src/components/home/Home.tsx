@@ -1,5 +1,3 @@
-import React from "react";
-
 import home1 from "../../assets/HOME24-web-hero-3x-en-US.webp";
 import mckessonLogo from "../../assets/mckesson.svg";
 import amazonlogo from "../../assets/amazon-logo.svg";
@@ -8,7 +6,7 @@ import dellLogo from "../../assets/dell-logo.svg";
 import merckLogo from "../../assets/merck-logo.webp";
 import { Link } from "react-router-dom";
 
-const Home: React.FC = () => {
+const Home = () => {
 	return (
 		<div className="flex flex-1 flex-col text-black  ">
 			<div className="flex flex-col bg-white  justify-center text-center h-full gap-4">

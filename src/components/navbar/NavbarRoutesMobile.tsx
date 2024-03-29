@@ -1,24 +1,9 @@
-import { Link } from "react-router-dom";
-import signOutUser from "../../firebaseAuth/signOutUser";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../store/store";
-import { resetUserFirestoreData } from "../../store/userFirestoreData";
-
 type navProps = {
 	userUid: string | null | undefined;
 	handleToggle: () => void;
 };
 
-const NavbarRoutesMobile = ({ userUid, handleToggle }: navProps) => {
-	const navigate = useNavigate();
-	const dispatch = useAppDispatch();
-
-	const signOutHandler = () => {
-		dispatch(resetUserFirestoreData());
-		signOutUser();
-
-		navigate("/");
-	};
+const NavbarRoutesMobile = ({ handleToggle }: navProps) => {
 	return (
 		<ul
 			onClick={handleToggle}

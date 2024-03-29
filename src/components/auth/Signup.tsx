@@ -42,27 +42,26 @@ const Signup: React.FC = () => {
 			console.log("Invalid credentials");
 			return;
 		} else {
-			try {
-				isPasswordValid(password);
-				setPasswordValidity(true);
-				setEmailValidity(true);
+			isPasswordValid(password);
+			setPasswordValidity(true);
+			setEmailValidity(true);
 
-				const { user, error } = await signUpUser({
-					email,
-					password,
-					displayName,
-				});
+			const { user, error } = await signUpUser({
+				email,
+				password,
+				displayName,
+			});
 
-				console.log(user, error);
+			console.log(user, error);
 
-				setError(error);
-				navigate("/");
-			} catch (err) {
-				if (err instanceof Error) {
-					setError(err.message);
+			if (error) {
+				if (error.includes("email-already-in-use")) {
+					setError("email already in use");
 				} else {
-					setError(null);
+					setError("Opps something went wrong!");
 				}
+			} else {
+				navigate("/userDashboard");
 			}
 		}
 	};

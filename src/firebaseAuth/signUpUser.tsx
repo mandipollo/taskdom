@@ -59,7 +59,6 @@ const signUpUser = async ({
 		};
 	} catch (err: any) {
 		const errorMessage = err.message;
-		console.log(err);
 		return { user: null, error: errorMessage };
 	}
 };

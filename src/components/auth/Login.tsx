@@ -183,7 +183,7 @@ const Login: React.FC = () => {
 					<button
 						disabled={!password}
 						type="submit"
-						className="absolute -bottom-5 rounded-2xl bg-black text-[#E6EDF3] py-2 px-12 z-10"
+						className="absolute -bottom-5 rounded-2xl bg-black text-[#E6EDF3] py-2 px-12 z-10  border-[#30363E] border"
 					>
 						SIGN IN
 					</button>
@@ -197,7 +197,7 @@ const Login: React.FC = () => {
 					</div>
 
 					<Link to="/signup">
-						<button className="text-[#E6EDF3] font-semibold font-montserrat tracking-wider">
+						<button className="rounded-2xl  text-[#E6EDF3] py-2  font-semibold font-montserrat tracking-wider">
 							SIGN UP
 						</button>
 					</Link>
