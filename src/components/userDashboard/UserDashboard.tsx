@@ -68,7 +68,7 @@ const UserDashboard: React.FC = () => {
 				</div>
 			</div>
 			<div className="flex justify-center items-center flex-1 bg-[#0D1117] border-[#30363E] border ">
-				<p>weekly progress</p>
+				<p>progress</p>
 			</div>
 		</div>
 	);

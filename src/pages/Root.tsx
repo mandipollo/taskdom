@@ -6,6 +6,7 @@ import { resetUser, setUser } from "../store/authSlice";
 import { auth } from "../../firebase.config";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { resetUserChat } from "../store/chatSlice";
+import userFirestoreUpdate from "../firebaseAuth/userFirestoreUpdate";
 const Root = () => {
 	const dispatch = useAppDispatch();
 	const userState = useAppSelector(state => state.auth);
@@ -31,6 +32,12 @@ const Root = () => {
 
 		return () => unsubscribe(); // Cleanup function to unsubscribe from the listener
 	}, [dispatch]);
+
+	// set up a listener for firestore data linked to user
+	if (userState.uid) {
+		userFirestoreUpdate(userState.uid);
+	}
+
 	return (
 		<div className="flex relative h-full flex-col  w-full max-w-screen-2xl ">
 			<header className="sticky top-0">

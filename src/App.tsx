@@ -8,10 +8,7 @@ import { persistStore } from "redux-persist";
 
 // pages
 import Homepage from "./pages/Homepage";
-import Aboutpage from "./pages/Aboutpage";
 import Root from "./pages/Root";
-import Contactpage from "./pages/Contactpage";
-
 import Loginpage from "./pages/Loginpage";
 import Signuppage from "./pages/Signuppage";
 import UserDashboardPage from "./pages/UserDashboardPage";
@@ -32,14 +29,7 @@ const Route = createBrowserRouter([
 				index: true,
 				element: <Homepage />,
 			},
-			{
-				path: "about",
-				element: <Aboutpage />,
-			},
-			{
-				path: "contact",
-				element: <Contactpage />,
-			},
+
 			{ path: "login", element: <Loginpage /> },
 			{
 				path: "signup",

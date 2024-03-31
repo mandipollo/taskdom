@@ -33,6 +33,7 @@ const Sidebar: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const classBtn = "flex flex-row space-x-2 hover:underline ";
+	const classP = "lg:block hidden";
 
 	const userId = useAppSelector(state => state.auth.uid);
 	const projectCollectionRef = doc(db, `projects/${userId}`);
@@ -153,14 +154,14 @@ const Sidebar: React.FC = () => {
 					<Link to="userDashboard">
 						<button className={classBtn}>
 							<img src={dashboard} width={20} height={20} alt="dashboard" />
-							<p className=" sm:block hidden">Dashboard</p>
+							<p className={classP}>Dashboard</p>
 						</button>
 					</Link>
 				</li>
 				<li className="space-y-2">
 					<button onClick={handleAddProject} className={classBtn}>
 						<img src={project} width={20} height={20} alt="projects" />
-						<p className=" sm:block hidden">Projects</p>
+						<p className={classP}>Projects</p>
 						<img src={dropdown} alt="drop" width={20} height={20} />
 					</button>
 					{showProject && (
@@ -194,7 +195,7 @@ const Sidebar: React.FC = () => {
 					<Link to="tasks">
 						<button className={classBtn}>
 							<img src={task} width={20} height={20} alt="task" />
-							<p className=" sm:block hidden">Task</p>
+							<p className={classP}>Task</p>
 						</button>
 					</Link>
 				</li>
@@ -202,7 +203,7 @@ const Sidebar: React.FC = () => {
 					<Link to="/teams">
 						<button className={classBtn}>
 							<img src={teams} width={20} height={20} alt="clients" />
-							<p className=" sm:block hidden">Teams</p>
+							<p className={classP}>Teams</p>
 						</button>
 					</Link>
 				</li>
@@ -210,7 +211,7 @@ const Sidebar: React.FC = () => {
 					<Link to="/chats">
 						<button className={classBtn}>
 							<img src={chat} width={20} height={20} alt="chat" />
-							<p className=" sm:block hidden"> Chat</p>
+							<p className={classP}> Chat</p>
 						</button>
 					</Link>
 				</li>
@@ -219,14 +220,14 @@ const Sidebar: React.FC = () => {
 					<Link to="/accountSetting">
 						<button className={classBtn}>
 							<img src={setting} width={20} height={20} alt="setting" />
-							<p className=" sm:block hidden">Settings</p>
+							<p className={classP}>Settings</p>
 						</button>
 					</Link>
 				</li>
 				<li>
 					<button onClick={signOutHandler} className={classBtn}>
 						<img src={logout} width={20} height={20} alt="setting" />
-						<p className=" sm:block hidden">Sign out</p>
+						<p className={classP}>Sign out</p>
 					</button>
 				</li>
 			</ul>

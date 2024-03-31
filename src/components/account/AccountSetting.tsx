@@ -9,16 +9,13 @@ const AccountSetting: React.FC = () => {
 
 	return (
 		<div className="flex flex-col h-full w-full">
-			<div className="flex h-1/5 flex-col items-center  mx-14">
-				<div className="flex items-end h-1/2 w-full">
-					<p className="text-2xl font-bold">Settings</p>
-				</div>
-				<div className="flex items-center space-x-6 h-1/2 w-full">
+			<div className="flex h-1/6 flex-col items-center  md:mx-14 mx-2">
+				<div className="flex items-center space-x-6 h-full w-full">
 					<button>Personal Info</button>
 					<button>Login & Security</button>
 				</div>
 			</div>
-			<div className="flex flex-1 justify-center items-center relative mx-14">
+			<div className="flex  flex-1 justify-center items-center relative md:mx-14 mx-2">
 				<PersonalInfo userFirestoreData={userState} />
 				<LoginAndSecurity />
 			</div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import avatar from "../../assets/manAvatar.svg";
+
+import edit from "../../assets/edit.svg";
 import updateUserInfo from "../../firebaseAuth/updateUserInfo";
 import { ref } from "firebase/storage";
 import { storage, auth } from "../../../firebase.config";
@@ -30,9 +31,10 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 			profileImage: "",
 		};
 
-	// inputs
+	// default profile picture
 
-	// const [image, setImage] = useState<File | null>(null);
+	const defaultPic = displayName.charAt(0).toUpperCase();
+	//inputs
 	const [error, setError] = useState<boolean>(false);
 	const [job, setJob] = useState<string | null>(null);
 	const [name, setName] = useState<string | null>(null);
@@ -64,27 +66,8 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 		setContactPh(e.target.value);
 	};
 
-	// toggle paragraph and inputs visibility
-	const [showEdit, setShowEdit] = useState<string>("hidden");
-	const [showEditBtn, setShowEditBtn] = useState<string>("hidden");
-	const [text, setText] = useState<string>("flex");
-
-	const inputClass = `${showEdit} p-2 focus:outline-0 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E]`;
-	const editBtn = `${showEditBtn} h-10 bottom-0 left-0 right-0  bg-[#161B22] text-[#E6EDF3] `;
-	const editBtnDiv = `${showEdit} flex-row py-2 justify-between w-3/4`;
-	const showEditHandler: React.MouseEventHandler<HTMLButtonElement> = e => {
-		e.preventDefault();
-		setShowEdit("flex");
-		setText("hidden");
-		setShowEditBtn("absolute");
-	};
-
-	const hideEditHandler: React.MouseEventHandler<HTMLButtonElement> = e => {
-		e.preventDefault();
-		setShowEdit("hidden");
-		setText("flex");
-		setShowEditBtn("hidden");
-	};
+	const inputClass = `flex p-2 rounded-md focus:outline-0 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none `;
+	const inputDivClass = `flex flex-col space-y-2 md:w-3/4 `;
 
 	//image handler
 	const imageHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,23 +147,27 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 			await updateProfile(user, {
 				displayName: name,
 			});
-			setShowEdit("hidden");
-			setText("flex");
+
 			console.log("submitted");
 		} catch (error) {
 			setError(true);
 		}
 	};
 	return (
-		<div className="flex h-full w-full pt-2 pl-2 md:flex-row md:space-x-10 flex-col border-t-[#30363E] border-t text-[#E6EDF3] ">
-			<div className="h-36 w-36 overflow-hidden flex justify-center items-center rounded-full relative 0">
-				<img
-					src={user?.photoURL || avatar}
-					height="100%"
-					width="100%"
-					alt="Profile picture"
-					className="rounded-full "
-				></img>
+		<div className="flex  h-full  w-full pt-2 pl-2 md:flex-row md:space-x-10 flex-col border-t-[#30363E] border-t text-[#E6EDF3] ">
+			<div className="md:h-36 md:w-36 h-20 w-20 overflow-hidden flex justify-center items-center rounded-full relative 0">
+				{user?.photoURL ? (
+					<img
+						src={user?.photoURL || ""}
+						alt="Profile picture"
+						className="rounded-full object-cover w-32 h-32"
+					></img>
+				) : (
+					<span className="flex justify-center items-center text-black text-4xl rounded-full w-32 h-32 p-2 bg-gray-300">
+						{defaultPic}
+					</span>
+				)}
+
 				<input
 					type="file"
 					accept="image/*"
@@ -190,79 +177,76 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 				/>
 				<button
 					onClick={() => fileInputRef.current && fileInputRef.current.click()}
-					className={editBtn}
+					className="absolute flex justify-center items-center rounded-full md:h-10 md:w-10 h-5 w-5 md:bottom-5 bottom-2 right-2  bg-gray-600 text-[#E6EDF3] "
 				>
-					EDIT
+					<img
+						src={edit}
+						alt="edit profile picture"
+						width="80%"
+						height="80%"
+						className=" object-fit"
+					/>
 				</button>
 			</div>
-			<form onSubmit={submitHandler} className="flex flex-col flex-1 ">
-				<div className="flex flex-col space-y-2 w-3/4 border-b">
-					<div className="flex justify-between">
+			<form
+				onSubmit={submitHandler}
+				className="flex md:flex-row flex-col h-full w-full flex-1 "
+			>
+				<div className="md:w-1/2  h-full md:items-center space-y-2 flex flex-col">
+					<div className={inputDivClass}>
 						<p className="text-gray-400">Display Name</p>
+
+						<input
+							placeholder={displayName}
+							onChange={nameHandler}
+							value={name || ""}
+							type="text"
+							className={inputClass}
+						/>
+					</div>
+					<div className={inputDivClass}>
+						<p className="text-gray-400">Work hours</p>
+
+						<input
+							placeholder={workHours || ""}
+							onChange={workTimeHandler}
+							value={workTime || ""}
+							className={inputClass}
+							type="text"
+						/>
+					</div>
+				</div>
+				<div className="md:w-1/2 h-full space-y-2 md:items-center flex flex-col">
+					<div className={inputDivClass}>
+						<p className="text-gray-400">Job Title</p>
+
+						<input
+							placeholder={jobTitle || ""}
+							type="text"
+							onChange={jobHandler}
+							value={job || ""}
+							className={inputClass}
+						/>
+					</div>
+					<div className={inputDivClass}>
+						<p className="text-gray-400">Contact no.</p>
+
+						<input
+							placeholder={contactNo || ""}
+							onChange={contactPhHandler}
+							value={contactPh || ""}
+							className={inputClass}
+							type="text"
+						/>
+					</div>
+					<div className="flex  py-2">
 						<button
-							onClick={showEditHandler}
-							className="bg-[#508D69] rounded-md px-4  text-lg text-white"
+							type="submit"
+							className="bg-[#508D69] p-2 rounded-md px-8  text-lg text-white"
 						>
-							EDIT
+							Save changes
 						</button>
 					</div>
-
-					<p className={text}>{displayName}</p>
-					<input
-						placeholder={displayName}
-						onChange={nameHandler}
-						value={name || ""}
-						type="text"
-						className={inputClass}
-					/>
-				</div>
-
-				<div className="flex flex-col space-y-2 w-3/4 border-b">
-					<p className="text-gray-400">Job Title</p>
-					<p className={text}>{jobTitle}</p>
-					<input
-						placeholder={jobTitle || ""}
-						type="text"
-						onChange={jobHandler}
-						value={job || ""}
-						className={inputClass}
-					/>
-				</div>
-				<div className="flex flex-col space-y-2 w-3/4 border-b">
-					<p className="text-gray-400">Work hours</p>
-					<p className={text}>{workHours}</p>
-					<input
-						placeholder={workHours || ""}
-						onChange={workTimeHandler}
-						value={workTime || ""}
-						className={inputClass}
-						type="text"
-					/>
-				</div>
-				<div className="flex flex-col space-y-2 w-3/4 border-b">
-					<p className="text-gray-400">Contact no.</p>
-					<p className={text}>{contactNo}</p>
-					<input
-						placeholder={contactNo || ""}
-						onChange={contactPhHandler}
-						value={contactPh || ""}
-						className={inputClass}
-						type="text"
-					/>
-				</div>
-				<div className={editBtnDiv}>
-					<button
-						onClick={hideEditHandler}
-						className="bg-[#508D69] rounded-md px-4  text-lg text-white"
-					>
-						CANCEL
-					</button>
-					<button
-						type="submit"
-						className="bg-[#508D69] rounded-md px-8  text-lg text-white"
-					>
-						SAVE
-					</button>
 				</div>
 			</form>
 			{error && <span>{error}</span>}

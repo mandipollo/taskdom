@@ -6,14 +6,13 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { auth, db } from "../../../firebase.config";
 
-import NavbarRoutesMobile from "./NavbarRoutesMobile";
 import { User } from "firebase/auth";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 
 import { doc, onSnapshot } from "firebase/firestore";
 import { setUserFirestoreData } from "../../store/userFirestoreData";
 import { UserDataProps } from "../utilities/userDataProps";
-import avatar from "../../assets/manAvatar.svg";
+
 import SearchNavbar from "./SearchNavbar";
 
 const Navbar: React.FC = () => {
@@ -30,6 +29,7 @@ const Navbar: React.FC = () => {
 			profileImage: string;
 		};
 
+	const defaultPic = displayName?.charAt(0).toUpperCase() || profileImage;
 	const [user, setUser] = useState<User | null>(null);
 
 	useEffect(() => {
@@ -46,16 +46,17 @@ const Navbar: React.FC = () => {
 		setOpen(!open);
 	};
 
-	const mobileClassRoutes = `${
-		open ? "flex" : "hidden"
-	} z-20 absolute top-0 left-0 bottom-0 h-screen w-screen  py-1 pt-40 pl-12 space-y-3 text-lg uppercase bg-black text-white`;
-
 	const hamburgerTop = `hamburger-top ${open && "open"}`;
 	const hamburgerMiddle = `hamburger-middle ${open && "open"}`;
 	const hamburgerBottom = `hamburger-bottom ${open && "open"}`;
-	const menu = `flex ml-6 justify-center items-center button z-40 block hamburger md:hidden focus:outline-none${
+	const menu = `flex ml-6 justify-center items-center button z-50 block hamburger md:hidden focus:outline-none${
 		open && "open"
 	}`;
+
+	//  ovelay
+	const mobileClassRoutes = `${
+		open ? "flex" : "hidden"
+	} z-40 absolute top-0 left-0 bottom-0 h-screen w-screen  py-1 pt-20 pl-12 space-y-3 text-lg uppercase bg-black text-white`;
 
 	const linkHomeLogo = user ? "/userDashboard" : "/";
 	// attach a listener to the firestore database
@@ -129,11 +130,8 @@ const Navbar: React.FC = () => {
 				)}
 
 				{/* mobile menu */}
-				<div className={mobileClassRoutes}>
-					<NavbarRoutesMobile
-						userUid={user?.uid}
-						handleToggle={handlerToggle}
-					/>
+				<div className={mobileClassRoutes} onClick={handlerToggle}>
+					<p className="text-sm">Just wanted to put the hamburger menu...</p>
 				</div>
 			</nav>
 
@@ -144,12 +142,17 @@ const Navbar: React.FC = () => {
 						<p className="font-mono sm:block hidden text-[#508D69]">
 							{auth.currentUser?.displayName}
 						</p>
-						<img
-							src={auth.currentUser?.photoURL || avatar}
-							height={30}
-							width={30}
-							className="rounded-full"
-						></img>
+
+						{auth.currentUser?.photoURL ? (
+							<img
+								src={auth.currentUser?.photoURL}
+								className="rounded-full w-10 h-10 object-cover"
+							></img>
+						) : (
+							<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 text-black">
+								{defaultPic}
+							</span>
+						)}
 					</div>
 				</Link>
 			) : (

@@ -20,7 +20,7 @@ const ProjectInput: React.FC<ProjectInputProps> = ({
 	return (
 		<form
 			onSubmit={handleProjectSubmit}
-			className="rounded-md border p-4 border-[#30363E] bg-[#0D1117] z-20 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  sm:w-1/2 sm:h-1/2 w-3/4 h-3/4"
+			className="rounded-md border p-4 border-[#30363E] bg-[#0D1117] z-10 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  sm:w-1/2 sm:h-1/2 w-3/4 h-3/4"
 			aria-label="add project form"
 		>
 			<div className="flex w-full items-center border-b border-[#30363E] justify-between">
