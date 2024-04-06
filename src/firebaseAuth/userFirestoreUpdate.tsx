@@ -9,22 +9,17 @@ const userFirestoreUpdate = async (uid: string) => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			if (uid) {
-				// Call userFirestoreUpdate when the component mounts
-				const dataRef = doc(db, `users/${uid}`);
-				const unsubscribe = await onSnapshot(
-					dataRef,
-					(doc: DocumentSnapshot) => {
-						if (doc.exists()) {
-							const data = doc.data() as UserDataProps;
-							dispatch(setUserFirestoreData(data));
-						}
-					}
-				);
+			// Call userFirestoreUpdate when the component mounts
+			const dataRef = doc(db, `users/${uid}`);
+			const unsubscribe = onSnapshot(dataRef, (doc: DocumentSnapshot) => {
+				if (doc.exists()) {
+					const data = doc.data() as UserDataProps;
+					dispatch(setUserFirestoreData(data));
+				}
+			});
 
-				// Return a cleanup function to unsubscribe when the component unmounts
-				return () => unsubscribe();
-			}
+			// Return a cleanup function to unsubscribe when the component unmounts
+			return () => unsubscribe();
 		};
 
 		fetchData();
@@ -32,3 +27,5 @@ const userFirestoreUpdate = async (uid: string) => {
 };
 
 export default userFirestoreUpdate;
+
+// need to refactor to be used in root component

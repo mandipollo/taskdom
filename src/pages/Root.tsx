@@ -3,10 +3,13 @@ import Navbar from "../components/navbar/Navbar";
 import Sidebar from "../components/sidebar/Sidebar";
 import { useEffect } from "react";
 import { resetUser, setUser } from "../store/authSlice";
-import { auth } from "../../firebase.config";
+import { auth, db } from "../../firebase.config";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { resetUserChat } from "../store/chatSlice";
-import userFirestoreUpdate from "../firebaseAuth/userFirestoreUpdate";
+
+import { DocumentSnapshot, doc, onSnapshot } from "firebase/firestore";
+import { UserDataProps } from "../components/utilities/userDataProps";
+import { setUserFirestoreData } from "../store/userFirestoreData";
 const Root = () => {
 	const dispatch = useAppDispatch();
 	const userState = useAppSelector(state => state.auth);
@@ -34,9 +37,24 @@ const Root = () => {
 	}, [dispatch]);
 
 	// set up a listener for firestore data linked to user
-	if (userState.uid) {
-		userFirestoreUpdate(userState.uid);
-	}
+
+	useEffect(() => {
+		const fetchData = async () => {
+			// Call userFirestoreUpdate when the component mounts
+			const dataRef = doc(db, `users/${userState.uid}`);
+			const unsubscribe = onSnapshot(dataRef, (doc: DocumentSnapshot) => {
+				if (doc.exists()) {
+					const data = doc.data() as UserDataProps;
+					dispatch(setUserFirestoreData(data));
+				}
+			});
+
+			// Return a cleanup function to unsubscribe when the component unmounts
+			return () => unsubscribe();
+		};
+
+		fetchData();
+	}, [userState.uid]);
 
 	return (
 		<div className="flex relative h-full flex-col  w-full max-w-screen-2xl ">

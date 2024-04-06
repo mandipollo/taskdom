@@ -6,6 +6,7 @@ import { persistReducer } from "redux-persist";
 import email from "./emailSlice";
 import auth from "./authSlice";
 import chat from "./chatSlice";
+import snackBar from "./snackBarSlice";
 
 import userFirestoreData from "./userFirestoreData";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
 	email,
 	auth,
 	chat,
+	snackBar,
 });
 
 const persistConfig = {
