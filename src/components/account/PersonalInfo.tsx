@@ -29,6 +29,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 	//  snackbar
 
 	const snackbarState = useAppSelector(state => state.snackBar);
+
 	// retrieve user info from the redux
 	const { displayName, contactNo, workHours, jobTitle, uid } =
 		userFirestoreData || {
@@ -130,6 +131,11 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 			await updateProfile(auth.currentUser, {
 				photoURL: url,
 			});
+
+			dispatch(setSnackBar({ show: true, message: "Image updated!" }));
+			setTimeout(() => {
+				dispatch(hideSnackbar());
+			}, 2000);
 		} catch (err) {
 			console.log(err);
 		}
@@ -156,7 +162,8 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 			await updateProfile(user, {
 				displayName: name,
 			});
-			dispatch(setSnackBar());
+
+			dispatch(setSnackBar({ show: true, message: "Profile updated!" }));
 			setTimeout(() => {
 				dispatch(hideSnackbar());
 			}, 2000);
@@ -167,7 +174,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 	};
 	return (
 		<div className="flex  h-full  w-full pt-2 pl-2 md:flex-row md:space-x-10 flex-col border-t-[#30363E] border-t text-[#E6EDF3] ">
-			<Snackbar message="profile updated" snackbarState={snackbarState} />
+			<Snackbar message={snackbarState.message} show={snackbarState.show} />
 			<div className="md:h-36 md:w-36 h-20 w-20 overflow-hidden flex justify-center items-center rounded-full relative 0">
 				{user?.photoURL ? (
 					<img
