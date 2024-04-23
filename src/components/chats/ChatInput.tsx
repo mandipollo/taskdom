@@ -6,8 +6,11 @@ import { v4 as uuid } from "uuid";
 import {
 	Timestamp,
 	arrayUnion,
+	collection,
 	doc,
+	getDoc,
 	serverTimestamp,
+	setDoc,
 	updateDoc,
 } from "firebase/firestore";
 import { db, storage } from "../../../firebase.config";
@@ -41,6 +44,9 @@ const ChatInput = ({ chatId, chatUserUid }: chatProps) => {
 	const handleSend = async (e: React.FormEvent<HTMLElement>) => {
 		e.preventDefault();
 
+		const chatRef = doc(db, `chats/${chatId}`);
+		const messageRef = collection(chatRef, "message");
+
 		if (img) {
 			const storageRef = ref(storage, uuid());
 
@@ -48,24 +54,19 @@ const ChatInput = ({ chatId, chatUserUid }: chatProps) => {
 
 			const url = await getProfileImage(uploadTask.metadata.fullPath);
 
-			await updateDoc(doc(db, `chats/${chatId}`), {
-				message: arrayUnion({
+			await setDoc(doc(messageRef), {
+				id: uuid(),
+				senderId: uid,
+				date: Timestamp.now(),
+				image: url ? url : null,
+			});
+		} else {
+			if (text) {
+				await setDoc(doc(messageRef), {
 					id: uuid(),
 					text,
 					senderId: uid,
 					date: Timestamp.now(),
-					image: url,
-				}),
-			});
-		} else {
-			if (text) {
-				await updateDoc(doc(db, `chats/${chatId}`), {
-					message: arrayUnion({
-						id: uuid(),
-						text,
-						senderId: uid,
-						date: Timestamp.now(),
-					}),
 				});
 			}
 
@@ -91,7 +92,7 @@ const ChatInput = ({ chatId, chatUserUid }: chatProps) => {
 	return (
 		<form
 			onSubmit={handleSend}
-			className="flex h-20 w-full border-t border-[#30363E] space-x-4 justify-center items-center"
+			className="flex h-20 absolute bottom-0 right-0 left-0 w-full border-t border-[#30363E] space-x-4 justify-center items-center bg-[#0D1117]"
 		>
 			<div className="relative">
 				<input

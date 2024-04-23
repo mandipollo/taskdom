@@ -24,12 +24,18 @@ const ChatList: React.FC<chatListProps> = ({ chatList, handleSelect }) => {
 						className="flex flex-row mt-4 bg-[#161B22] rounded-md h-16 mx-2 p-2 space-x-4  text-gray-400 hover:text-[#E6EDF3] hover:cursor-pointer"
 					>
 						<div className="flex rounded-full">
-							<img
-								width="100%"
-								height="100%"
-								src={chat[1].userInfo.profileImage}
-								alt="user profile pic"
-							/>
+							{chat[1].userInfo.profileImage ? (
+								<img
+									width="100%"
+									height="100%"
+									src={chat[1].userInfo.profileImage}
+									alt="user profile pic"
+								/>
+							) : (
+								<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 text-black">
+									<p>{chat[1].userInfo.displayName?.charAt(0).toUpperCase()}</p>
+								</span>
+							)}
 						</div>
 
 						<div className="flex flex-col">

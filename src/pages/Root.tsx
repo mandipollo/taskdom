@@ -57,11 +57,11 @@ const Root = () => {
 	}, [userState.uid]);
 
 	return (
-		<div className="flex relative h-full flex-col  w-full max-w-screen-2xl ">
+		<div className="flex relative h-screen flex-col w-full max-w-screen-2xl ">
 			<header className="sticky top-0">
 				<Navbar />
 			</header>
-			<main className="main flex flex-1">
+			<main className="main flex flex-1 ">
 				{userState.uid && (
 					<div className="flex w-1/6">
 						<Sidebar />

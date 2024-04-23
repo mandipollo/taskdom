@@ -21,6 +21,9 @@ const ChatMessage: React.FC<chatUserProps> = ({ chatUser, message }) => {
 
 	const { displayName, profileImage, uid } = chatUser.user;
 
+	// if image not available
+
+	const defaultImage = displayName?.charAt(0).toUpperCase();
 	// Use useRef to create a reference to the scrollable container
 	const messageRef = useRef<HTMLDivElement>(null);
 
@@ -32,11 +35,15 @@ const ChatMessage: React.FC<chatUserProps> = ({ chatUser, message }) => {
 	}, [message]);
 
 	return (
-		<div className="flex h-full w-full flex-col border border-[#30363E]  ">
-			<TargetChatUser displayName={displayName} profileImage={profileImage} />
+		<div className="flex w-full flex-1 flex-col border border-[#30363E] overflow-hidden ">
+			<TargetChatUser
+				displayName={displayName}
+				profileImage={profileImage}
+				defaultImage={defaultImage}
+			/>
 
-			<div className="flex flex-col flex-1 p-2 bg-[#000408]">
-				<div className="flex relative h-80 overflow-auto ">
+			<div className="flex relative flex-col flex-1 p-2 bg-[rgb(0,4,8)] overflow-auto">
+				<div className="flex relative overflow-scroll mb-4 ">
 					<ul className="flex w-full h-full flex-col space-y-4 ">
 						{message &&
 							message.map((mes: DocumentData) => (
@@ -49,51 +56,36 @@ const ChatMessage: React.FC<chatUserProps> = ({ chatUser, message }) => {
 									key={mes.id}
 								>
 									{mes.senderId === user.uid ? (
+										// current user
 										<>
-											<div className="flex pl-2">
+											<div className="flex pl-2 justify-end">
 												{mes.image && (
 													<img
-														width={80}
-														height={80}
+														width="30%"
+														height="30%"
 														src={mes.image ?? ""}
 														alt="image uploaded on chat"
 													/>
 												)}
 											</div>
 											<div className="flex space-x-2 ">
-												<p>{mes.text}</p>
-												<img
-													width={20}
-													height={20}
-													src={
-														mes.senderId === user.uid
-															? user.photoURL
-															: profileImage
-													}
-													alt="chat user image"
-												/>
+												<p className="bg-blue-400 p-2 rounded-2xl text-md">
+													{mes.text}
+												</p>
 											</div>
 										</>
 									) : (
 										<>
 											<div className="flex space-x-2 ">
-												<img
-													width={20}
-													height={20}
-													src={
-														mes.senderId === user.uid
-															? user.photoURL
-															: profileImage
-													}
-													alt="chat user image"
-												/>
-												<p>{mes.text}</p>
+												<p className="bg-gray-400 p-2 rounded-2xl ">
+													{mes.text}
+												</p>
 											</div>
-											<div className="flex pl-2">
+											<div className="flex pl-2 justify-start">
 												{mes.image && (
 													<img
-														width={80}
-														height={80}
+														width="30%"
+														height="30%"
 														src={mes.image ?? ""}
 														alt="image uploaded on chat"
 													/>

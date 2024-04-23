@@ -12,7 +12,7 @@ import { UserDataProps } from "../utilities/userDataProps";
 import { User, updateProfile } from "firebase/auth";
 import { setSnackBar, hideSnackbar } from "../../store/snackBarSlice";
 
-import Snackbar from "../utilities/snackbar";
+import Snackbar from "../utilities/Snackbar";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 type personalProps = {
 	userFirestoreData: UserDataProps | null;

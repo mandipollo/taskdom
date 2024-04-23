@@ -13,7 +13,7 @@ import {
 	serverTimestamp,
 } from "firebase/firestore";
 import { db } from "../../../firebase.config";
-import avatar from "../../assets/manAvatar.svg";
+
 import cross from "../../assets/cross.svg";
 
 type searchProps = {
@@ -23,6 +23,7 @@ type searchProps = {
 	contactNo: string | null;
 	workHours: string | null;
 	jobTitle: string | null;
+	defaultPic: string;
 };
 const SearchNavbar = ({
 	uid,
@@ -31,9 +32,11 @@ const SearchNavbar = ({
 	contactNo,
 	workHours,
 	jobTitle,
+	defaultPic,
 }: searchProps) => {
 	const [userName, setUserName] = useState<string>("");
 	const [users, setUsers] = useState<DocumentData[]>([]);
+
 	const [err, setErr] = useState<boolean>(false);
 
 	// handle displayName
@@ -79,32 +82,96 @@ const SearchNavbar = ({
 			return;
 		}
 
+		// try {
+		// 	const res = await getDoc(doc(db, "chats", combinedUserId));
+
+		// 	if (!res.exists()) {
+		// 		//create a chats in chat collection
+		// 		await setDoc(doc(db, "chats", combinedUserId), { message: [] });
+		// 	}
+		// 	//create userChats
+
+		// 	// update user's chat list
+		// 	await updateDoc(doc(db, "usersChat", uid), {
+		// 		[combinedUserId + ".userInfo"]: {
+		// 			uid: user.uid,
+		// 			profileImage: user.profileImage || null,
+		// 			displayName: user.displayName,
+		// 			contactNo: user.contactNo,
+		// 			workHours: user.workHours,
+		// 			jobTitle: user.jobTitle,
+		// 		},
+		// 		[combinedUserId + ".date"]: serverTimestamp(),
+		// 	});
+
+		// 	// update target user's chat list
+		// 	await updateDoc(doc(db, "usersChat", user.uid), {
+		// 		[combinedUserId + ".userInfo"]: {
+		// 			uid: uid,
+		// 			profileImage: profileImage || null,
+		// 			displayName: displayName,
+		// 			contactNo: contactNo,
+		// 			workHours: workHours,
+		// 			jobTitle: jobTitle,
+		// 		},
+		// 		[combinedUserId + ".date"]: serverTimestamp(),
+		// 	});
+
+		// 	console.log("connected");
+		// 	setUserName("");
+		// 	setUsers([]);
+		// } catch (err) {
+		// 	console.log(err);
+		// }
+
 		const combinedUserId = uid > user.uid ? uid + user.uid : user.uid + uid;
 
 		try {
-			const res = await getDoc(doc(db, "chats", combinedUserId));
+			// const parentRef = doc(db, "chats", combinedUserId);
+			// const subCollectionRef = collection(parentRef, "message");
 
-			if (!res.exists()) {
-				//create a chats in chat collection
-				await setDoc(doc(db, "chats", combinedUserId), { message: [] });
+			// await setDoc(doc(subCollectionRef), {});
+
+			//update user's chat list
+
+			// update the user's chat list
+
+			const userChatRef = doc(db, "usersChat", uid);
+			const userChatSnapshot = await getDoc(userChatRef);
+
+			// set if the userschat does not exist
+
+			if (userChatSnapshot.exists()) {
+				await updateDoc(doc(db, "usersChat", uid), {
+					[combinedUserId + ".userInfo"]: {
+						uid: user.uid,
+						profileImage: user.profileImage || null,
+						displayName: user.displayName,
+						contactNo: user.contactNo,
+						workHours: user.workHours,
+						jobTitle: user.jobTitle,
+					},
+					[combinedUserId + ".date"]: serverTimestamp(),
+				});
+			} else {
+				await setDoc(doc(db, "usersChat", uid), {
+					[combinedUserId + ".userInfo"]: {
+						uid: user.uid,
+						profileImage: user.profileImage || null,
+						displayName: user.displayName,
+						contactNo: user.contactNo,
+						workHours: user.workHours,
+						jobTitle: user.jobTitle,
+					},
+					[combinedUserId + ".date"]: serverTimestamp(),
+				});
 			}
-			//create userChats
 
-			await updateDoc(doc(db, "usersChat", uid), {
-				[combinedUserId + ".userInfo"]: {
-					uid: user.uid,
-					profileImage: user.profileImage,
-					displayName: user.displayName,
-					contactNo: user.contactNo,
-					workHours: user.workHours,
-					jobTitle: user.jobTitle,
-				},
-				[combinedUserId + ".date"]: serverTimestamp(),
-			});
+			// update target user's chat list
 			await updateDoc(doc(db, "usersChat", user.uid), {
 				[combinedUserId + ".userInfo"]: {
 					uid: uid,
-					profileImage: profileImage,
+					profileImage: profileImage || null,
 					displayName: displayName,
 					contactNo: contactNo,
 					workHours: workHours,
@@ -155,12 +222,18 @@ const SearchNavbar = ({
 							key={user.uid}
 							className=" flex flex-row space-x-2  items-center text-sm "
 						>
-							<img
-								src={user.profileImage || avatar}
-								width={30}
-								height={30}
-								alt="profile pic"
-							></img>
+							{profileImage ? (
+								<img
+									className="rounded-full w-10 h-10 object-cover"
+									src={profileImage}
+									alt="profile pic"
+								></img>
+							) : (
+								<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 text-black">
+									{defaultPic}
+								</span>
+							)}
+
 							<p>{user.displayName}</p>
 							<p className="sm:block hidden">
 								{user.jobTitle || "unavailable"}

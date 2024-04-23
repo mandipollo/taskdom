@@ -120,6 +120,7 @@ const Navbar: React.FC = () => {
 				{/* desktop menu */}
 				{user && (
 					<SearchNavbar
+						defaultPic={defaultPic}
 						uid={user.uid}
 						profileImage={profileImage}
 						displayName={displayName}
