@@ -20,3 +20,11 @@ export type TaskProps = {
 	title: string;
 	status: string;
 };
+
+export type MessageProps = {
+	date: string;
+	text?: string;
+	id: string;
+	senderId: string;
+	image?: string;
+};

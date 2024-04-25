@@ -5,10 +5,8 @@ import { useAppSelector } from "../../store/store";
 import { v4 as uuid } from "uuid";
 import {
 	Timestamp,
-	arrayUnion,
 	collection,
 	doc,
-	getDoc,
 	serverTimestamp,
 	setDoc,
 	updateDoc,

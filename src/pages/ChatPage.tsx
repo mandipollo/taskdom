@@ -1,14 +1,21 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { getDoc, doc, DocumentData, onSnapshot } from "firebase/firestore";
+import {
+	getDoc,
+	doc,
+	DocumentData,
+	onSnapshot,
+	collection,
+	query,
+} from "firebase/firestore";
 import { db } from "../../firebase.config";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { setUserChat } from "../store/chatSlice";
 import ChatMessage from "../components/chats/ChatMessage";
 import { SelectProps } from "../components/utilities/userDataProps";
-import ChatList from "../components/chats/ChatList";
+import ChatMemberList from "../components/chats/ChatMemberList";
 import { Unsubscribe } from "firebase/auth";
-
+import { MessageProps } from "../components/utilities/userDataProps";
 const ChatPage: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const uid = useAppSelector(state => state.auth.uid);
@@ -16,9 +23,11 @@ const ChatPage: React.FC = () => {
 
 	const chatId = chatUser.chatId;
 
-	const [chatList, setChatList] = useState<DocumentData[string]>([]);
+	const [chatMemberList, setChatMemberList] = useState<DocumentData[string]>(
+		[]
+	);
 
-	const [message, setMessage] = useState<DocumentData[string] | null>(null);
+	const [message, setMessage] = useState<DocumentData[] | null>(null);
 
 	// dispatch the selected user for chat state
 	const handleSelect = ({
@@ -47,7 +56,7 @@ const ChatPage: React.FC = () => {
 				const chat = Object.entries(res.data()).sort(
 					(a, b) => b[1].date - a[1].date
 				);
-				setChatList(chat);
+				setChatMemberList(chat);
 			}
 		};
 
@@ -62,13 +71,19 @@ const ChatPage: React.FC = () => {
 		let unsubscribe: Unsubscribe | undefined;
 
 		if (chatId) {
-			const docRef = doc(db, `chats/${chatId}`);
-			unsubscribe = onSnapshot(docRef, doc => {
-				if (doc.exists()) {
-					const message = doc.data().message || [];
-					const latestMessage = message.slice(-8);
-					setMessage(latestMessage);
-				}
+			const docRef = collection(doc(db, `chats/${chatId}`), "message");
+			const q = query(docRef);
+			unsubscribe = onSnapshot(q, snapshot => {
+				const messages: DocumentData[] = [];
+				snapshot.forEach(data => {
+					const message = data.data();
+					messages.push(message);
+				});
+
+				messages.sort((a, b) => {
+					return a.date - b.date;
+				});
+				setMessage(messages);
 			});
 		}
 
@@ -84,7 +99,10 @@ const ChatPage: React.FC = () => {
 			className="flex flex-col w-full space-y-4 "
 			style={{ height: " calc( 100vh - 3.5rem )" }}
 		>
-			<ChatList chatList={chatList} handleSelect={handleSelect} />
+			<ChatMemberList
+				chatMemberList={chatMemberList}
+				handleSelect={handleSelect}
+			/>
 			{chatId && <ChatMessage chatUser={chatUser} message={message} />}
 		</div>
 	);
