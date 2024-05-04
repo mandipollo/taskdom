@@ -63,7 +63,7 @@ const Root = () => {
 			</header>
 			<main className="main flex flex-1 ">
 				{userState.uid && (
-					<div className="flex w-1/6">
+					<div className="flex">
 						<Sidebar />
 					</div>
 				)}

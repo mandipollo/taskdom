@@ -3,6 +3,8 @@ import { DocumentData } from "firebase/firestore";
 import ChatInput from "./ChatInput";
 import { useAppSelector } from "../../store/store";
 import TargetChatUser from "./TargetChatUser";
+import Agora from "./agora";
+// import VideoCall from "./VideoCall";
 
 type chatUserProps = {
 	chatUser: {
@@ -16,6 +18,9 @@ type chatUserProps = {
 	message: DocumentData[string] | null;
 };
 const ChatMessage: React.FC<chatUserProps> = ({ chatUser, message }) => {
+	// call state
+
+	const isJoined = useAppSelector(state => state.agora.isJoined);
 	const chatId = chatUser.chatId;
 	const user = useAppSelector(state => state.auth);
 
@@ -37,14 +42,18 @@ const ChatMessage: React.FC<chatUserProps> = ({ chatUser, message }) => {
 	return (
 		<div className="flex w-full flex-1 flex-col border border-[#30363E] overflow-hidden ">
 			<TargetChatUser
+				isJoined={isJoined}
 				displayName={displayName}
 				profileImage={profileImage}
 				defaultImage={defaultImage}
 			/>
-
-			<div className="flex relative flex-col flex-1 p-2 bg-[rgb(0,4,8)] overflow-auto">
-				<div className="flex relative overflow-scroll mb-4 ">
-					<ul className="flex w-full h-full flex-col space-y-4 ">
+			<Agora />
+			<div className="flex relative flex-col flex-1 p-2 bg-[rgb(0,4,8)] overflow-hidden">
+				<div
+					className="flex  overflow-auto mb-4 "
+					style={{ maxHeight: "calc( 100% - 5rem)" }}
+				>
+					<ul className="flex flex-1 w-full h-full flex-col space-y-4 ">
 						{message &&
 							message.map((mes: DocumentData) => (
 								<li

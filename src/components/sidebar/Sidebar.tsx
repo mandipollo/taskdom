@@ -8,6 +8,7 @@ import chat from "../../assets/chat.svg";
 import setting from "../../assets/setting.svg";
 import logout from "../../assets/logout.svg";
 import add from "../../assets/add.svg";
+import collapse from "../../assets/collapse-all-svgrepo-com.svg";
 
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -32,8 +33,24 @@ import {
 const Sidebar: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+
+	// toggle button
+
+	const [open, setOpen] = useState<boolean>(false);
+
+	const handlerToggle = (): void => {
+		setOpen(!open);
+	};
+
+	const hamburgerTop = `hamburger-top ${open && "open"}`;
+	const hamburgerMiddle = `hamburger-middle ${open && "open"}`;
+	const hamburgerBottom = `hamburger-bottom ${open && "open"}`;
+	const menu = `flex justify-center items-center button z-50 block hamburger focus:outline-none${
+		open && "open"
+	}`;
+
 	const classBtn = "flex flex-row space-x-2 hover:underline ";
-	const classP = "lg:block hidden";
+	const classP = `${open ? "hidden" : "block"}`;
 
 	const userId = useAppSelector(state => state.auth.uid);
 	const projectCollectionRef = doc(db, `projects/${userId}`);
@@ -131,7 +148,7 @@ const Sidebar: React.FC = () => {
 		};
 	}, [userId]);
 	return (
-		<div className="flex flex-col w-full items-center border border-[#30363E] bg-[#0D1117] ">
+		<div className="flex flex-col w-full items-center border border-[#30363E] bg-[#0D1117] px-4">
 			{toggleForm && (
 				<div
 					className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10"
@@ -149,7 +166,17 @@ const Sidebar: React.FC = () => {
 				/>
 			)}
 
-			<ul className="flex flex-col space-y-6 md:pt-20 pt-10">
+			<ul className="flex flex-col space-y-6 pt-10">
+				<li>
+					<button
+						onClick={handlerToggle}
+						id="menu-btn"
+						type="button"
+						className={menu}
+					>
+						<img src={collapse} width={20} height={20} alt="collapse" />
+					</button>
+				</li>
 				<li>
 					<Link to="userDashboard">
 						<button className={classBtn}>

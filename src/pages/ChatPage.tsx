@@ -15,7 +15,7 @@ import ChatMessage from "../components/chats/ChatMessage";
 import { SelectProps } from "../components/utilities/userDataProps";
 import ChatMemberList from "../components/chats/ChatMemberList";
 import { Unsubscribe } from "firebase/auth";
-import { MessageProps } from "../components/utilities/userDataProps";
+
 const ChatPage: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const uid = useAppSelector(state => state.auth.uid);
@@ -69,7 +69,6 @@ const ChatPage: React.FC = () => {
 
 	useEffect(() => {
 		let unsubscribe: Unsubscribe | undefined;
-
 		if (chatId) {
 			const docRef = collection(doc(db, `chats/${chatId}`), "message");
 			const q = query(docRef);
@@ -79,14 +78,12 @@ const ChatPage: React.FC = () => {
 					const message = data.data();
 					messages.push(message);
 				});
-
 				messages.sort((a, b) => {
 					return a.date - b.date;
 				});
 				setMessage(messages);
 			});
 		}
-
 		return () => {
 			if (unsubscribe) {
 				unsubscribe();
@@ -96,7 +93,7 @@ const ChatPage: React.FC = () => {
 
 	return (
 		<div
-			className="flex flex-col w-full space-y-4 "
+			className="flex flex-row w-full "
 			style={{ height: " calc( 100vh - 3.5rem )" }}
 		>
 			<ChatMemberList

@@ -1,3 +1,5 @@
+import { ICameraVideoTrack, IMicrophoneAudioTrack } from "agora-rtc-sdk-ng";
+
 export type UserDataProps = {
 	displayName: string;
 	contactNo: string | null;
@@ -21,10 +23,8 @@ export type TaskProps = {
 	status: string;
 };
 
-export type MessageProps = {
-	date: string;
-	text?: string;
-	id: string;
-	senderId: string;
-	image?: string;
+export type UserCallProps = {
+	uid: number | string;
+	videoTrack: ICameraVideoTrack | undefined;
+	audioTrack: IMicrophoneAudioTrack | undefined;
 };
