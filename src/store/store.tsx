@@ -7,7 +7,6 @@ import email from "./emailSlice";
 import auth from "./authSlice";
 import chat from "./chatSlice";
 import snackBar from "./snackBarSlice";
-import agoraReducer from "./agoraSlice";
 
 import userFirestoreData from "./userFirestoreData";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
@@ -18,7 +17,6 @@ const rootReducer = combineReducers({
 	auth,
 	chat,
 	snackBar,
-	agora: agoraReducer,
 });
 
 const persistConfig = {

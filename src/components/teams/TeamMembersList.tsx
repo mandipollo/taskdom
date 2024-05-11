@@ -24,14 +24,12 @@ const TeamMembersList: React.FC<teamMemberProps> = ({
 									profileImage: team[1].userInfo.profileImage,
 								})
 							}
-							className="flex flex-row text-gray-400 hover:text-[#E6EDF3] hover:cursor-pointer h-32 justify-center items-center space-x-4 border border-[#30363E] bg-[#161B22] w-60"
+							className="flex flex-ro h-24 px-4 text-gray-400 hover:text-[#E6EDF3] hover:cursor-pointer justify-center items-center space-x-4 border border-[#30363E] bg-[#161B22]"
 							key={team[1].userInfo.uid}
 						>
 							{team[1].userInfo.profileImage ? (
 								<img
-									className="rounded-full"
-									height={50}
-									width={50}
+									className="rounded-full w-10 h-10 object-cover"
 									src={team[1].userInfo.profileImage}
 									alt="team member"
 								/>

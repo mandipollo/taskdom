@@ -17,6 +17,7 @@ import TeamsPage from "./pages/TeamsPage";
 import ChatPage from "./pages/ChatPage";
 import ProjectPage from "./pages/ProjectPage";
 import TaskPage from "./pages/TaskPage";
+import ProjectsHomePage from "./pages/ProjectsHomePage";
 
 let persistor = persistStore(store);
 
@@ -48,6 +49,11 @@ const Route = createBrowserRouter([
 				element: <TeamsPage />,
 			},
 			{ path: "chats", element: <ChatPage /> },
+
+			{
+				path: "projects",
+				element: <ProjectsHomePage />,
+			},
 			{ path: "projects/:projectId", element: <ProjectPage /> },
 			{ path: "tasks", element: <TaskPage /> },
 		],

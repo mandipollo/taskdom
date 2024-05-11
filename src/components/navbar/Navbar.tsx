@@ -139,7 +139,6 @@ const Navbar: React.FC = () => {
 			{user ? (
 				<Link to="/accountSetting">
 					<div className=" h-full flex justify-center items-center space-x-2 hover:cursor-pointer ">
-						<p className="sm:block hidden">Hello,</p>
 						<p className="font-mono sm:block hidden text-[#508D69]">
 							{auth.currentUser?.displayName}
 						</p>

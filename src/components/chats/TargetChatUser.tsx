@@ -1,26 +1,12 @@
 import React from "react";
 import dotMenu from "../../assets/dotMenu.svg";
 import call from "../../assets/call.svg";
-import hangup from "../../assets/hangup-phone-svgrepo-com.svg";
-import { useAppDispatch } from "../../store/store";
-import { setIsJoined } from "../../store/agoraSlice";
+
 type targetChatUserProps = {
-	profileImage: string | undefined;
 	displayName: string | null;
-	defaultImage: string | undefined;
-	isJoined: boolean;
 };
 
-const TargetChatUser: React.FC<targetChatUserProps> = ({
-	profileImage,
-	displayName,
-	defaultImage,
-	isJoined,
-}) => {
-	const dispatch = useAppDispatch();
-
-	console.log(isJoined);
-
+const TargetChatUser: React.FC<targetChatUserProps> = ({ displayName }) => {
 	return (
 		<div className="flex w-full h-20 items-center justify-center ">
 			<div className="flex w-80 h-full p-4 ">
@@ -30,13 +16,7 @@ const TargetChatUser: React.FC<targetChatUserProps> = ({
 					</div>
 					<div className="flex p-2 space-x-2">
 						<button>
-							<img
-								height={20}
-								width={20}
-								src={isJoined ? hangup : call}
-								alt="call"
-								onClick={() => dispatch(setIsJoined())}
-							/>
+							<img height={20} width={20} src={call} alt="call" />
 						</button>
 						<button>
 							<img height={20} width={20} src={dotMenu} alt="menu" />

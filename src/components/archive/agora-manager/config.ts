@@ -25,7 +25,7 @@ const config: configType = {
 	appId: "57ef537f90c24a8ab6e71cc13d4a4473",
 	channelName: "test",
 	rtcToken:
-		"007eJxTYHi+ye/TC6fnN8xtnjxQO1C5rUrqtl5/5uJ27TlMjd7pnxcoMJiap6aZGpunWRokG5kkWiQmmaWaGyYnGxqnmCSamJgbB1mYpTUEMjK0bvzGwsgAgSA+C0NJanEJAwMA7EohIQ==",
+		"007eJxTYGh4s2r27cAvK/74fuu6x5ViKflC9vU906wOBye1ruyquJkKDKbmqWmmxuZplgbJRiaJFolJZqnmhsnJhsYpJokmJubGG2ZapDUEMjJ8vnyagREKQXwWhpLU4hIGBgDu2iHK",
 	serverUrl: "",
 	proxyUrl: "http://localhost:8080/",
 	tokenExpiryTime: 600,

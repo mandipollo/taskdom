@@ -11,7 +11,7 @@ const ChatMemberList: React.FC<chatMemberListProps> = ({
 	handleSelect,
 }) => {
 	return (
-		<ul className="flex">
+		<ul className="flex flex-col">
 			{chatMemberList &&
 				chatMemberList.map((chat: DocumentData[string]) => (
 					<li
@@ -29,8 +29,7 @@ const ChatMemberList: React.FC<chatMemberListProps> = ({
 						<div className="flex rounded-full">
 							{chat[1].userInfo.profileImage ? (
 								<img
-									width="100%"
-									height="100%"
+									className="rounded-full w-10 h-10 object-cover"
 									src={chat[1].userInfo.profileImage}
 									alt="user profile pic"
 								/>
@@ -45,7 +44,6 @@ const ChatMemberList: React.FC<chatMemberListProps> = ({
 							<div className="flex uppercase text-md">
 								{chat[1].userInfo.displayName}
 							</div>
-							<div className="flex">{chat[1].userInfo.jobTitle}</div>
 						</div>
 					</li>
 				))}
