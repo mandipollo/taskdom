@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
-import TodoLists from "../components/tasks/TodoLists";
-import ProgressLists from "../components/tasks/ProgressLists";
-import CompleteLists from "../components/tasks/CompleteLists";
+import TodoLists from "../components/task/TodoLists";
+import ProgressLists from "../components/task/ProgressLists";
+import CompleteLists from "../components/task/CompleteLists";
 import { useAppSelector } from "../store/store";
 import {
 	DocumentData,

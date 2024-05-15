@@ -1,5 +1,5 @@
 import React from "react";
-import close from "../../assets/cross.svg";
+import close from "../../../assets/cross.svg";
 
 type TaskInputProps = {
 	handleToggleForm: () => void;

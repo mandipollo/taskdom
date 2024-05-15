@@ -28,3 +28,19 @@ export type UserCallProps = {
 	videoTrack: ICameraVideoTrack | undefined;
 	audioTrack: IMicrophoneAudioTrack | undefined;
 };
+
+export type ProjectListProps = {
+	status: string;
+	description: string;
+	title: string;
+	id: string;
+	teamLeadPhoto: string;
+	teamLeadName: string;
+}[];
+
+export type ProjectProps = {
+	id: string;
+	status: string;
+	description: string;
+	title: string;
+};

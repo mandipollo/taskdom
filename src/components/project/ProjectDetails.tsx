@@ -1,43 +1,75 @@
-import React from "react";
+import React, { useState } from "react";
 import team from "../../assets/teams.svg";
 
 type ProjectDetailsProps = {
-	projectDetails: {
-		id: string;
-		title: string;
-		description: string;
-		status: string;
-	} | null;
+	id: string;
+	status: string;
+	teamLeadName: string;
+	teamLeadPhoto: string;
+	title: string;
+	description: string;
 };
+const ProjectDetails: React.FC<ProjectDetailsProps> = ({
+	id,
+	status,
+	teamLeadName,
+	teamLeadPhoto,
+	title,
+	description,
+}) => {
+	const [showMore, setShowMore] = useState<boolean>(false);
 
-const ProjectDetails: React.FC<ProjectDetailsProps> = ({ projectDetails }) => {
+	const handleToggleDescription = () => {
+		setShowMore(!showMore);
+	};
+
 	return (
-		<div className="h-32  flex flex-row space-x-2 border-b border-[#30363E]">
-			<div className="flex h-full flex-col">
-				<div className="flex h-full  w-full items-center space-x-4">
-					<p className="text-bold text-lg">Project Board</p>
-					<p className="text-gray-400">{projectDetails?.title}</p>
-					<p className="text-[#508D69]">
-						<span
-							className="inline-block w-2 h-2 bg-green-500 rounded-full mr-2"
-							title="Project status: TBC"
-						></span>
-						{projectDetails?.status}
-					</p>
-				</div>
-				<div className="flex h-full items-center w-full space-x-4">
-					<img src={team} width={20} height={20}></img>
-					<p>assigned to project</p>
-					<button className="flex flex-row rounded-md bg-[#508D69] p-2">
-						<p className="text-sm">Add member</p>
+		<div className=" flex flex-row space-x-2 border-b border-[#30363E]">
+			<div className="flex h-full flex-col w-full">
+				<div className="flex h-full  w-full items-center justify-between ">
+					<p className="text-xl">{title}</p>
+					<button
+						onClick={() => handleToggleDescription()}
+						className="mt-2 cursor-pointer w-40  p-2 border border-[#30363E] bg-[#0D1117]"
+						id="toggleButton"
+					>
+						{showMore ? "Hide" : "Project outline"}
 					</button>
 				</div>
-			</div>
 
-			<div className="flex flex-1 h-full  ">
-				<p className="text-gray-400 text-sm pt-4">
-					{projectDetails?.description}
-				</p>
+				<div
+					className={`${
+						showMore ? "h-auto" : " h-0 "
+					} overflow-hidden transition-height duration-500 ease-in-out `}
+				>
+					<p className="text-gray-400">{description}</p>
+				</div>
+
+				<div className="flex h-full items-center w-full py-2  justify-between">
+					<div className="flex items-center space-x-2 ">
+						<p className="text-gray-400">Team Lead:</p>
+						<p className=" text-sm">{teamLeadName.toUpperCase()}</p>
+						{teamLeadPhoto ? (
+							<img
+								src={teamLeadPhoto}
+								className="rounded-full w-8 h-8 object-cover"
+							></img>
+						) : (
+							<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 text-black">
+								{teamLeadName.charAt(0).toUpperCase()}
+							</span>
+						)}
+					</div>
+					<div className="flex flex-row space-x-2">
+						<img src={team} width={20} height={20}></img>
+						<span className=" flex  justify-center items-center text-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
+							{teamLeadName.charAt(0).toUpperCase()}
+						</span>
+						<span className=" flex  justify-center items-center text-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
+							{teamLeadName.charAt(0).toUpperCase()}
+						</span>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

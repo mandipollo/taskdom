@@ -12,7 +12,7 @@ import collapse from "../../assets/collapse-all-svgrepo-com.svg";
 
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useAppDispatch } from "../../store/store";
 import signOutUser from "../../firebaseAuth/signOutUser";
 import { resetUserFirestoreData } from "../../store/userFirestoreData";
 
@@ -73,12 +73,10 @@ const Sidebar: React.FC = () => {
 				</li>
 
 				<li>
-					<Link to="tasks">
-						<button className={classBtn}>
-							<img src={task} width={20} height={20} alt="task" />
-							<p className={classP}>Task</p>
-						</button>
-					</Link>
+					<button className={classBtn}>
+						<img src={task} width={20} height={20} alt="task" />
+						<p className={classP}>Personal Task</p>
+					</button>
 				</li>
 				<li>
 					<Link to="/teams">
