@@ -1,12 +1,15 @@
 import {
 	DocumentData,
-	arrayUnion,
+	Timestamp,
+	Unsubscribe,
+	collection,
 	doc,
 	getDoc,
-	updateDoc,
+	onSnapshot,
+	setDoc,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { db } from "../../firebase.config";
 import { useAppSelector } from "../store/store";
 import add from "../assets/add.svg";
@@ -14,26 +17,61 @@ import ProjectDetails from "../components/project/ProjectDetails";
 import TaskInput from "../components/project/task/TaskInput";
 import { v4 as uuid } from "uuid";
 import Tasks from "../components/project/task/Tasks";
+import AddTeamMembers from "../components/project/AddTeamMembers";
+
 const ProjectsPage = () => {
-	const { id, description, status, teamLeadName, teamLeadPhoto, title } =
-		useLocation().state;
+	// const { id, description, status, teamLeadName, teamLeadPhoto, title } =
+	// 	useLocation().state;
 
 	const userUid = useAppSelector(state => state.auth.uid);
 
+	const url = useParams();
+	const [projectData, setProjectData] = useState<DocumentData | undefined>(
+		undefined
+	);
+
+	// retreive project data
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const docRef = doc(db, `projects/${userUid}/projects/${url.projectId}`);
+			const data = await getDoc(docRef);
+			if (data.exists()) {
+				setProjectData(data.data());
+			}
+		};
+
+		fetchData();
+	}, []);
+
 	const [toggleForm, setToggleForm] = useState<boolean>(false);
+	const [toggleAddTeamMembers, setToggleAddTeamMembers] =
+		useState<boolean>(false);
+
+	// project firebase ref
 
 	// task
-
+	const [taskList, setTaskList] = useState<
+		{
+			title: string;
+			id: string;
+			description: string;
+			targetDate: Timestamp;
+			status: string;
+			priority: string;
+		}[]
+	>([]);
 	const [taskTitle, setTaskTitle] = useState<string>("");
+	const [priority, setPriority] = useState<string>("Low");
 	const [taskDescription, setTaskDescription] = useState<string>("");
-	const [task, setTask] = useState<{
-		id: string;
-		title: string;
-		description: string;
-		status: string;
-	} | null>(null);
-	// fetch project deatils
 
+	const [targetDate, setTargetDate] = useState<Date | null>(new Date());
+
+	// team members
+
+	const handleToggleAddTeamMembers = () => {
+		setToggleAddTeamMembers(!toggleAddTeamMembers);
+	};
 	// task
 
 	const handleToggleForm = () => {
@@ -43,46 +81,101 @@ const ProjectsPage = () => {
 	const handleTaskTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setTaskTitle(e.target.value);
 	};
-	const handleTaskDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleTaskDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setTaskDescription(e.target.value);
 	};
-
-	const handleTestTask = async (e: React.FormEvent) => {
-		const projectRef = doc(db, `projects/${userUid}`);
+	const handlePriority = (e: string) => {
+		setPriority(e);
 	};
+
+	// retrieve tasks collection
+
+	useEffect(() => {
+		let unsubscribe: Unsubscribe | undefined;
+
+		if (userUid && projectData) {
+			const taskRef = collection(
+				db,
+				`projects/${userUid}/projects/${projectData.id}/tasks`
+			);
+			unsubscribe = onSnapshot(taskRef, snapshot => {
+				setTaskList([]);
+				snapshot.forEach(doc => {
+					const data: any = doc.data();
+					setTaskList(prev => [...prev, data]);
+				});
+			});
+		}
+
+		return () => {
+			if (unsubscribe) {
+				unsubscribe();
+			}
+		};
+	}, [userUid]);
+
 	const handleTaskSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		const projectRef = doc(db, `projects/${userUid}`);
 
-		if (taskDescription && taskTitle) {
+		if (taskDescription && taskTitle && projectData) {
+			const taskRef = collection(
+				db,
+				`projects/${userUid}/projects/${projectData.id}/tasks`
+			);
+			let id = uuid();
 			const newTask = {
-				id: uuid(),
+				id,
 				title: taskTitle,
 				description: taskDescription,
 				status: "Todo",
+				priority: priority,
+				targetDate: targetDate,
 			};
 
-			const doc = await getDoc(projectRef);
-			console.log(doc);
-
-			if (doc.exists()) {
-				const projectIndex = doc
-					.data()
-					.projects.findIndex((project: DocumentData) => project.id === id);
-
-				if (projectIndex !== -1) {
-					const taskRef = doc.data().projects[projectIndex];
-					await updateDoc(taskRef, {
-						tasks: arrayUnion(newTask),
-					});
-				}
-			}
+			await setDoc(doc(taskRef, id), newTask);
 
 			setTaskDescription("");
 			setTaskTitle("");
 			setToggleForm(!toggleForm);
 		}
 	};
+
+	// team member collection
+
+	const [teamMembers, setTeamMembers] = useState<
+		{
+			contactNo: string;
+			displayName: string;
+			email: string;
+			jobTitle: string;
+			profileImage: string;
+			uid: string;
+			workHours: string;
+		}[]
+	>([]);
+	useEffect(() => {
+		let unsubscribe: Unsubscribe | undefined;
+
+		if (userUid && projectData) {
+			const teamMemberRef = collection(
+				db,
+				`projects/${userUid}/projects/${projectData.id}/teamMember`
+			);
+			unsubscribe = onSnapshot(teamMemberRef, snapshot => {
+				setTeamMembers([]);
+				snapshot.forEach(doc => {
+					const data: any = doc.data();
+					setTeamMembers(prev => [...prev, data]);
+				});
+			});
+		}
+
+		return () => {
+			if (unsubscribe) {
+				unsubscribe();
+			}
+		};
+	}, [userUid, projectData]);
 	return (
 		<div
 			className="flex relative flex-col w-full p-4 overflow-auto"
@@ -94,8 +187,12 @@ const ProjectsPage = () => {
 					onClick={handleToggleForm}
 				></div>
 			)}
+
 			{toggleForm && (
 				<TaskInput
+					targetDate={targetDate}
+					setTargetDate={setTargetDate}
+					handlePriority={handlePriority}
 					taskTitle={taskTitle}
 					taskDescription={taskDescription}
 					handleToggleForm={handleToggleForm}
@@ -104,14 +201,28 @@ const ProjectsPage = () => {
 					handleTaskSubmit={handleTaskSubmit}
 				/>
 			)}
-			<ProjectDetails
-				id={id}
-				description={description}
-				teamLeadName={teamLeadName}
-				teamLeadPhoto={teamLeadPhoto}
-				title={title}
-				status={status}
-			/>
+			{toggleAddTeamMembers && (
+				<div
+					className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10"
+					onClick={handleToggleAddTeamMembers}
+				></div>
+			)}
+			{toggleAddTeamMembers && projectData && (
+				<AddTeamMembers
+					projectData={projectData}
+					userUid={userUid}
+					handleToggleAddTeamMembers={handleToggleAddTeamMembers}
+				/>
+			)}
+
+			{projectData && (
+				<ProjectDetails
+					teamMembers={teamMembers}
+					handleToggleAddTeamMembers={handleToggleAddTeamMembers}
+					projectData={projectData}
+				/>
+			)}
+
 			<div className="h-20 p-2 flex items-center">
 				<button
 					onClick={handleToggleForm}
@@ -121,7 +232,7 @@ const ProjectsPage = () => {
 					<p>Add Task</p>
 				</button>
 			</div>
-			<Tasks />
+			<Tasks taskList={taskList} />
 		</div>
 	);
 };

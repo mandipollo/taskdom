@@ -82,9 +82,9 @@ const Navbar: React.FC = () => {
 			{/* logo medium screen */}
 
 			<Link to={linkHomeLogo}>
-				<div className="hidden md:flex w-40  justify-center items-center space-x-4 h-full">
+				<div className="hidden md:flex w-10  justify-center items-center space-x-4 h-full">
 					<img src={logo} alt="logo" height={20} width={20} />
-					<p className="font-mono text-lg font-thin ">TASKDOM</p>
+					{/* <p className="font-mono text-lg font-thin ">TASKDOM</p> */}
 				</div>
 			</Link>
 

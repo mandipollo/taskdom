@@ -1,22 +1,26 @@
 import React, { useState } from "react";
 import team from "../../assets/teams.svg";
+import { DocumentData, limit } from "firebase/firestore";
 
 type ProjectDetailsProps = {
-	id: string;
-	status: string;
-	teamLeadName: string;
-	teamLeadPhoto: string;
-	title: string;
-	description: string;
+	projectData: DocumentData;
+	handleToggleAddTeamMembers: () => void;
+	teamMembers: {
+		contactNo: string;
+		displayName: string;
+		email: string;
+		jobTitle: string;
+		profileImage: string;
+		uid: string;
+		workHours: string;
+	}[];
 };
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({
-	id,
-	status,
-	teamLeadName,
-	teamLeadPhoto,
-	title,
-	description,
+	projectData,
+	handleToggleAddTeamMembers,
+	teamMembers,
 }) => {
+	const { id, description, title, teamLeadName, teamLeadPhoto } = projectData;
 	const [showMore, setShowMore] = useState<boolean>(false);
 
 	const handleToggleDescription = () => {
@@ -61,13 +65,36 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 						)}
 					</div>
 					<div className="flex flex-row space-x-2">
-						<img src={team} width={20} height={20}></img>
-						<span className=" flex  justify-center items-center text-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
-							{teamLeadName.charAt(0).toUpperCase()}
-						</span>
-						<span className=" flex  justify-center items-center text-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
-							{teamLeadName.charAt(0).toUpperCase()}
-						</span>
+						<button
+							onClick={handleToggleAddTeamMembers}
+							className="flex flex-row space-x-2 p-2 border border-[#30363E] bg-[#0D1117] "
+						>
+							<img src={team} alt="team invite" width={20} height={20} />
+
+							<p className="text-gray-400">Invite Team Members</p>
+						</button>
+
+						{teamMembers && (
+							<ul className="flex flex-row justify-center items-center">
+								{teamMembers.map(member => (
+									<li
+										className="flex justify-center items-center "
+										key={member.uid}
+									>
+										{member.profileImage ? (
+											<img
+												src={member.profileImage}
+												className="rounded-full w-8 h-8 object-cover"
+											></img>
+										) : (
+											<span className="flex justify-center items-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
+												{member.displayName.charAt(0).toUpperCase()}
+											</span>
+										)}
+									</li>
+								))}
+							</ul>
+						)}
 					</div>
 				</div>
 			</div>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import dashboard from "../../assets/dashboard.svg";
 import project from "../../assets/project.svg";
-import task from "../../assets/task.svg";
 
 import teams from "../../assets/teams.svg";
 import chat from "../../assets/chat.svg";
@@ -72,12 +71,6 @@ const Sidebar: React.FC = () => {
 					</Link>
 				</li>
 
-				<li>
-					<button className={classBtn}>
-						<img src={task} width={20} height={20} alt="task" />
-						<p className={classP}>Personal Task</p>
-					</button>
-				</li>
 				<li>
 					<Link to="/teams">
 						<button className={classBtn}>
