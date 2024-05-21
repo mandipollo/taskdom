@@ -2,12 +2,12 @@ import { ICameraVideoTrack, IMicrophoneAudioTrack } from "agora-rtc-sdk-ng";
 
 export type UserDataProps = {
 	displayName: string;
-	contactNo: string | null;
-	jobTitle: string | null;
+	contactNo: string;
+	jobTitle: string;
 	email: string;
 	uid: string;
-	workHours: string | null;
-	profileImage: string | undefined;
+	workHours: string;
+	profileImage: string;
 };
 
 export type SelectProps = {

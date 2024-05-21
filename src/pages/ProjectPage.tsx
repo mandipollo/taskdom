@@ -9,7 +9,7 @@ import {
 	setDoc,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { db } from "../../firebase.config";
 import { useAppSelector } from "../store/store";
 import add from "../assets/add.svg";
@@ -19,10 +19,16 @@ import { v4 as uuid } from "uuid";
 import Tasks from "../components/project/task/Tasks";
 import AddTeamMembers from "../components/project/AddTeamMembers";
 
+interface teamMember {
+	contactNo: string;
+	displayName: string;
+	email: string;
+	jobTitle: string;
+	profileImage: string;
+	uid: string;
+	workHours: string;
+}
 const ProjectsPage = () => {
-	// const { id, description, status, teamLeadName, teamLeadPhoto, title } =
-	// 	useLocation().state;
-
 	const userUid = useAppSelector(state => state.auth.uid);
 
 	const url = useParams();
@@ -102,6 +108,7 @@ const ProjectsPage = () => {
 				setTaskList([]);
 				snapshot.forEach(doc => {
 					const data: any = doc.data();
+
 					setTaskList(prev => [...prev, data]);
 				});
 			});
@@ -112,7 +119,7 @@ const ProjectsPage = () => {
 				unsubscribe();
 			}
 		};
-	}, [userUid]);
+	}, [userUid, projectData]);
 
 	const handleTaskSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -142,17 +149,8 @@ const ProjectsPage = () => {
 
 	// team member collection
 
-	const [teamMembers, setTeamMembers] = useState<
-		{
-			contactNo: string;
-			displayName: string;
-			email: string;
-			jobTitle: string;
-			profileImage: string;
-			uid: string;
-			workHours: string;
-		}[]
-	>([]);
+	const [teamMembers, setTeamMembers] = useState<teamMember[]>([]);
+
 	useEffect(() => {
 		let unsubscribe: Unsubscribe | undefined;
 
@@ -161,11 +159,18 @@ const ProjectsPage = () => {
 				db,
 				`projects/${userUid}/projects/${projectData.id}/teamMember`
 			);
-			unsubscribe = onSnapshot(teamMemberRef, snapshot => {
+			unsubscribe = onSnapshot(teamMemberRef, async snapshot => {
 				setTeamMembers([]);
-				snapshot.forEach(doc => {
-					const data: any = doc.data();
-					setTeamMembers(prev => [...prev, data]);
+
+				snapshot.forEach(async member => {
+					const { uid }: DocumentData = member.data();
+					const ref = doc(db, `users`, uid);
+					const memberData = await getDoc(ref);
+					if (memberData.exists()) {
+						const data = memberData.data() as teamMember;
+
+						setTeamMembers(prev => [...prev, data]);
+					}
 				});
 			});
 		}
@@ -176,6 +181,7 @@ const ProjectsPage = () => {
 			}
 		};
 	}, [userUid, projectData]);
+
 	return (
 		<div
 			className="flex relative flex-col w-full p-4 overflow-auto"

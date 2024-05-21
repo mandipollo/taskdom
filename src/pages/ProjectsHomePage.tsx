@@ -61,6 +61,7 @@ const ProjectsHomePage: React.FC = () => {
 				setProjectList([]);
 				snapshot.forEach(doc => {
 					const data: any = doc.data();
+
 					setProjectList(prev => [...prev, data]);
 				});
 			});

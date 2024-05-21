@@ -94,6 +94,7 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 			}
 		} catch (err) {
 			setErr(true);
+			console.log(err);
 		}
 	};
 
@@ -129,7 +130,7 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 									></img>
 								) : (
 									<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 text-black">
-										{user.displayName?.charAt(0).uppercase() || "N"}
+										{user.displayName.charAt(0).toUpperCase()}
 									</span>
 								)}
 

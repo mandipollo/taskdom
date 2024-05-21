@@ -50,16 +50,6 @@ const ProjectLists: React.FC<ProjectlistProps> = ({ projectList }) => {
 										)}
 										<p className="text-gray-400">{project.teamLeadName}</p>
 									</div>
-
-									<div className="flex flex-1 items-center justify-center gap-1">
-										<p>Team members</p>
-										<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 text-black">
-											{project.teamLeadName.charAt(0).toUpperCase()}
-										</span>
-										<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 text-black">
-											{project.teamLeadName.charAt(0).toUpperCase()}
-										</span>
-									</div>
 								</div>
 							</div>
 						</Link>

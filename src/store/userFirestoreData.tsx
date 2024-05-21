@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserDataProps } from "../components/utilities/userDataProps";
 
 const initialUserData: UserDataProps = {
-	contactNo: null,
+	contactNo: "",
 	displayName: "",
 	email: "",
-	jobTitle: null,
-	profileImage: undefined,
+	jobTitle: "",
+	profileImage: "",
 	uid: "",
-	workHours: null,
+	workHours: "",
 };
 const userFirestoreData = createSlice({
 	name: "userData",

@@ -8,7 +8,7 @@ const ProjectNav: React.FC = () => {
 	return (
 		<div className="flex flex-row w-full gap-2  ">
 			<div className="flex w-1/2 items-center gap-4">
-				<p className="text-gray-400">All projects</p>
+				<p className="underline underline-offset-4 ">All projects</p>
 				<p className="text-gray-400">Critical projects</p>
 				<p className="text-gray-400">Completed projects</p>
 			</div>

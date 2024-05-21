@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import team from "../../assets/teams.svg";
-import { DocumentData, limit } from "firebase/firestore";
+import { DocumentData } from "firebase/firestore";
 
 type ProjectDetailsProps = {
 	projectData: DocumentData;
@@ -71,7 +71,9 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 						>
 							<img src={team} alt="team invite" width={20} height={20} />
 
-							<p className="text-gray-400">Invite Team Members</p>
+							{!teamMembers && (
+								<p className="text-gray-400">Invite Team Members</p>
+							)}
 						</button>
 
 						{teamMembers && (

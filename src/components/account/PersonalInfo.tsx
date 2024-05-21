@@ -35,8 +35,8 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 		userFirestoreData || {
 			displayName: "",
 			contactNo: "",
-			workHours: null,
-			jobTitle: null,
+			workHours: "",
+			jobTitle: "",
 			uid: "",
 			profileImage: "",
 		};
@@ -46,10 +46,10 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 	const defaultPic = displayName.charAt(0).toUpperCase();
 	//inputs
 	const [error, setError] = useState<boolean>(false);
-	const [job, setJob] = useState<string | null>(null);
-	const [name, setName] = useState<string | null>(null);
-	const [workTime, setWorkTime] = useState<string | null>(null);
-	const [contactPh, setContactPh] = useState<string | null>(null);
+	const [job, setJob] = useState<string>("");
+	const [name, setName] = useState<string>("");
+	const [workTime, setWorkTime] = useState<string>("");
+	const [contactPh, setContactPh] = useState<string>("");
 	const [user, setUser] = useState<User | null>(null);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
