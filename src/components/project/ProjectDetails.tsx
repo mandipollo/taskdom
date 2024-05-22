@@ -20,12 +20,15 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 	handleToggleAddTeamMembers,
 	teamMembers,
 }) => {
-	const { id, description, title, teamLeadName, teamLeadPhoto } = projectData;
+	const { description, title, teamLeadName, teamLeadPhoto } = projectData;
 	const [showMore, setShowMore] = useState<boolean>(false);
 
 	const handleToggleDescription = () => {
 		setShowMore(!showMore);
 	};
+
+	const displayMembers = teamMembers && teamMembers.slice(0, 4);
+	const remainingMembers = teamMembers && teamMembers.slice(4);
 
 	return (
 		<div className=" flex flex-row space-x-2 border-b border-[#30363E]">
@@ -77,8 +80,8 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 						</button>
 
 						{teamMembers && (
-							<ul className="flex flex-row justify-center items-center">
-								{teamMembers.map(member => (
+							<ul className="flex flex-row -space-x-2 justify-center items-center">
+								{displayMembers.map(member => (
 									<li
 										className="flex justify-center items-center "
 										key={member.uid}
@@ -86,15 +89,20 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 										{member.profileImage ? (
 											<img
 												src={member.profileImage}
-												className="rounded-full w-8 h-8 object-cover"
+												className="rounded-full border border-gray-400 w-8 h-8 object-cover"
 											></img>
 										) : (
-											<span className="flex justify-center items-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
+											<span className="flex border border-gray-400 justify-center items-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
 												{member.displayName.charAt(0).toUpperCase()}
 											</span>
 										)}
 									</li>
 								))}
+								<li className="flex justify-center items-center ">
+									<span className="flex border border-gray-400 justify-center items-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
+										+{remainingMembers.length}
+									</span>
+								</li>
 							</ul>
 						)}
 					</div>

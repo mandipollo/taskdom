@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import close from "../../assets/cross.svg";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -18,36 +18,30 @@ type TaskInputProps = {
 	handleToggleAddTeamMembers: () => void;
 	userUid: string | null;
 	projectData: DocumentData;
+	activeTeamMembers: {
+		contactNo: string;
+		displayName: string;
+		email: string;
+		jobTitle: string;
+		profileImage: string;
+		uid: string;
+	}[];
 };
 const AddTeamMembers: React.FC<TaskInputProps> = ({
 	handleToggleAddTeamMembers,
 	userUid,
 	projectData,
+	activeTeamMembers,
 }) => {
 	const { id } = projectData;
 	const [searchedUser, setSearchedUser] = useState<string>("");
 	const [users, setUsers] = useState<DocumentData[]>([]);
-	const [teamMembers, setTeamMembers] = useState<{}[]>([]);
+
 	const [err, setErr] = useState<boolean>(false);
 
 	const handleSearchedUser = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchedUser(e.target.value);
 	};
-	// retrieve team members from firestore
-	useEffect(() => {
-		const unsub = async () => {
-			const res = await getDoc(doc(db, `usersChat/${userUid}`));
-			if (res.exists()) {
-				const teamMembers = Object.entries(res.data()).sort(
-					(a, b) => b[1].date - a[1].date
-				);
-				setTeamMembers(teamMembers);
-			}
-		};
-		return () => {
-			unsub();
-		};
-	}, [userUid]);
 
 	// perform search on firestore users collection on key enter
 	const handleSearch = async () => {
@@ -160,29 +154,27 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 				</span>
 			)}
 
-			<ul className="flex  p-2 w-full gap-2 flex-row">
-				{teamMembers.map((member: any) => (
+			<ul className="grid grid-cols-2 overflow-hidden  p-2 w-full gap-2 flex-row">
+				{activeTeamMembers.map((member: any) => (
 					<li
-						key={member[0]}
+						key={member.uid}
 						className="flex rounded-md justify-center p-2 items-center flex-row space-x-2 border-[#30363E] border"
 					>
-						{member[1].userInfo.profileImage ? (
+						{member.profileImage ? (
 							<img
-								src={member[1].userInfo.profileImage}
+								src={member.profileImage}
 								className="rounded-full w-8 h-8 object-cover"
 							></img>
 						) : (
 							<span className="flex justify-center items-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
 								<p className=" flex">
-									{member[1].userInfo.displayName.charAt(0).toUpperCase()}
+									{member.displayName.charAt(0).toUpperCase()}
 								</p>
 							</span>
 						)}
 						<div className="flex flex-col justify-center ">
-							<p className="text-[#508D69] uppercase">
-								{member[1].userInfo.displayName}
-							</p>
-							<p>{member[1].userInfo.jobTitle}</p>
+							<p className="text-[#508D69] uppercase">{member.displayName}</p>
+							<p>{member.jobTitle}</p>
 						</div>
 					</li>
 				))}

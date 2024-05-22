@@ -18,6 +18,7 @@ import TaskInput from "../components/project/task/TaskInput";
 import { v4 as uuid } from "uuid";
 import Tasks from "../components/project/task/Tasks";
 import AddTeamMembers from "../components/project/AddTeamMembers";
+import AssignTask from "../components/project/task/AssignTask";
 
 interface teamMember {
 	contactNo: string;
@@ -57,6 +58,8 @@ const ProjectsPage = () => {
 	// project firebase ref
 
 	// task
+
+	const [taskId, setTaskId] = useState<string>("");
 	const [taskList, setTaskList] = useState<
 		{
 			title: string;
@@ -181,7 +184,18 @@ const ProjectsPage = () => {
 			}
 		};
 	}, [userUid, projectData]);
+	// assign task
 
+	const [toggleAssignTask, setToggleAssignTask] = useState<Boolean>(false);
+
+	const handleToggleAssignTask = () => {
+		setToggleAssignTask(!toggleAssignTask);
+	};
+	// send taskId to add members component
+	const handleTaskIdAndToggleAssignTask = (e: string) => {
+		setTaskId(e);
+		handleToggleAssignTask();
+	};
 	return (
 		<div
 			className="flex relative flex-col w-full p-4 overflow-auto"
@@ -215,6 +229,7 @@ const ProjectsPage = () => {
 			)}
 			{toggleAddTeamMembers && projectData && (
 				<AddTeamMembers
+					activeTeamMembers={teamMembers}
 					projectData={projectData}
 					userUid={userUid}
 					handleToggleAddTeamMembers={handleToggleAddTeamMembers}
@@ -229,6 +244,23 @@ const ProjectsPage = () => {
 				/>
 			)}
 
+			{toggleAssignTask && (
+				<div
+					className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10"
+					onClick={handleToggleAssignTask}
+				></div>
+			)}
+
+			{toggleAssignTask && projectData && (
+				<AssignTask
+					taskId={taskId}
+					userUid={userUid}
+					activeTeamMembers={teamMembers}
+					handleToggleAssignTask={handleToggleAssignTask}
+					projectData={projectData}
+				/>
+			)}
+
 			<div className="h-20 p-2 flex items-center">
 				<button
 					onClick={handleToggleForm}
@@ -238,7 +270,10 @@ const ProjectsPage = () => {
 					<p>Add Task</p>
 				</button>
 			</div>
-			<Tasks taskList={taskList} />
+			<Tasks
+				handleTaskIdAndToggleAssignTask={handleTaskIdAndToggleAssignTask}
+				taskList={taskList}
+			/>
 		</div>
 	);
 };

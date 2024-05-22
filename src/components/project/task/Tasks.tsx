@@ -10,9 +10,14 @@ type TaskListProps = {
 		status: string;
 		priority: string;
 	}[];
+	handleTaskIdAndToggleAssignTask: (taskId: string) => void;
 };
 
-const Tasks: React.FC<TaskListProps> = ({ taskList }) => {
+const Tasks: React.FC<TaskListProps> = ({
+	taskList,
+
+	handleTaskIdAndToggleAssignTask,
+}) => {
 	const activeClass = `text-white `;
 	const liClass = `text-gray-400`;
 
@@ -48,9 +53,16 @@ const Tasks: React.FC<TaskListProps> = ({ taskList }) => {
 							{task.targetDate.toDate().toLocaleDateString()}
 						</p>
 						<div className="flex flex-row">
-							<span className=" flex  justify-center items-center text-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
+							<button
+								// onClick={handleToggleAssignTask}
+								onClick={() => handleTaskIdAndToggleAssignTask(task.id)}
+								className="flex border p-2 rounded-sm border-[#30363E] bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]"
+							>
+								<p>Assign task</p>
+							</button>
+							{/* <span className=" flex  justify-center items-center text-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
 								A
-							</span>
+							</span> */}
 						</div>
 					</li>
 				))}

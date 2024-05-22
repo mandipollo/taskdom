@@ -19,15 +19,14 @@ const Navbar: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const userState = useAppSelector(state => state.userFirestoreData);
 
-	const { uid, displayName, profileImage, contactNo, workHours, jobTitle } =
-		userState as {
-			displayName: string;
-			contactNo: string;
-			workHours: string | null;
-			jobTitle: string | null;
-			uid: string;
-			profileImage: string;
-		};
+	const { uid, displayName, profileImage } = userState as {
+		displayName: string;
+		contactNo: string;
+		workHours: string | null;
+		jobTitle: string | null;
+		uid: string;
+		profileImage: string;
+	};
 
 	const defaultPic = displayName?.charAt(0).toUpperCase() || profileImage;
 	const [user, setUser] = useState<User | null>(null);
@@ -118,7 +117,7 @@ const Navbar: React.FC = () => {
 				)}
 
 				{/* desktop menu */}
-				{user && (
+				{/* {user && (
 					<SearchNavbar
 						defaultPic={defaultPic}
 						uid={user.uid}
@@ -128,7 +127,7 @@ const Navbar: React.FC = () => {
 						workHours={workHours}
 						jobTitle={jobTitle}
 					/>
-				)}
+				)} */}
 
 				{/* mobile menu */}
 				<div className={mobileClassRoutes} onClick={handlerToggle}>
@@ -146,10 +145,10 @@ const Navbar: React.FC = () => {
 						{auth.currentUser?.photoURL ? (
 							<img
 								src={auth.currentUser?.photoURL}
-								className="rounded-full w-10 h-10 object-cover"
+								className="rounded-full w-8 h-8 object-cover"
 							></img>
 						) : (
-							<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 text-black">
+							<span className="text-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
 								{defaultPic}
 							</span>
 						)}
