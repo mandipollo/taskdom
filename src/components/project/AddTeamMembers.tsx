@@ -158,15 +158,15 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 				{activeTeamMembers.map((member: any) => (
 					<li
 						key={member.uid}
-						className="flex rounded-md justify-center p-2 items-center flex-row space-x-2 border-[#30363E] border"
+						className="flex rounded-md  p-2 items-center flex-row space-x-2 border-[#30363E] border"
 					>
 						{member.profileImage ? (
 							<img
 								src={member.profileImage}
-								className="rounded-full w-8 h-8 object-cover"
+								className=" w-12 h-12 object-cover"
 							></img>
 						) : (
-							<span className="flex justify-center items-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
+							<span className="flex justify-center items-center  bg-gray-300 h-12 w-12 p-2 text-black">
 								<p className=" flex">
 									{member.displayName.charAt(0).toUpperCase()}
 								</p>

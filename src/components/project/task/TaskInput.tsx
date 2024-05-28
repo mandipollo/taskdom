@@ -36,24 +36,16 @@ const TaskInput: React.FC<TaskInputProps> = ({
 			<div className="flex w-full items-center border-b border-[#30363E] justify-between">
 				<div className="flex flex-row space-x-2">
 					<p>Add a new Task</p>
-					<button
-						onClick={() => handlePriority("High")}
-						className="bg-red-800 px-2 rounded-sm"
+					<label htmlFor="priority">Priority</label>
+					<select
+						onChange={e => handlePriority(e.target.value)}
+						className="bg-[#0D1117] border-[#30363E] border text-white"
+						id="priority"
 					>
-						High
-					</button>
-					<button
-						onClick={() => handlePriority("Medium")}
-						className="bg-yellow-800 px-2 rounded-sm"
-					>
-						Medium
-					</button>
-					<button
-						onClick={() => handlePriority("Low")}
-						className="bg-blue-800 px-2 rounded-sm"
-					>
-						Low
-					</button>
+						<option value="High">High</option>
+						<option value="Medium">Medium</option>
+						<option value="Low">Low</option>
+					</select>
 				</div>
 
 				<button onClick={handleToggleForm}>

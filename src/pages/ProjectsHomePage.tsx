@@ -119,8 +119,9 @@ const ProjectsHomePage: React.FC = () => {
 			)}
 			<ProjectHead handleToggleForm={handleToggleForm} />
 			<ProjectNav />
-
-			<ProjectLists projectList={projectList} />
+			{userData.uid && (
+				<ProjectLists projectList={projectList} userUid={userData.uid} />
+			)}
 		</div>
 	);
 };

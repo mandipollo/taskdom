@@ -1,5 +1,12 @@
-import { Timestamp } from "firebase/firestore";
-import React from "react";
+import {
+	DocumentData,
+	Timestamp,
+	collection,
+	getDocs,
+} from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { db } from "../../../../firebase.config";
+import Task from "./Task";
 
 type TaskListProps = {
 	taskList: {
@@ -9,6 +16,7 @@ type TaskListProps = {
 		targetDate: Timestamp;
 		status: string;
 		priority: string;
+		projectId: string;
 	}[];
 	handleTaskIdAndToggleAssignTask: (taskId: string) => void;
 };
@@ -21,50 +29,56 @@ const Tasks: React.FC<TaskListProps> = ({
 	const activeClass = `text-white `;
 	const liClass = `text-gray-400`;
 
+	// task assigned
+
+	const [assignedMembers, setAssignedMembers] = useState<DocumentData[]>([]);
+	useEffect(() => {
+		const fetchAssignedTasks = async () => {
+			try {
+				const assignedTasksSnapshot = await getDocs(
+					collection(db, "assignedTasks")
+				);
+
+				const assignedTaskList = assignedTasksSnapshot.docs.map(doc => ({
+					id: doc.id,
+					...doc.data(),
+				}));
+
+				setAssignedMembers(assignedTaskList);
+			} catch (err) {
+				console.log(err);
+			}
+		};
+		fetchAssignedTasks();
+	}, [taskList]);
+
 	return (
 		<div className="flex flex-col flex-1 w-full space-y-2">
 			<div className="flex w-full">
 				<ul className="flex flex-row w-full  space-x-4">
 					<li className={activeClass}>
-						<button className="underline underline-offset-4">
-							All Projects
-						</button>
+						<button className="underline underline-offset-4">All Tasks</button>
 					</li>
 					<li className={liClass}>
 						<button>On Going</button>
 					</li>
 					<li className={liClass}>
-						<button>Completed</button>
+						<button>Paused</button>
 					</li>
+
 					<li className={liClass}>
-						<button>Upcoming</button>
+						<button>Completed</button>
 					</li>
 				</ul>
 			</div>
-			<ul className="grid grid-cols-4 gap-2 auto-rows-auto">
+			<ul className="grid auto-cols-auto lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-2 ">
 				{taskList.map(task => (
-					<li key={task.id} className=" space-y-2 bg-[#161B22] rounded-md p-2">
-						<p className="text-lg">{task.title}</p>
-						<p className="text-gray-400">{task.description}</p>
-						<p className="bg-red-800 rounded-xl text-sm w-fit px-2">
-							{task.priority}
-						</p>
-						<p className="text-gray-400">
-							{task.targetDate.toDate().toLocaleDateString()}
-						</p>
-						<div className="flex flex-row">
-							<button
-								// onClick={handleToggleAssignTask}
-								onClick={() => handleTaskIdAndToggleAssignTask(task.id)}
-								className="flex border p-2 rounded-sm border-[#30363E] bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]"
-							>
-								<p>Assign task</p>
-							</button>
-							{/* <span className=" flex  justify-center items-center text-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
-								A
-							</span> */}
-						</div>
-					</li>
+					<Task
+						task={task}
+						handleTaskIdAndToggleAssignTask={handleTaskIdAndToggleAssignTask}
+						key={task.id}
+						assignedMembers={assignedMembers}
+					/>
 				))}
 			</ul>
 		</div>

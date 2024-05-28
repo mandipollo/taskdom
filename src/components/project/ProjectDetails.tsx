@@ -31,7 +31,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 	const remainingMembers = teamMembers && teamMembers.slice(4);
 
 	return (
-		<div className=" flex flex-row space-x-2 border-b border-[#30363E]">
+		<div className="sticky top-0 flex flex-row space-x-2 border-b border-[#30363E]">
 			<div className="flex h-full flex-col w-full">
 				<div className="flex h-full  w-full items-center justify-between ">
 					<p className="text-xl">{title}</p>

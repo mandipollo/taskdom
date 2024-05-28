@@ -68,6 +68,7 @@ const ProjectsPage = () => {
 			targetDate: Timestamp;
 			status: string;
 			priority: string;
+			projectId: string;
 		}[]
 	>([]);
 	const [taskTitle, setTaskTitle] = useState<string>("");
@@ -137,9 +138,10 @@ const ProjectsPage = () => {
 				id,
 				title: taskTitle,
 				description: taskDescription,
-				status: "Todo",
+				status: "Ongoing",
 				priority: priority,
 				targetDate: targetDate,
+				projectId: projectData.id,
 			};
 
 			await setDoc(doc(taskRef, id), newTask);
@@ -196,6 +198,7 @@ const ProjectsPage = () => {
 		setTaskId(e);
 		handleToggleAssignTask();
 	};
+
 	return (
 		<div
 			className="flex relative flex-col w-full p-4 overflow-auto"
@@ -261,7 +264,7 @@ const ProjectsPage = () => {
 				/>
 			)}
 
-			<div className="h-20 p-2 flex items-center">
+			<div className="h-20 p-2 space-x-2 flex items-center justify-between">
 				<button
 					onClick={handleToggleForm}
 					className="rounded-md flex bg-[#0D1117] p-2"
@@ -270,6 +273,7 @@ const ProjectsPage = () => {
 					<p>Add Task</p>
 				</button>
 			</div>
+
 			<Tasks
 				handleTaskIdAndToggleAssignTask={handleTaskIdAndToggleAssignTask}
 				taskList={taskList}

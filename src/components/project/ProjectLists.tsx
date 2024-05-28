@@ -1,5 +1,7 @@
-import React from "react";
+import { collection, getCountFromServer } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { db } from "../../../firebase.config";
 
 type ProjectlistProps = {
 	projectList: {
@@ -10,9 +12,34 @@ type ProjectlistProps = {
 		teamLeadPhoto: string;
 		teamLeadName: string;
 	}[];
+	userUid: string;
 };
 
-const ProjectLists: React.FC<ProjectlistProps> = ({ projectList }) => {
+const ProjectLists: React.FC<ProjectlistProps> = ({ projectList, userUid }) => {
+	const [taskCounts, setTaskCounts] = useState<Record<string, number>>({});
+	const getTaskCount = async (projectId: string) => {
+		const ref = collection(
+			db,
+			`projects/${userUid}/projects/${projectId}/tasks`
+		);
+
+		const snapshot = await getCountFromServer(ref);
+		return snapshot.data().count;
+	};
+
+	useEffect(() => {
+		const fetchTaskCounts = async () => {
+			const counts: Record<string, number> = {};
+			for (const project of projectList) {
+				const count = await getTaskCount(project.id);
+				counts[project.id] = count;
+			}
+			setTaskCounts(counts);
+		};
+
+		fetchTaskCounts();
+	}, [projectList]);
+
 	return (
 		<div className="flex w-full ">
 			<ul className="grid grid-cols-2 w-full gap-4">
@@ -29,7 +56,11 @@ const ProjectLists: React.FC<ProjectlistProps> = ({ projectList }) => {
 									</div>
 									<div className="flex flex-row">
 										<p className="text-gray-400">Tasks: </p>
-										<p>10/60</p>
+										<p>
+											{taskCounts[project.id] !== undefined
+												? taskCounts[project.id]
+												: "Loading..."}
+										</p>
 									</div>
 								</div>
 								<div className="flex">

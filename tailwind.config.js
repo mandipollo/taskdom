@@ -10,5 +10,19 @@ export default {
 			montserrat: ["Montserrat", "sans-serif"],
 		},
 	},
-	plugins: [],
+	variants: {
+		extend: {
+			breakInside: ["responsive"],
+		},
+	},
+	plugins: [
+		function ({ addUtilities }) {
+			const newUtilities = {
+				".break-inside-avoid": {
+					breakInside: "avoid",
+				},
+			};
+			addUtilities(newUtilities, ["responsive"]);
+		},
+	],
 };

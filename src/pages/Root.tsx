@@ -57,7 +57,7 @@ const Root = () => {
 	}, [userState.uid]);
 
 	return (
-		<div className="flex relative h-screen flex-col w-full max-w-screen-2xl ">
+		<div className="flex relative h-screen flex-col w-full ">
 			<header className="sticky top-0">
 				<Navbar />
 			</header>
