@@ -25,7 +25,7 @@ const ToggleButton: React.FC<ToggleProps> = ({ task, userUid }) => {
 
 			if (status === "Ongoing") {
 				await updateDoc(ref, {
-					status: "Paused",
+					status: "Complete",
 				});
 			} else {
 				await updateDoc(ref, {
@@ -37,22 +37,18 @@ const ToggleButton: React.FC<ToggleProps> = ({ task, userUid }) => {
 	return (
 		<button
 			onClick={toggleStatus}
-			className={`w-20 h-6 flex items-center rounded-full p-1 transition duration-300 ${
-				status === "Paused" ? "bg-gray-300" : "bg-green-500"
+			className={`w-24 h-6 flex items-center rounded-full hover:border-gray-400 border border-[#161B22] p-1 transition duration-300 ${
+				status === "Complete" ? "bg-gray-300" : "bg-green-500"
 			}`}
 		>
 			<div
 				className={`bg-white flex flex-row relative space-x-2 justify-center items-center w-4 h-4 rounded-full shadow-md transform transition duration-300 ${
-					status === "Paused" && "translate-x-14"
+					status === "Complete" && "translate-x-16"
 				}`}
-			>
-				{status === "Paused" && (
-					<span className=" absolute h-2 w-1 border-x border-green-500"></span>
-				)}
-			</div>
+			></div>
 			<p
 				className={`text-black text-sm ${
-					status === "Paused" && "-translate-x-2"
+					status === "Complete" && "-translate-x-2"
 				}`}
 			>
 				{status}

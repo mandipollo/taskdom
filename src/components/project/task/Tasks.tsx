@@ -62,9 +62,6 @@ const Tasks: React.FC<TaskListProps> = ({
 					<li className={liClass}>
 						<button>On Going</button>
 					</li>
-					<li className={liClass}>
-						<button>Paused</button>
-					</li>
 
 					<li className={liClass}>
 						<button>Completed</button>

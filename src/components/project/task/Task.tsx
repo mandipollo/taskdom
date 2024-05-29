@@ -1,15 +1,11 @@
-import {
-	DocumentData,
-	Timestamp,
-	collection,
-	doc,
-	updateDoc,
-} from "firebase/firestore";
+import { DocumentData, Timestamp, deleteDoc, doc } from "firebase/firestore";
 import React from "react";
 import calendarIcon from "../../../assets/calendarIcon.svg";
 import ToggleButton from "../../utilities/ToggleButton";
-import { db } from "../../../../firebase.config";
+
 import { useAppSelector } from "../../../store/store";
+import bin from "../../../assets/delete.svg";
+import { db } from "../../../../firebase.config";
 
 interface TaskProps {
 	task: {
@@ -38,12 +34,35 @@ const Task: React.FC<TaskProps> = ({
 			: "bg-green-800";
 	};
 
+	const handleDelete = async (task: DocumentData) => {
+		if (task) {
+			const ref = doc(
+				db,
+				`projects/${userData.uid}/projects/${task.projectId}/tasks/${task.id}`
+			);
+
+			await deleteDoc(ref);
+		}
+	};
+
 	return (
 		<li
 			key={task.id}
 			className="hover:border-gray-400 border border-[#161B22]  mb-4 break-inside-avoid bg-[#161B22] rounded-md p-2 space-y-2"
 		>
-			<p className="text-lg">{task.title}</p>
+			<div className="flex flex-row justify-between">
+				<p className="text-lg">{task.title}</p>
+
+				<div className="flex flex-row justify-center items-center space-x-2">
+					<button
+						onClick={() => handleDelete(task)}
+						className="  flex justify-center items-center"
+					>
+						<img width={20} height={20} src={bin}></img>
+					</button>
+				</div>
+			</div>
+
 			<p className="text-gray-400">{task.description}</p>
 			<div className="flex flex-row space-x-2 items-center">
 				<p
