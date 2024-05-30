@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../firebase.config";
 import { useAppSelector } from "../store/store";
-import add from "../assets/add.svg";
+
 import ProjectDetails from "../components/project/ProjectDetails";
 import TaskInput from "../components/project/task/TaskInput";
 import { v4 as uuid } from "uuid";
@@ -72,7 +72,7 @@ const ProjectsPage = () => {
 		}[]
 	>([]);
 	const [taskTitle, setTaskTitle] = useState<string>("");
-	const [priority, setPriority] = useState<string>("Low");
+	const [priority, setPriority] = useState<string>("");
 	const [taskDescription, setTaskDescription] = useState<string>("");
 
 	const [targetDate, setTargetDate] = useState<Date | null>(new Date());
@@ -199,9 +199,17 @@ const ProjectsPage = () => {
 		handleToggleAssignTask();
 	};
 
+	// filter status
+
+	const [filterStatus, setFilterStatus] = useState<string>("");
+
+	const handleFilterStatus = (e: string) => {
+		setFilterStatus(e);
+	};
+
 	return (
 		<div
-			className="flex relative flex-col w-full p-4 overflow-auto"
+			className="flex relative flex-col w-full px-4 overflow-auto"
 			style={{ maxHeight: " calc( 100vh - 3.5rem )" }}
 		>
 			{toggleForm && (
@@ -239,14 +247,6 @@ const ProjectsPage = () => {
 				/>
 			)}
 
-			{projectData && (
-				<ProjectDetails
-					teamMembers={teamMembers}
-					handleToggleAddTeamMembers={handleToggleAddTeamMembers}
-					projectData={projectData}
-				/>
-			)}
-
 			{toggleAssignTask && (
 				<div
 					className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10"
@@ -264,17 +264,18 @@ const ProjectsPage = () => {
 				/>
 			)}
 
-			<div className="h-20 p-2 space-x-2 flex items-center justify-between">
-				<button
-					onClick={handleToggleForm}
-					className="rounded-md flex bg-[#0D1117] p-2"
-				>
-					<img src={add} width={20} height={20} alt="" />
-					<p>Add Task</p>
-				</button>
-			</div>
+			{projectData && (
+				<ProjectDetails
+					handleToggleForm={handleToggleForm}
+					teamMembers={teamMembers}
+					handleToggleAddTeamMembers={handleToggleAddTeamMembers}
+					projectData={projectData}
+					handleFilterStatus={handleFilterStatus}
+				/>
+			)}
 
 			<Tasks
+				filterStatus={filterStatus}
 				handleTaskIdAndToggleAssignTask={handleTaskIdAndToggleAssignTask}
 				taskList={taskList}
 			/>

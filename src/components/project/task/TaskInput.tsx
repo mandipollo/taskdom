@@ -38,6 +38,7 @@ const TaskInput: React.FC<TaskInputProps> = ({
 					<p>Add a new Task</p>
 					<label htmlFor="priority">Priority</label>
 					<select
+						defaultValue="Medium"
 						onChange={e => handlePriority(e.target.value)}
 						className="bg-[#0D1117] border-[#30363E] border text-white"
 						id="priority"

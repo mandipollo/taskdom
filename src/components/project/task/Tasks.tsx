@@ -19,16 +19,14 @@ type TaskListProps = {
 		projectId: string;
 	}[];
 	handleTaskIdAndToggleAssignTask: (taskId: string) => void;
+	filterStatus: string;
 };
 
 const Tasks: React.FC<TaskListProps> = ({
 	taskList,
-
 	handleTaskIdAndToggleAssignTask,
+	filterStatus,
 }) => {
-	const activeClass = `text-white `;
-	const liClass = `text-gray-400`;
-
 	// task assigned
 
 	const [assignedMembers, setAssignedMembers] = useState<DocumentData[]>([]);
@@ -52,24 +50,17 @@ const Tasks: React.FC<TaskListProps> = ({
 		fetchAssignedTasks();
 	}, [taskList]);
 
+	// filter task
+
+	const filteredTask =
+		filterStatus === ""
+			? taskList
+			: taskList.filter(task => task.status === filterStatus);
+
 	return (
 		<div className="flex flex-col flex-1 w-full space-y-2">
-			<div className="flex w-full">
-				<ul className="flex flex-row w-full  space-x-4">
-					<li className={activeClass}>
-						<button className="underline underline-offset-4">All Tasks</button>
-					</li>
-					<li className={liClass}>
-						<button>On Going</button>
-					</li>
-
-					<li className={liClass}>
-						<button>Completed</button>
-					</li>
-				</ul>
-			</div>
 			<ul className="grid auto-cols-auto lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-2 ">
-				{taskList.map(task => (
+				{filteredTask.map(task => (
 					<Task
 						task={task}
 						handleTaskIdAndToggleAssignTask={handleTaskIdAndToggleAssignTask}

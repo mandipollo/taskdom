@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import team from "../../assets/teams.svg";
 import { DocumentData } from "firebase/firestore";
+import add from "../../assets/add.svg";
+import sort from "../../assets/list.svg";
 
 type ProjectDetailsProps = {
 	projectData: DocumentData;
@@ -14,11 +16,15 @@ type ProjectDetailsProps = {
 		uid: string;
 		workHours: string;
 	}[];
+	handleToggleForm: () => void;
+	handleFilterStatus: (e: string) => void;
 };
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 	projectData,
 	handleToggleAddTeamMembers,
 	teamMembers,
+	handleToggleForm,
+	handleFilterStatus,
 }) => {
 	const { description, title, teamLeadName, teamLeadPhoto } = projectData;
 	const [showMore, setShowMore] = useState<boolean>(false);
@@ -30,9 +36,19 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 	const displayMembers = teamMembers && teamMembers.slice(0, 4);
 	const remainingMembers = teamMembers && teamMembers.slice(4);
 
+	// sort menu
+
+	const [sortTask, setSortTask] = useState<boolean>(false);
+
+	const handleSortTask = () => {
+		setSortTask(!sortTask);
+	};
+	const activeClass = `text-white `;
+	const liClass = `text-gray-400`;
+
 	return (
-		<div className="sticky top-0 flex flex-row space-x-2 border-b border-[#30363E]">
-			<div className="flex h-full flex-col w-full">
+		<div className="sticky top-0 flex flex-col space-x-2 bg-[#000408] z-10 ">
+			<div className="flex h-full flex-col w-full border-b border-[#30363E]">
 				<div className="flex h-full  w-full items-center justify-between ">
 					<p className="text-xl">{title}</p>
 					<button
@@ -106,6 +122,56 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 							</ul>
 						)}
 					</div>
+				</div>
+			</div>
+			<div className="h-20 p-2 space-x-2 flex items-center justify-between">
+				<button
+					onClick={handleToggleForm}
+					className="rounded-md flex bg-[#0D1117] p-2"
+				>
+					<img src={add} width={20} height={20} alt="" />
+					<p>Add Task</p>
+				</button>
+			</div>
+			<div className="flex w-full">
+				<ul className="flex flex-row w-full  space-x-4">
+					<li className={activeClass}>
+						<button
+							onClick={() => handleFilterStatus("")}
+							className="underline underline-offset-4"
+						>
+							All Tasks
+						</button>
+					</li>
+					<li className={liClass}>
+						<button onClick={() => handleFilterStatus("Ongoing")}>
+							On Going
+						</button>
+					</li>
+
+					<li className={liClass}>
+						<button onClick={() => handleFilterStatus("Complete")}>
+							Completed
+						</button>
+					</li>
+				</ul>
+				<div className="relative">
+					<button
+						aria-label="sort "
+						onClick={handleSortTask}
+						className="relative"
+					>
+						<img width={20} height={20} src={sort} alt="sort" />
+					</button>
+					<ul
+						className={` ${
+							sortTask ? "flex" : "hidden"
+						} absolute rounded-md top-0 right-6 z-10 text-sm space-y-4 flex-col border border-[#30363E]  w-36 p-2.5 bg-[#161B22] `}
+					>
+						<li className=" text-gray-400">Sort by</li>
+						<li className="hover:underline hover:cursor-pointer">Date</li>
+						<li className="hover:underline hover:cursor-pointer">Priority</li>
+					</ul>
 				</div>
 			</div>
 		</div>

@@ -56,7 +56,7 @@ const Task: React.FC<TaskProps> = ({
 				<div className="flex flex-row justify-center items-center space-x-2">
 					<button
 						onClick={() => handleDelete(task)}
-						className="  flex justify-center items-center"
+						className=" flex justify-center items-center"
 					>
 						<img width={20} height={20} src={bin}></img>
 					</button>
