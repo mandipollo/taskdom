@@ -9,7 +9,7 @@ import logout from "../../assets/logout.svg";
 
 import collapse from "../../assets/collapse-all-svgrepo-com.svg";
 
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../store/store";
 import signOutUser from "../../firebaseAuth/signOutUser";
@@ -31,9 +31,12 @@ const Sidebar: React.FC = () => {
 		open && "open"
 	}`;
 
-	const classBtn = "flex flex-row space-x-2 hover:underline ";
+	const classBtn =
+		"flex flex-row space-x-2 hover:underline underline-offset-4 ";
 	const classP = `${open ? "hidden" : "block"}`;
 
+	const active = " text-white underline underline-offset-4";
+	const pending = " text-red-400 ";
 	// sign out
 	const signOutHandler = () => {
 		dispatch(resetUserFirestoreData());
@@ -42,9 +45,13 @@ const Sidebar: React.FC = () => {
 	};
 
 	return (
-		<div className="flex flex-col w-full items-center border border-[#30363E] bg-[#0D1117] px-4">
+		<div
+			className={`${
+				open ? "w-10" : "w-40"
+			} transition-all ease-in-out duration-300 flex flex-col items-center border border-[#30363E] bg-[#0D1117] `}
+		>
 			<ul className="flex flex-col space-y-6 pt-10">
-				<li>
+				<li className="flex  items-center">
 					<button
 						onClick={handlerToggle}
 						id="menu-btn"
@@ -54,49 +61,74 @@ const Sidebar: React.FC = () => {
 						<img src={collapse} width={20} height={20} alt="collapse" />
 					</button>
 				</li>
-				<li>
-					<Link to="userDashboard">
+				<li className="flex  items-center">
+					<NavLink
+						to="userDashboard"
+						className={({ isActive, isPending }) =>
+							isPending ? pending : isActive ? active : ""
+						}
+					>
 						<button className={classBtn}>
 							<img src={dashboard} width={20} height={20} alt="dashboard" />
 							<p className={classP}>Dashboard</p>
 						</button>
-					</Link>
+					</NavLink>
 				</li>
-				<li className="space-y-2">
-					<Link to="projects">
+				<li className="flex  items-center">
+					<NavLink
+						to="projects"
+						className={({ isActive, isPending }) =>
+							isPending ? pending : isActive ? active : ""
+						}
+					>
 						<button className={classBtn}>
 							<img src={project} width={20} height={20} alt="projects" />
 							<p className={classP}>Projects</p>
 						</button>
-					</Link>
+					</NavLink>
 				</li>
 
-				<li>
-					<Link to="/teams">
+				<li className="flex  items-center">
+					<NavLink
+						to="/teams"
+						className={({ isActive, isPending }) =>
+							isPending ? pending : isActive ? active : ""
+						}
+					>
 						<button className={classBtn}>
 							<img src={teams} width={20} height={20} alt="clients" />
 							<p className={classP}>Teams</p>
 						</button>
-					</Link>
+					</NavLink>
 				</li>
-				<li>
-					<Link to="/chats">
+				<li className="flex  items-center">
+					<NavLink
+						to="/chats"
+						className={({ isActive, isPending }) =>
+							isPending ? pending : isActive ? active : ""
+						}
+					>
 						<button className={classBtn}>
 							<img src={chat} width={20} height={20} alt="chat" />
 							<p className={classP}> Chat</p>
 						</button>
-					</Link>
+					</NavLink>
 				</li>
 
-				<li>
-					<Link to="/accountSetting">
+				<li className="flex  items-center">
+					<NavLink
+						to="/accountSetting"
+						className={({ isActive, isPending }) =>
+							isPending ? pending : isActive ? active : ""
+						}
+					>
 						<button className={classBtn}>
 							<img src={setting} width={20} height={20} alt="setting" />
 							<p className={classP}>Settings</p>
 						</button>
-					</Link>
+					</NavLink>
 				</li>
-				<li>
+				<li className="flex  items-center">
 					<button onClick={signOutHandler} className={classBtn}>
 						<img src={logout} width={20} height={20} alt="setting" />
 						<p className={classP}>Sign out</p>

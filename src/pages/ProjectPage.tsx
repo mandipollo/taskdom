@@ -149,6 +149,7 @@ const ProjectsPage = () => {
 			setTaskDescription("");
 			setTaskTitle("");
 			setToggleForm(!toggleForm);
+			setPriority("");
 		}
 	};
 
@@ -266,6 +267,7 @@ const ProjectsPage = () => {
 
 			{projectData && (
 				<ProjectDetails
+					filterStatus={filterStatus}
 					handleToggleForm={handleToggleForm}
 					teamMembers={teamMembers}
 					handleToggleAddTeamMembers={handleToggleAddTeamMembers}

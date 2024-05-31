@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import ProjectHead from "../components/project/ProjectHead";
-import ProjectNav from "../components/project/ProjectNav";
+
 import ProjectLists from "../components/project/ProjectLists";
 import { useAppSelector } from "../store/store";
 import {
@@ -22,6 +22,10 @@ const ProjectsHomePage: React.FC = () => {
 	const userData = useAppSelector(state => state.auth);
 
 	//local states
+
+	const [startDate, setStartDate] = useState<Date | null>(new Date());
+	const [endDate, setEndDate] = useState<Date | null>(new Date());
+
 	const [projectTitle, setProjectTitle] = useState<string>("");
 	const [projectDescription, setProjectDescription] = useState<string>("");
 	const [toggleForm, setToggleForm] = useState<boolean>(false);
@@ -88,6 +92,8 @@ const ProjectsHomePage: React.FC = () => {
 				id: idDocument,
 				teamLeadPhoto: userData.photoURL ? userData.photoURL : null,
 				teamLeadName: userData.displayName,
+				startDate: startDate,
+				endDate: endDate,
 			};
 
 			await setDoc(doc(projectCollectionRef, idDocument), newProject);
@@ -99,7 +105,10 @@ const ProjectsHomePage: React.FC = () => {
 	};
 
 	return (
-		<div className="flex flex-1 flex-col gap-4 m-10">
+		<div
+			className="flex relative flex-col w-full p-4 overflow-auto"
+			style={{ maxHeight: " calc( 100vh - 3.5rem )" }}
+		>
 			{toggleForm && (
 				<div
 					className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10"
@@ -109,6 +118,10 @@ const ProjectsHomePage: React.FC = () => {
 
 			{toggleForm && (
 				<ProjectInput
+					startDate={startDate}
+					setStartDate={setStartDate}
+					endDate={endDate}
+					setEndDate={setEndDate}
 					projectDescription={projectDescription}
 					projectTitle={projectTitle}
 					handleProjectDescription={handleProjectDescription}
@@ -118,7 +131,7 @@ const ProjectsHomePage: React.FC = () => {
 				/>
 			)}
 			<ProjectHead handleToggleForm={handleToggleForm} />
-			<ProjectNav />
+
 			{userData.uid && (
 				<ProjectLists projectList={projectList} userUid={userData.uid} />
 			)}

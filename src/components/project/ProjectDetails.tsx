@@ -18,6 +18,7 @@ type ProjectDetailsProps = {
 	}[];
 	handleToggleForm: () => void;
 	handleFilterStatus: (e: string) => void;
+	filterStatus: string;
 };
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 	projectData,
@@ -25,6 +26,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 	teamMembers,
 	handleToggleForm,
 	handleFilterStatus,
+	filterStatus,
 }) => {
 	const { description, title, teamLeadName, teamLeadPhoto } = projectData;
 	const [showMore, setShowMore] = useState<boolean>(false);
@@ -43,13 +45,11 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 	const handleSortTask = () => {
 		setSortTask(!sortTask);
 	};
-	const activeClass = `text-white `;
-	const liClass = `text-gray-400`;
 
 	return (
 		<div className="sticky top-0 flex flex-col space-x-2 bg-[#000408] z-10 ">
 			<div className="flex h-full flex-col w-full border-b border-[#30363E]">
-				<div className="flex h-full  w-full items-center justify-between ">
+				<div className="flex  w-full items-center justify-between ">
 					<p className="text-xl">{title}</p>
 					<button
 						onClick={() => handleToggleDescription()}
@@ -62,8 +62,8 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 
 				<div
 					className={`${
-						showMore ? "h-auto" : " h-0 "
-					} overflow-hidden transition-height duration-500 ease-in-out `}
+						showMore ? "h-40" : "h-0"
+					} transition-all overflow-y-auto duration-500 ease-in-out  `}
 				>
 					<p className="text-gray-400">{description}</p>
 				</div>
@@ -135,22 +135,40 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 			</div>
 			<div className="flex w-full">
 				<ul className="flex flex-row w-full  space-x-4">
-					<li className={activeClass}>
+					<li>
 						<button
+							className={` ${
+								filterStatus === ""
+									? "text-white underline underline-offset-4"
+									: "text-gray-400"
+							} `}
 							onClick={() => handleFilterStatus("")}
-							className="underline underline-offset-4"
 						>
 							All Tasks
 						</button>
 					</li>
-					<li className={liClass}>
-						<button onClick={() => handleFilterStatus("Ongoing")}>
+					<li>
+						<button
+							className={` ${
+								filterStatus === "Ongoing"
+									? "text-white underline underline-offset-4"
+									: "text-gray-400"
+							} `}
+							onClick={() => handleFilterStatus("Ongoing")}
+						>
 							On Going
 						</button>
 					</li>
 
-					<li className={liClass}>
-						<button onClick={() => handleFilterStatus("Complete")}>
+					<li>
+						<button
+							className={` ${
+								filterStatus === "Complete"
+									? "text-white underline underline-offset-4"
+									: "text-gray-400"
+							} `}
+							onClick={() => handleFilterStatus("Complete")}
+						>
 							Completed
 						</button>
 					</li>

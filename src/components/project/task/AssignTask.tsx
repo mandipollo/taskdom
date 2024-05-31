@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import close from "../../assets/cross.svg";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { DocumentData, collection, doc, setDoc } from "firebase/firestore";
@@ -22,12 +21,9 @@ type TaskInputProps = {
 const AssignTask: React.FC<TaskInputProps> = ({
 	taskId,
 	handleToggleAssignTask,
-	userUid,
-	projectData,
+
 	activeTeamMembers,
 }) => {
-	const { id } = projectData;
-
 	const [err, setErr] = useState<boolean>(false);
 
 	// assign task
@@ -40,6 +36,7 @@ const AssignTask: React.FC<TaskInputProps> = ({
 			handleToggleAssignTask();
 		} catch (err) {
 			console.log(err);
+			setErr(true);
 		}
 	};
 

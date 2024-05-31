@@ -50,7 +50,7 @@ const Task: React.FC<TaskProps> = ({
 			key={task.id}
 			className="hover:border-gray-400 border border-[#161B22]  mb-4 break-inside-avoid bg-[#161B22] rounded-md p-2 space-y-2"
 		>
-			<div className="flex flex-row justify-between">
+			<div className="flex flex-row justify-between border-b border-[#30363E]">
 				<p className="text-lg">{task.title}</p>
 
 				<div className="flex flex-row justify-center items-center space-x-2">

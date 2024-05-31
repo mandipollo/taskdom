@@ -1,6 +1,10 @@
 import React from "react";
 import close from "../../assets/cross.svg";
 
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
 type ProjectInputProps = {
 	handleProjectTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	handleProjectDescription: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -8,6 +12,10 @@ type ProjectInputProps = {
 	handleProjectSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 	projectTitle: string;
 	projectDescription: string;
+	startDate: Date | null;
+	endDate: Date | null;
+	setStartDate: (date: Date | null) => void;
+	setEndDate: (date: Date | null) => void;
 };
 const ProjectInput: React.FC<ProjectInputProps> = ({
 	handleProjectDescription,
@@ -16,6 +24,10 @@ const ProjectInput: React.FC<ProjectInputProps> = ({
 	handleToggleForm,
 	projectDescription,
 	projectTitle,
+	startDate,
+	endDate,
+	setStartDate,
+	setEndDate,
 }) => {
 	return (
 		<form
@@ -24,7 +36,20 @@ const ProjectInput: React.FC<ProjectInputProps> = ({
 			aria-label="add project form"
 		>
 			<div className="flex w-full items-center border-b border-[#30363E] justify-between">
-				<p>Add a new project</p>
+				<div className="flex flex-row space-x-1 justify-center items-center">
+					<p>Add a new project</p>
+					<DatePicker
+						className="flex text-center p-2 rounded-sm border-[#30363E] bg-[#0D1117] text-[#E6EDF3]"
+						selected={startDate}
+						onChange={date => setStartDate(date)}
+					/>
+					<DatePicker
+						className="flex text-center p-2 rounded-sm border-[#30363E] bg-[#0D1117] text-[#E6EDF3]"
+						selected={endDate}
+						onChange={date => setEndDate(date)}
+					/>
+				</div>
+
 				<button onClick={handleToggleForm}>
 					<img src={close} alt="toggleForm" width={30} height={30} />
 				</button>

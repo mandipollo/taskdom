@@ -1,4 +1,5 @@
 import { ICameraVideoTrack, IMicrophoneAudioTrack } from "agora-rtc-sdk-ng";
+import { Timestamp } from "firebase/firestore";
 
 export type UserDataProps = {
 	displayName: string;
@@ -36,6 +37,8 @@ export type ProjectListProps = {
 	id: string;
 	teamLeadPhoto: string;
 	teamLeadName: string;
+	startDate: Timestamp;
+	endDate: Timestamp;
 }[];
 
 export type ProjectProps = {
