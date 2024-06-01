@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import close from "../../assets/cross.svg";
 
 import "react-datepicker/dist/react-datepicker.css";
 import {
 	DocumentData,
 	collection,
+	deleteDoc,
 	doc,
-	getDoc,
 	getDocs,
 	query,
 	setDoc,
+	updateDoc,
 	where,
 } from "firebase/firestore";
 import { db } from "../../../firebase.config";
@@ -92,8 +93,59 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 		}
 	};
 
+	// remove team members
+
+	const handleRemoveMemberList = async (memberId: string) => {
+		try {
+			const ref = doc(
+				db,
+				`projects/${userUid}/projects/${id}/teamMember/${memberId}`
+			);
+
+			await deleteDoc(ref);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const handleRemoveMemberFromTasks = async (memberId: string) => {
+		try {
+			const assignedRef = collection(
+				db,
+				`projects/${userUid}/projects/${id}/tasks`
+			);
+
+			const q = query(assignedRef, where("assignedMemberUid", "==", memberId));
+
+			const querySnapshot = await getDocs(q);
+
+			querySnapshot.forEach(taskDoc => {
+				const ref = taskDoc.ref;
+
+				updateDoc(ref, {
+					assignedMemberUid: null,
+					assignedMemberImage: null,
+					assignedMemberName: null,
+				});
+				console.log(ref);
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	const handleRemoveTeamMember = async (memberId: string) => {
+		try {
+			handleRemoveMemberList(memberId);
+			handleRemoveMemberFromTasks(memberId);
+
+			handleToggleAddTeamMembers();
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	return (
-		<form
+		<div
 			className="rounded-md border p-4 border-[#010101] bg-[#0D1117] z-20 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  sm:w-1/2 sm:h-1/2 w-3/4 h-3/4"
 			aria-label="add project form"
 		>
@@ -155,31 +207,40 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 			)}
 
 			<ul className="grid grid-cols-2 overflow-hidden  p-2 w-full gap-2 flex-row">
-				{activeTeamMembers.map((member: any) => (
+				{activeTeamMembers.map((member: DocumentData) => (
 					<li
 						key={member.uid}
-						className="flex rounded-md  p-2 items-center flex-row space-x-2 border-[#30363E] border"
+						className="flex rounded-md  p-2 items-center justify-between flex-row space-x-2 border-[#30363E] border"
 					>
-						{member.profileImage ? (
-							<img
-								src={member.profileImage}
-								className=" w-12 h-12 object-cover"
-							></img>
-						) : (
-							<span className="flex justify-center items-center  bg-gray-300 h-12 w-12 p-2 text-black">
-								<p className=" flex">
-									{member.displayName.charAt(0).toUpperCase()}
-								</p>
-							</span>
-						)}
-						<div className="flex flex-col justify-center ">
-							<p className="text-[#508D69] uppercase">{member.displayName}</p>
-							<p>{member.jobTitle}</p>
+						<div className="flex flex-row space-x-2">
+							{member.profileImage ? (
+								<img
+									src={member.profileImage}
+									className=" w-12 h-12 object-cover"
+								></img>
+							) : (
+								<span className="flex justify-center items-center  bg-gray-300 h-12 w-12 p-2 text-black">
+									<p className=" flex">
+										{member.displayName.charAt(0).toUpperCase()}
+									</p>
+								</span>
+							)}
+							<div className="flex flex-col justify-center ">
+								<p className="text-[#508D69] uppercase">{member.displayName}</p>
+								<p>{member.jobTitle}</p>
+							</div>
 						</div>
+
+						<button
+							className="border rounded-md p-2 "
+							onClick={() => handleRemoveTeamMember(member.uid)}
+						>
+							Remove
+						</button>
 					</li>
 				))}
 			</ul>
-		</form>
+		</div>
 	);
 };
 

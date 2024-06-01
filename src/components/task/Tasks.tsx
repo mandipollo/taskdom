@@ -1,11 +1,6 @@
-import {
-	DocumentData,
-	Timestamp,
-	collection,
-	getDocs,
-} from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { db } from "../../../../firebase.config";
+import { Timestamp } from "firebase/firestore";
+import React from "react";
+
 import Task from "./Task";
 
 type TaskListProps = {
@@ -17,6 +12,9 @@ type TaskListProps = {
 		status: string;
 		priority: string;
 		projectId: string;
+		assignedMemberDisplayName: string | null;
+		assignedMemberUid: string | null;
+		assignedMemberImage: string | null;
 	}[];
 	handleTaskIdAndToggleAssignTask: (taskId: string) => void;
 	filterStatus: string;
@@ -29,26 +27,26 @@ const Tasks: React.FC<TaskListProps> = ({
 }) => {
 	// task assigned
 
-	const [assignedMembers, setAssignedMembers] = useState<DocumentData[]>([]);
-	useEffect(() => {
-		const fetchAssignedTasks = async () => {
-			try {
-				const assignedTasksSnapshot = await getDocs(
-					collection(db, "assignedTasks")
-				);
+	// const [assignedMembers, setAssignedMembers] = useState<DocumentData[]>([]);
+	// useEffect(() => {
+	// 	const fetchAssignedTasks = async () => {
+	// 		try {
+	// 			const assignedTasksSnapshot = await getDocs(
+	// 				collection(db, "assignedTasks")
+	// 			);
 
-				const assignedTaskList = assignedTasksSnapshot.docs.map(doc => ({
-					id: doc.id,
-					...doc.data(),
-				}));
+	// 			const assignedTaskList = assignedTasksSnapshot.docs.map(doc => ({
+	// 				id: doc.id,
+	// 				...doc.data(),
+	// 			}));
 
-				setAssignedMembers(assignedTaskList);
-			} catch (err) {
-				console.log(err);
-			}
-		};
-		fetchAssignedTasks();
-	}, [taskList]);
+	// 			setAssignedMembers(assignedTaskList);
+	// 		} catch (err) {
+	// 			console.log(err);
+	// 		}
+	// 	};
+	// 	fetchAssignedTasks();
+	// }, [taskList]);
 
 	// filter task
 
@@ -65,7 +63,6 @@ const Tasks: React.FC<TaskListProps> = ({
 						task={task}
 						handleTaskIdAndToggleAssignTask={handleTaskIdAndToggleAssignTask}
 						key={task.id}
-						assignedMembers={assignedMembers}
 					/>
 				))}
 			</ul>

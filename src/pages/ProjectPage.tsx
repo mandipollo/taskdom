@@ -14,11 +14,11 @@ import { db } from "../../firebase.config";
 import { useAppSelector } from "../store/store";
 
 import ProjectDetails from "../components/project/ProjectDetails";
-import TaskInput from "../components/project/task/TaskInput";
+import TaskInput from "../components/task/TaskInput";
 import { v4 as uuid } from "uuid";
-import Tasks from "../components/project/task/Tasks";
+import Tasks from "../components/task/Tasks";
 import AddTeamMembers from "../components/project/AddTeamMembers";
-import AssignTask from "../components/project/task/AssignTask";
+import AssignTask from "../components/task/AssignTask";
 
 interface teamMember {
 	contactNo: string;
@@ -69,6 +69,9 @@ const ProjectsPage = () => {
 			status: string;
 			priority: string;
 			projectId: string;
+			assignedMemberUid: string | null;
+			assignedMemberImage: string | null;
+			assignedMemberDisplayName: string | null;
 		}[]
 	>([]);
 	const [taskTitle, setTaskTitle] = useState<string>("");

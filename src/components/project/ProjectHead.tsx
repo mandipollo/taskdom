@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Add from "../../assets/add.svg";
 import dotMenu from "../../assets/dot-menu-horizontal.svg";
 import listDisplay from "../../assets/list.svg";
@@ -10,6 +10,12 @@ type ProjectHeadProps = {
 };
 
 const ProjectHead: React.FC<ProjectHeadProps> = ({ handleToggleForm }) => {
+	const [searchBar, setSearchBar] = useState<Boolean>(false);
+
+	const handleShowSearchBar = () => {
+		setSearchBar(!searchBar);
+	};
+
 	return (
 		<div className="flex w-full z-10  flex-col sticky top-0 left-0 bg-[#000408] ">
 			<div className="flex-1 flex gap-4 items-center">
@@ -29,15 +35,18 @@ const ProjectHead: React.FC<ProjectHeadProps> = ({ handleToggleForm }) => {
 					<p className="text-gray-400">Critical projects</p>
 					<p className="text-gray-400">Completed projects</p>
 				</div>
-				<div className="flex w-1/2  ">
-					<div className="flex relative flex-1">
+				<div className="flex w-1/2 space-x-2 ">
+					<div className="flex relative flex-1 ">
 						<input
 							placeholder="Search projects..."
-							className="w-full p-2  rounded-md border placeholder-gray-400  outline-[#30363E] outline-2 pl-10 border-[#30363E] bg-[#161B22] text-[#E6EDF3] "
+							className={`${
+								searchBar ? "w-full" : "w-8"
+							}  transition-all duration-300 ease-in-out p-2  rounded-md border placeholder-gray-400  outline-[#30363E] outline-2 pl-10 border-[#30363E] bg-[#161B22] text-[#E6EDF3] `}
 							type="text"
 						/>
 						<img
-							className="absolute top-2 left-2"
+							onClick={handleShowSearchBar}
+							className="absolute top-2 left-3"
 							src={searchIcon}
 							width={25}
 							height={25}

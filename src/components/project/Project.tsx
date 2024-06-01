@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Timestamp, doc, updateDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import editImg from "../../assets/edit.svg";
-import undoImg from "../../assets/undo.svg";
+
 import tickImg from "../../assets/tick.svg";
 import crossImg from "../../assets/cross.svg";
 import { db } from "../../../firebase.config";
@@ -111,16 +111,16 @@ const Project: React.FC<ProjectProps> = ({
 						</p>
 					)}
 				</div>
-				<div className="flex flex-row">
-					{onGoingCounts && taskCounts && (
+				{onGoingCounts && taskCounts && (
+					<div className="flex flex-row">
 						<p className="text-gray-400">
 							Tasks:
 							{onGoingCounts[project.id] !== undefined &&
 								onGoingCounts[project.id]}
 							/{taskCounts[project.id] !== undefined && taskCounts[project.id]}
 						</p>
-					)}
-				</div>
+					</div>
+				)}
 			</div>
 			<Link
 				to={`/projects/${project.id}`}

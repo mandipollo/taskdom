@@ -1,11 +1,11 @@
 import { DocumentData, Timestamp, deleteDoc, doc } from "firebase/firestore";
 import React from "react";
-import calendarIcon from "../../../assets/calendarIcon.svg";
-import ToggleButton from "../../utilities/ToggleButton";
+import calendarIcon from "../../assets/calendarIcon.svg";
+import ToggleButton from "../utilities/ToggleButton";
 
-import { useAppSelector } from "../../../store/store";
-import bin from "../../../assets/delete.svg";
-import { db } from "../../../../firebase.config";
+import { useAppSelector } from "../../store/store";
+import bin from "../../assets/delete.svg";
+import { db } from "../../../firebase.config";
 
 interface TaskProps {
 	task: {
@@ -16,13 +16,15 @@ interface TaskProps {
 		targetDate: Timestamp;
 		status: string;
 		projectId: string;
+		assignedMemberDisplayName: string | null;
+		assignedMemberUid: string | null;
+		assignedMemberImage: string | null;
 	};
-	assignedMembers: DocumentData[];
+
 	handleTaskIdAndToggleAssignTask: (taskId: string) => void;
 }
 const Task: React.FC<TaskProps> = ({
 	task,
-	assignedMembers,
 	handleTaskIdAndToggleAssignTask,
 }) => {
 	const userData = useAppSelector(state => state.auth);
@@ -91,25 +93,22 @@ const Task: React.FC<TaskProps> = ({
 					<p>Assign task</p>
 				</button>
 				<div className="flex flex-row space-x-2">
-					{assignedMembers.map(member =>
-						member.id === task.id ? (
-							member.profileImage ? (
-								<img
-									key={member.id}
-									src={member.profileImage}
-									className="  w-8 h-8 rounded-full object-cover"
-								></img>
-							) : (
-								<span
-									key={member.id}
-									className="flex rounded-full justify-center items-center  bg-gray-300 w-8 h-8 p-2 text-black"
-								>
-									<p className=" flex">
-										{member.displayName.charAt(0).toUpperCase()}
-									</p>
-								</span>
-							)
-						) : null
+					{task.assignedMemberImage && (
+						<img
+							key={task.assignedMemberUid}
+							src={task.assignedMemberImage}
+							className="  w-8 h-8 rounded-full object-cover"
+						></img>
+					)}
+					{!task.assignedMemberImage && task.assignedMemberDisplayName && (
+						<span
+							key={task.assignedMemberUid}
+							className="flex rounded-full justify-center items-center  bg-gray-300 w-8 h-8 p-2 text-black"
+						>
+							<p className=" flex">
+								{task.assignedMemberDisplayName.charAt(0).toUpperCase()}
+							</p>
+						</span>
 					)}
 				</div>
 			</div>

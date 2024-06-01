@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { DocumentData, collection, doc, setDoc } from "firebase/firestore";
-import { db } from "../../../../firebase.config";
+import { DocumentData, doc, updateDoc } from "firebase/firestore";
+import { db } from "../../../firebase.config";
 
 type TaskInputProps = {
 	taskId: string;
@@ -21,18 +21,27 @@ type TaskInputProps = {
 const AssignTask: React.FC<TaskInputProps> = ({
 	taskId,
 	handleToggleAssignTask,
-
+	projectData,
 	activeTeamMembers,
+	userUid,
 }) => {
+	const { id } = projectData;
 	const [err, setErr] = useState<boolean>(false);
 
 	// assign task
 
-	const handleAddMember = async (member: DocumentData) => {
+	const handleAssignMember = async (member: DocumentData) => {
 		try {
-			const ref = collection(db, `assignedTasks`);
+			const assignRef = doc(
+				db,
+				`projects/${userUid}/projects/${id}/tasks/${taskId}`
+			);
 
-			await setDoc(doc(ref, taskId), member);
+			await updateDoc(assignRef, {
+				assignedMemberUid: member.uid,
+				assignedMemberName: member.displayName,
+				assignedMemberImage: member.profileImage,
+			});
 			handleToggleAssignTask();
 		} catch (err) {
 			console.log(err);
@@ -54,7 +63,7 @@ const AssignTask: React.FC<TaskInputProps> = ({
 			<ul className="grid grid-cols-2 overflow-hidden  p-2 w-full gap-2 flex-row">
 				{activeTeamMembers.map((member: DocumentData) => (
 					<li
-						onClick={() => handleAddMember(member)}
+						onClick={() => handleAssignMember(member)}
 						key={member.uid}
 						className="flex hover:border-gray-400 hover:cursor-pointer rounded-md p-2 flex-row space-x-2 border-[#30363E] border"
 					>
