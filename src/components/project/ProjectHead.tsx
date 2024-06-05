@@ -7,9 +7,15 @@ import searchIcon from "../../assets/search.svg";
 
 type ProjectHeadProps = {
 	handleToggleForm: () => void;
+	handleFilterProjectStatus: (e: string) => void;
+	filterProjectStatus: string;
 };
 
-const ProjectHead: React.FC<ProjectHeadProps> = ({ handleToggleForm }) => {
+const ProjectHead: React.FC<ProjectHeadProps> = ({
+	handleToggleForm,
+	handleFilterProjectStatus,
+	filterProjectStatus,
+}) => {
 	const [searchBar, setSearchBar] = useState<Boolean>(false);
 
 	const handleShowSearchBar = () => {
@@ -31,9 +37,37 @@ const ProjectHead: React.FC<ProjectHeadProps> = ({ handleToggleForm }) => {
 
 			<div className="flex flex-row w-full gap-2  ">
 				<div className="flex w-1/2 items-center gap-4">
-					<p className="underline underline-offset-4 ">All projects</p>
+					<p
+						className={`${
+							filterProjectStatus === ""
+								? " underline underline-offset-4 "
+								: "text-gray-400"
+						} hover:cursor-pointer `}
+						onClick={() => handleFilterProjectStatus("")}
+					>
+						All projects
+					</p>
+					<p
+						onClick={() => handleFilterProjectStatus("Ongoing")}
+						className={`${
+							filterProjectStatus === "Ongoing"
+								? " underline underline-offset-4 "
+								: "text-gray-400"
+						} hover:cursor-pointer `}
+					>
+						Ongoing projects
+					</p>
 					<p className="text-gray-400">Critical projects</p>
-					<p className="text-gray-400">Completed projects</p>
+					<p
+						onClick={() => handleFilterProjectStatus("Complete")}
+						className={`${
+							filterProjectStatus === "Complete"
+								? " underline underline-offset-4 "
+								: "text-gray-400"
+						} hover:cursor-pointer `}
+					>
+						Completed projects
+					</p>
 				</div>
 				<div className="flex w-1/2 space-x-2 ">
 					<div className="flex relative flex-1 ">

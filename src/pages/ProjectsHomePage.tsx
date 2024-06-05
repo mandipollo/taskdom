@@ -88,7 +88,7 @@ const ProjectsHomePage: React.FC = () => {
 			const newProject = {
 				title: projectTitle,
 				description: projectDescription,
-				status: "new",
+				status: "Ongoing",
 				id: idDocument,
 				teamLeadPhoto: userData.photoURL ? userData.photoURL : null,
 				teamLeadName: userData.displayName,
@@ -104,6 +104,13 @@ const ProjectsHomePage: React.FC = () => {
 		}
 	};
 
+	// filter projects
+
+	const [filterProjectStatus, setFilterProjectStatus] = useState<string>("");
+
+	const handleFilterProjectStatus = (e: string) => {
+		setFilterProjectStatus(e);
+	};
 	return (
 		<div
 			className="flex relative flex-col w-full p-4 overflow-auto"
@@ -130,10 +137,18 @@ const ProjectsHomePage: React.FC = () => {
 					handleToggleForm={handleToggleForm}
 				/>
 			)}
-			<ProjectHead handleToggleForm={handleToggleForm} />
+			<ProjectHead
+				filterProjectStatus={filterProjectStatus}
+				handleToggleForm={handleToggleForm}
+				handleFilterProjectStatus={handleFilterProjectStatus}
+			/>
 
 			{userData.uid && (
-				<ProjectLists projectList={projectList} userUid={userData.uid} />
+				<ProjectLists
+					filterProjectStatus={filterProjectStatus}
+					projectList={projectList}
+					userUid={userData.uid}
+				/>
 			)}
 		</div>
 	);

@@ -75,7 +75,8 @@ const ProjectsPage = () => {
 		}[]
 	>([]);
 	const [taskTitle, setTaskTitle] = useState<string>("");
-	const [priority, setPriority] = useState<string>("");
+	const [priority, setPriority] = useState<string | null>(null);
+
 	const [taskDescription, setTaskDescription] = useState<string>("");
 
 	const [targetDate, setTargetDate] = useState<Date | null>(new Date());
@@ -131,7 +132,7 @@ const ProjectsPage = () => {
 	const handleTaskSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
-		if (taskDescription && taskTitle && projectData) {
+		if (taskDescription && taskTitle && projectData && priority && targetDate) {
 			const taskRef = collection(
 				db,
 				`projects/${userUid}/projects/${projectData.id}/tasks`
@@ -152,7 +153,7 @@ const ProjectsPage = () => {
 			setTaskDescription("");
 			setTaskTitle("");
 			setToggleForm(!toggleForm);
-			setPriority("");
+			setPriority(null);
 		}
 	};
 
@@ -209,6 +210,14 @@ const ProjectsPage = () => {
 
 	const handleFilterStatus = (e: string) => {
 		setFilterStatus(e);
+	};
+
+	// sort
+
+	const [sortBy, setSortBy] = useState<string>("");
+
+	const handleSortBy = (e: string) => {
+		setSortBy(e);
 	};
 
 	return (
@@ -276,10 +285,13 @@ const ProjectsPage = () => {
 					handleToggleAddTeamMembers={handleToggleAddTeamMembers}
 					projectData={projectData}
 					handleFilterStatus={handleFilterStatus}
+					handleSortBy={handleSortBy}
+					sortBy={sortBy}
 				/>
 			)}
 
 			<Tasks
+				sortBy={sortBy}
 				filterStatus={filterStatus}
 				handleTaskIdAndToggleAssignTask={handleTaskIdAndToggleAssignTask}
 				taskList={taskList}

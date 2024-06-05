@@ -18,36 +18,15 @@ type TaskListProps = {
 	}[];
 	handleTaskIdAndToggleAssignTask: (taskId: string) => void;
 	filterStatus: string;
+	sortBy: string;
 };
 
 const Tasks: React.FC<TaskListProps> = ({
 	taskList,
 	handleTaskIdAndToggleAssignTask,
 	filterStatus,
+	sortBy,
 }) => {
-	// task assigned
-
-	// const [assignedMembers, setAssignedMembers] = useState<DocumentData[]>([]);
-	// useEffect(() => {
-	// 	const fetchAssignedTasks = async () => {
-	// 		try {
-	// 			const assignedTasksSnapshot = await getDocs(
-	// 				collection(db, "assignedTasks")
-	// 			);
-
-	// 			const assignedTaskList = assignedTasksSnapshot.docs.map(doc => ({
-	// 				id: doc.id,
-	// 				...doc.data(),
-	// 			}));
-
-	// 			setAssignedMembers(assignedTaskList);
-	// 		} catch (err) {
-	// 			console.log(err);
-	// 		}
-	// 	};
-	// 	fetchAssignedTasks();
-	// }, [taskList]);
-
 	// filter task
 
 	const filteredTask =
@@ -55,10 +34,25 @@ const Tasks: React.FC<TaskListProps> = ({
 			? taskList
 			: taskList.filter(task => task.status === filterStatus);
 
+	// sort task
+
+	const priorityOrder = ["High", "Medium", "Low"];
+	const sortedTask = filteredTask.sort((a, b) => {
+		if (sortBy === "Date") {
+			return a.targetDate.toMillis() - b.targetDate.toMillis();
+		}
+		if (sortBy === "Priority") {
+			return (
+				priorityOrder.indexOf(a.priority) - priorityOrder.indexOf(b.priority)
+			);
+		}
+
+		return 0;
+	});
 	return (
 		<div className="flex flex-col flex-1 w-full space-y-2">
 			<ul className="grid auto-cols-auto lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-2 ">
-				{filteredTask.map(task => (
+				{sortedTask.map(task => (
 					<Task
 						task={task}
 						handleTaskIdAndToggleAssignTask={handleTaskIdAndToggleAssignTask}

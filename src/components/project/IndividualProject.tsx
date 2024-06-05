@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 
-import { Timestamp, doc, updateDoc } from "firebase/firestore";
+import { Timestamp, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import editImg from "../../assets/edit.svg";
 
 import tickImg from "../../assets/tick.svg";
 import crossImg from "../../assets/cross.svg";
+import deleteImg from "../../assets/delete.svg";
 import { db } from "../../../firebase.config";
+import PopUpConfirmation from "../utilities/PopUpConfirmation";
+
+import ToggleButtonProject from "../utilities/ToggleButtonProject";
 
 interface ProjectProps {
 	userUid: string;
@@ -24,12 +28,23 @@ interface ProjectProps {
 	onGoingCounts: Record<string, number>;
 	taskCounts: Record<string, number>;
 }
-const Project: React.FC<ProjectProps> = ({
+const IndividualProject: React.FC<ProjectProps> = ({
 	project,
 	onGoingCounts,
 	taskCounts,
 	userUid,
 }) => {
+	// pop state
+
+	const [isPopUpOpen, setIsPopUpOpen] = useState<Boolean>(false);
+	const [currentAction, setCurrentAction] = useState<() => void>(() => {});
+
+	const handleIsPopUpOpen = () => {
+		setIsPopUpOpen(!isPopUpOpen);
+	};
+
+	// ref
+	const ref = doc(db, `projects/${userUid}/projects/${project.id}`);
 	// edit project labels
 	const [isEditing, setIsEditing] = useState<Boolean>(false);
 	const [editTitle, setEditTitle] = useState<string>(project.title);
@@ -50,12 +65,19 @@ const Project: React.FC<ProjectProps> = ({
 	};
 
 	const handleSubmitEdit = async () => {
-		const ref = doc(db, `projects/${userUid}/projects/${project.id}`);
 		await updateDoc(ref, {
 			title: editTitle,
 			description: editDescription,
 		});
 		setIsEditing(!isEditing);
+	};
+
+	const handleDeleteProject = () => {
+		const deleteProject = async () => {
+			await deleteDoc(ref);
+		};
+		setCurrentAction(() => deleteProject);
+		setIsPopUpOpen(true);
 	};
 	const handleLinkClick = (
 		event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -66,19 +88,19 @@ const Project: React.FC<ProjectProps> = ({
 	};
 	return (
 		<li
-			className={` hover:border-gray-400  border-t-2 rounded-md border-green-400 grid-items p-4 bg-[#161B22] text-[#E6EDF3]`}
+			className={` hover:border-gray-400 relative  border-t-2 rounded-md border-green-400 grid-items p-4 bg-[#161B22] text-[#E6EDF3]`}
 			key={project.id}
 		>
 			<div className="flex justify-between  ">
 				<div
-					className="flex flex-row space-x-2 items-center
+					className="relative flex flex-row space-x-2 items-center
 									 justify-center "
 				>
 					{isEditing ? (
 						<input
 							value={editTitle}
 							onChange={e => handleEditTitle(e.target.value)}
-							className="p-2 rounded-md border placeholder-gray-400  outline-[#30363E] outline-2  border-[#30363E] bg-[#161B22] text-[#E6EDF3] "
+							className=" rounded-md border placeholder-gray-400  outline-[#30363E] outline-2  border-[#30363E] bg-[#161B22] text-[#E6EDF3] "
 						></input>
 					) : (
 						<p className="text-xl  flex flex-row justify-center">
@@ -88,11 +110,11 @@ const Project: React.FC<ProjectProps> = ({
 
 					<button onClick={handleIsEditing}>
 						{isEditing && (
-							<img src={crossImg} alt="edit title" width={20} height={20} />
+							<img src={crossImg} alt="undo edit" width={20} height={20} />
 						)}
 
 						{!isEditing && (
-							<img src={editImg} alt="edit title" width={20} height={20} />
+							<img src={editImg} alt="edit" width={20} height={20} />
 						)}
 					</button>
 					<button onClick={handleSubmitEdit}>
@@ -101,7 +123,18 @@ const Project: React.FC<ProjectProps> = ({
 						)}
 					</button>
 
-					{project.startDate && project.endDate && (
+					<button onClick={handleDeleteProject}>
+						{isEditing && (
+							<img
+								src={deleteImg}
+								alt="delete project"
+								width={20}
+								height={20}
+							/>
+						)}
+					</button>
+
+					{!isEditing && project.startDate && project.endDate && (
 						<p className="text-gray-400">
 							{project.startDate &&
 								project.startDate.toDate().toLocaleDateString()}
@@ -111,14 +144,29 @@ const Project: React.FC<ProjectProps> = ({
 						</p>
 					)}
 				</div>
-				{onGoingCounts && taskCounts && (
-					<div className="flex flex-row">
-						<p className="text-gray-400">
-							Tasks:
-							{onGoingCounts[project.id] !== undefined &&
-								onGoingCounts[project.id]}
-							/{taskCounts[project.id] !== undefined && taskCounts[project.id]}
-						</p>
+				<PopUpConfirmation
+					message="Proceed?"
+					isOpen={isPopUpOpen}
+					onCancel={handleIsPopUpOpen}
+					onConfirm={() => {
+						currentAction(), setIsPopUpOpen(false);
+					}}
+				/>
+				{!isPopUpOpen && (
+					<div className="flex flex-row space-x-1">
+						<ToggleButtonProject userUid={userUid} project={project} />
+						{onGoingCounts && taskCounts && (
+							<div className="flex flex-row">
+								<p className="text-gray-400">
+									Tasks:
+									{onGoingCounts[project.id] !== undefined &&
+										onGoingCounts[project.id]}
+									/
+									{taskCounts[project.id] !== undefined &&
+										taskCounts[project.id]}
+								</p>
+							</div>
+						)}
 					</div>
 				)}
 			</div>
@@ -133,14 +181,14 @@ const Project: React.FC<ProjectProps> = ({
 						<input
 							value={editDescription}
 							onChange={e => handleEditDescription(e.target.value)}
-							className="p-2 w-full rounded-md border placeholder-gray-400  outline-[#30363E] outline-2  border-[#30363E] bg-[#161B22] text-[#E6EDF3] "
+							className=" w-full rounded-md border placeholder-gray-400  outline-[#30363E] outline-2  border-[#30363E] bg-[#161B22] text-[#E6EDF3] "
 						></input>
 					) : (
 						<p className="text-gray-400 ">{project.description}</p>
 					)}
 				</div>
 
-				<div className="flex gap-2">
+				<div className="flex gap-2 justify-between items-center">
 					<div className="flex items-center gap-2">
 						{project.teamLeadPhoto ? (
 							<img
@@ -160,4 +208,4 @@ const Project: React.FC<ProjectProps> = ({
 	);
 };
 
-export default Project;
+export default IndividualProject;

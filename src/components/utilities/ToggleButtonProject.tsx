@@ -3,25 +3,23 @@ import React from "react";
 import { db } from "../../../firebase.config";
 
 interface ToggleProps {
-	task: {
-		id: string;
-		title: string;
-		description: string;
-		priority: string | null;
-		targetDate: Timestamp;
+	project: {
 		status: string;
-		projectId: string;
+		description: string;
+		title: string;
+		id: string;
+		teamLeadPhoto: string;
+		teamLeadName: string;
+		startDate: Timestamp;
+		endDate: Timestamp;
 	};
 	userUid: string;
 }
-const ToggleButton: React.FC<ToggleProps> = ({ task, userUid }) => {
-	const { id, projectId, status } = task;
+const ToggleButtonProject: React.FC<ToggleProps> = ({ project, userUid }) => {
+	const { id, status } = project;
 	const toggleStatus = async (task: DocumentData) => {
 		if (task) {
-			const ref = doc(
-				db,
-				`projects/${userUid}/projects/${projectId}/tasks/${id}`
-			);
+			const ref = doc(db, `projects/${userUid}/projects/${id}`);
 
 			if (status === "Ongoing") {
 				await updateDoc(ref, {
@@ -57,4 +55,4 @@ const ToggleButton: React.FC<ToggleProps> = ({ task, userUid }) => {
 	);
 };
 
-export default ToggleButton;
+export default ToggleButtonProject;

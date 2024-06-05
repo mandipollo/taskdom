@@ -12,7 +12,7 @@ interface TaskProps {
 		id: string;
 		title: string;
 		description: string;
-		priority: string;
+		priority: string | null;
 		targetDate: Timestamp;
 		status: string;
 		projectId: string;
@@ -67,13 +67,15 @@ const Task: React.FC<TaskProps> = ({
 
 			<p className="text-gray-400">{task.description}</p>
 			<div className="flex flex-row space-x-2 items-center">
-				<p
-					className={`${getBgColor(
-						task.priority
-					)} rounded-xl text-sm w-fit px-2 `}
-				>
-					{task.priority}
-				</p>
+				{task.priority && (
+					<p
+						className={`${getBgColor(
+							task.priority
+						)} rounded-xl text-sm w-fit px-2 `}
+					>
+						{task.priority}
+					</p>
+				)}
 
 				{userData.uid && <ToggleButton task={task} userUid={userData.uid} />}
 			</div>

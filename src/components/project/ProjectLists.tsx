@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 
 import { db } from "../../../firebase.config";
 
-import Project from "./project";
+import IndividualProject from "./IndividualProject";
 type ProjectlistProps = {
 	projectList: {
 		status: string;
@@ -23,9 +23,14 @@ type ProjectlistProps = {
 		endDate: Timestamp;
 	}[];
 	userUid: string;
+	filterProjectStatus: string;
 };
 
-const ProjectLists: React.FC<ProjectlistProps> = ({ projectList, userUid }) => {
+const ProjectLists: React.FC<ProjectlistProps> = ({
+	projectList,
+	userUid,
+	filterProjectStatus,
+}) => {
 	// task counts
 	const [taskCounts, setTaskCounts] = useState<Record<string, number>>({});
 
@@ -83,11 +88,17 @@ const ProjectLists: React.FC<ProjectlistProps> = ({ projectList, userUid }) => {
 		fetchTaskCounts();
 	}, [projectList]);
 
+	//filter projects
+
+	const filteredProjects =
+		filterProjectStatus === ""
+			? projectList
+			: projectList.filter(project => project.status === filterProjectStatus);
 	return (
 		<div className="flex w-full mt-2">
 			<ul className="grid grid-cols-2 w-full gap-4 ">
-				{projectList.map(project => (
-					<Project
+				{filteredProjects.map(project => (
+					<IndividualProject
 						key={project.id}
 						userUid={userUid}
 						project={project}

@@ -19,6 +19,8 @@ type ProjectDetailsProps = {
 	handleToggleForm: () => void;
 	handleFilterStatus: (e: string) => void;
 	filterStatus: string;
+	handleSortBy: (e: string) => void;
+	sortBy: string;
 };
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 	projectData,
@@ -27,6 +29,8 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 	handleToggleForm,
 	handleFilterStatus,
 	filterStatus,
+	handleSortBy,
+	sortBy,
 }) => {
 	const { description, title, teamLeadName, teamLeadPhoto } = projectData;
 	const [showMore, setShowMore] = useState<boolean>(false);
@@ -187,8 +191,22 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 						} absolute rounded-md top-0 right-6 z-10 text-sm space-y-4 flex-col border border-[#30363E]  w-36 p-2.5 bg-[#161B22] `}
 					>
 						<li className=" text-gray-400">Sort by</li>
-						<li className="hover:underline hover:cursor-pointer">Date</li>
-						<li className="hover:underline hover:cursor-pointer">Priority</li>
+						<li
+							onClick={() => handleSortBy("Date")}
+							className={`${
+								sortBy === "Date" && "underline"
+							} hover:underline hover:cursor-pointer`}
+						>
+							Date
+						</li>
+						<li
+							onClick={() => handleSortBy("Priority")}
+							className={`${
+								sortBy === "Priority" && "underline"
+							} hover:underline hover:cursor-pointer`}
+						>
+							Priority
+						</li>
 					</ul>
 				</div>
 			</div>
