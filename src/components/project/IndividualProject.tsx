@@ -88,12 +88,12 @@ const IndividualProject: React.FC<ProjectProps> = ({
 	};
 	return (
 		<li
-			className={` hover:border-gray-400 relative  border-t-2 rounded-md border-green-400 grid-items p-4 bg-[#161B22] text-[#E6EDF3]`}
+			className={` hover:border-gray-400 w-full relative  border-t-2 rounded-md border-green-400 grid-items p-4 bg-[#161B22] text-[#E6EDF3]`}
 			key={project.id}
 		>
-			<div className="flex justify-between  ">
+			<div className="sm:flex hidden md:justify-between  ">
 				<div
-					className="relative flex flex-row space-x-2 items-center
+					className="relative flex space-x-2 items-center
 									 justify-center "
 				>
 					{isEditing ? (
@@ -169,6 +169,82 @@ const IndividualProject: React.FC<ProjectProps> = ({
 						)}
 					</div>
 				)}
+			</div>
+			<div className=" sm:hidden flex md:justify-between  flex-col  ">
+				<div className="flex flex-row">
+					{isEditing ? (
+						<input
+							value={editTitle}
+							onChange={e => handleEditTitle(e.target.value)}
+							className=" rounded-md border placeholder-gray-400  outline-[#30363E] outline-2  border-[#30363E] bg-[#161B22] text-[#E6EDF3] "
+						></input>
+					) : (
+						<p className="text-xl  flex flex-row justify-center">
+							{project.title}
+						</p>
+					)}
+					<button onClick={handleIsEditing}>
+						{isEditing && (
+							<img src={crossImg} alt="undo edit" width={20} height={20} />
+						)}
+
+						{!isEditing && (
+							<img src={editImg} alt="edit" width={20} height={20} />
+						)}
+					</button>
+					<button onClick={handleSubmitEdit}>
+						{isEditing && (
+							<img src={tickImg} alt="edit title" width={20} height={20} />
+						)}
+					</button>
+					<button onClick={handleDeleteProject}>
+						{isEditing && (
+							<img
+								src={deleteImg}
+								alt="delete project"
+								width={20}
+								height={20}
+							/>
+						)}
+					</button>
+				</div>
+				<div>
+					{project.startDate && project.endDate && (
+						<p className="text-gray-400">
+							{project.startDate &&
+								project.startDate.toDate().toLocaleDateString()}
+							-
+							{project.startDate &&
+								project.endDate.toDate().toLocaleDateString()}
+						</p>
+					)}
+
+					<PopUpConfirmation
+						message="Proceed?"
+						isOpen={isPopUpOpen}
+						onCancel={handleIsPopUpOpen}
+						onConfirm={() => {
+							currentAction(), setIsPopUpOpen(false);
+						}}
+					/>
+					{!isPopUpOpen && (
+						<div className="flex flex-row space-x-1">
+							<ToggleButtonProject userUid={userUid} project={project} />
+							{onGoingCounts && taskCounts && (
+								<div className="flex flex-row">
+									<p className="text-gray-400">
+										Tasks:
+										{onGoingCounts[project.id] !== undefined &&
+											onGoingCounts[project.id]}
+										/
+										{taskCounts[project.id] !== undefined &&
+											taskCounts[project.id]}
+									</p>
+								</div>
+							)}
+						</div>
+					)}
+				</div>
 			</div>
 			<Link
 				to={`/projects/${project.id}`}

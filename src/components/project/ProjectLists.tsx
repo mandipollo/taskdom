@@ -94,9 +94,12 @@ const ProjectLists: React.FC<ProjectlistProps> = ({
 		filterProjectStatus === ""
 			? projectList
 			: projectList.filter(project => project.status === filterProjectStatus);
+
+	// critical projects
+
 	return (
 		<div className="flex w-full mt-2">
-			<ul className="grid grid-cols-2 w-full gap-4 ">
+			<ul className="grid lg:grid-cols-2 md:grid-cols-1  w-full gap-4 ">
 				{filteredProjects.map(project => (
 					<IndividualProject
 						key={project.id}

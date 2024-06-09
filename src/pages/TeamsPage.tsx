@@ -1,60 +1,51 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../store/store";
-import { getDoc, doc, DocumentData } from "firebase/firestore";
+import { useAppSelector } from "../store/store";
+import { DocumentData, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase.config";
 import TeamMembersList from "../components/teams/TeamMembersList";
-import TeamLists from "../components/teams/TeamLists";
-import { setUserChat } from "../store/chatSlice";
-import { SelectProps } from "../components/utilities/userDataProps";
+
+import SearchConnections from "../components/navbar/SearchConnections";
+import ChatConnections from "../components/teams/chat/ChatConnections";
 const TeamsPage = () => {
-	const dispatch = useAppDispatch();
+	const userState = useAppSelector(state => state.userFirestoreData);
 
-	const uid = useAppSelector(state => state.auth.uid);
-	const [teamMembers, setTeamMembers] = useState<DocumentData[]>([]);
-
-	// dispatch the selected user for chat state
-	const handleSelect = ({
-		chatId,
-		userUid,
-		displayName,
-		profileImage,
-	}: SelectProps) => {
-		dispatch(
-			setUserChat({
-				chatId,
-				user: {
-					uid: userUid,
-					displayName: displayName,
-					profileImage: profileImage,
-				},
-			})
-		);
+	const { uid, displayName, profileImage } = userState as {
+		displayName: string;
+		contactNo: string;
+		workHours: string | null;
+		jobTitle: string | null;
+		uid: string;
+		profileImage: string;
 	};
 
-	// retrieve team members from firestore
+	const [teamMembers, setTeamMembers] = useState<DocumentData[]>([]);
+
+	//handle select display the selected user info
+
+	// set a listner for team members
 	useEffect(() => {
-		const unsub = async () => {
-			const res = await getDoc(doc(db, `usersChat/${uid}`));
-			if (res.exists()) {
-				const teamMembers = Object.entries(res.data()).sort(
-					(a, b) => b[1].date - a[1].date
-				);
-				setTeamMembers(teamMembers);
+		const unSubscribe = onSnapshot(
+			collection(db, `users/${uid}/connections`),
+			doc => {
+				setTeamMembers([]);
+				doc.forEach(doc => {
+					const teamMembers = doc.data();
+
+					setTeamMembers(prev => [...prev, teamMembers]);
+				});
 			}
-		};
+		);
+
 		return () => {
-			unsub();
+			unSubscribe();
 		};
 	}, []);
 
 	return (
-		<div className="h-full w-full flex flex-col">
-			<TeamLists />
-			<div className="flex flex-row flex-1 ml-2 border border-[#30363E] bg-[#0D1117] mt-2">
-				<TeamMembersList
-					handleSelect={handleSelect}
-					teamMembers={teamMembers}
-				/>
+		<div className="h-full w-full  flex flex-col space-y-2">
+			<div className="flex flex-row flex-1 space-x-1 ">
+				<TeamMembersList teamMembers={teamMembers} />
+				<ChatConnections />
 			</div>
 		</div>
 	);

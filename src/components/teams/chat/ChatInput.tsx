@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
-import sendIcon from "../../assets/sendIcon.svg";
-import attach from "../../assets/attach.svg";
-import { useAppSelector } from "../../store/store";
+import sendIcon from "../../../assets/sendIcon.svg";
+import attach from "../../../assets/attach.svg";
+import { useAppSelector } from "../../../store/store";
 import { v4 as uuid } from "uuid";
 import {
 	Timestamp,
@@ -11,15 +11,13 @@ import {
 	setDoc,
 	updateDoc,
 } from "firebase/firestore";
-import { db, storage } from "../../../firebase.config";
+import { db, storage } from "../../../../firebase.config";
 import { ref, uploadBytesResumable } from "firebase/storage";
-import getProfileImage from "../../firebaseAuth/getProfileImage";
-type chatProps = {
-	chatId: string | null;
-	chatUserUid: string | null;
-};
-const ChatInput = ({ chatId, chatUserUid }: chatProps) => {
+import getProfileImage from "../../../firebaseAuth/getProfileImage";
+
+const ChatInput = () => {
 	const uid = useAppSelector(state => state.auth.uid);
+	const chatState = useAppSelector(state => state.chat);
 	const [text, setText] = useState<string | null>(null);
 	const [img, setImg] = useState<File | undefined>(undefined);
 
@@ -41,11 +39,14 @@ const ChatInput = ({ chatId, chatUserUid }: chatProps) => {
 	// send message to the chatId collection
 	const handleSend = async (e: React.FormEvent<HTMLElement>) => {
 		e.preventDefault();
+		if (!chatState.user) {
+			return;
+		}
 
-		const chatRef = doc(db, `chats/${chatId}`);
+		const chatRef = doc(db, `chats/${chatState.user.chatId}`);
 		const messageRef = collection(chatRef, "message");
 
-		if (img) {
+		if (img && chatState.user) {
 			const storageRef = ref(storage, uuid());
 
 			const uploadTask = await uploadBytesResumable(storageRef, img);
@@ -71,17 +72,17 @@ const ChatInput = ({ chatId, chatUserUid }: chatProps) => {
 			// update current user last message
 
 			await updateDoc(doc(db, `usersChat/${uid}`), {
-				[chatId + ".lastMessage"]: {
+				[chatState.user.chatId + ".lastMessage"]: {
 					text,
 				},
-				[chatId + ".date"]: serverTimestamp(),
+				[chatState.user.chatId + ".date"]: serverTimestamp(),
 			});
 			// update the chat user last message
-			await updateDoc(doc(db, `usersChat/${chatUserUid}`), {
-				[chatId + ".lastMessage"]: {
+			await updateDoc(doc(db, `usersChat/${chatState.user.uid}`), {
+				[chatState.user.chatId + ".lastMessage"]: {
 					text,
 				},
-				[chatId + ".date"]: serverTimestamp(),
+				[chatState.user.chatId + ".date"]: serverTimestamp(),
 			});
 		}
 		setText(null);

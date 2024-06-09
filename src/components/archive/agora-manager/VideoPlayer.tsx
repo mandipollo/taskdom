@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-import { UserCallProps } from "../utilities/userDataProps";
+import { UserCallProps } from "../../utilities/userDataProps";
 
 export const VideoPlayer: React.FC<{ user: UserCallProps }> = props => {
 	const ref = useRef<HTMLDivElement>(null);

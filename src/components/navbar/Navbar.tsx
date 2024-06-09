@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import logo from "../../assets/logo.svg";
 
-import "./navbar.css";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { auth, db } from "../../../firebase.config";
 
 import { User } from "firebase/auth";
@@ -12,21 +11,23 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { doc, onSnapshot } from "firebase/firestore";
 import { setUserFirestoreData } from "../../store/userFirestoreData";
 import { UserDataProps } from "../utilities/userDataProps";
-
-import SearchNavbar from "./SearchNavbar";
+import SearchConnections from "./SearchConnections";
 
 const Navbar: React.FC = () => {
+	const { pathname } = useLocation();
+
 	const dispatch = useAppDispatch();
 	const userState = useAppSelector(state => state.userFirestoreData);
 
-	const { uid, displayName, profileImage } = userState as {
-		displayName: string;
-		contactNo: string;
-		workHours: string | null;
-		jobTitle: string | null;
-		uid: string;
-		profileImage: string;
-	};
+	const { uid, displayName, profileImage, workHours, contactNo, jobTitle } =
+		userState as {
+			displayName: string;
+			contactNo: string;
+			workHours: string | null;
+			jobTitle: string | null;
+			uid: string;
+			profileImage: string;
+		};
 
 	const defaultPic = displayName?.charAt(0).toUpperCase() || profileImage;
 	const [user, setUser] = useState<User | null>(null);
@@ -44,13 +45,6 @@ const Navbar: React.FC = () => {
 	const handlerToggle = (): void => {
 		setOpen(!open);
 	};
-
-	const hamburgerTop = `hamburger-top ${open && "open"}`;
-	const hamburgerMiddle = `hamburger-middle ${open && "open"}`;
-	const hamburgerBottom = `hamburger-bottom ${open && "open"}`;
-	const menu = `flex ml-6 justify-center items-center button z-50 block hamburger md:hidden focus:outline-none${
-		open && "open"
-	}`;
 
 	//  ovelay
 	const mobileClassRoutes = `${
@@ -77,30 +71,30 @@ const Navbar: React.FC = () => {
 	}, [uid]);
 
 	return (
-		<div className="flex flex-1 h-14 p-2  w-full justify-center items-center border-b border-[#30363E] bg-[#000408]">
+		<div className="flex flex-1 h-14 p-2 space-x-2  w-full justify-center items-center border-b border-[#30363E] bg-[#000408]">
 			{/* logo medium screen */}
 
 			<Link to={linkHomeLogo}>
-				<div className="hidden md:flex w-10  justify-center items-center space-x-4 h-full">
+				<div className=" md:flex w-10  justify-center items-center space-x-4 h-full">
 					<img src={logo} alt="logo" height={20} width={20} />
 					{/* <p className="font-mono text-lg font-thin ">TASKDOM</p> */}
 				</div>
 			</Link>
 
-			{/* hamburger button sm */}
-			<div className=" md:hidden flex justify-center items-center  h-full">
-				<button
-					onClick={handlerToggle}
-					id="menu-btn"
-					type="button"
-					className={menu}
-				>
-					<span className={hamburgerTop}></span>
-					<span className={hamburgerMiddle}></span>
-					<span className={hamburgerBottom}></span>
-				</button>
-			</div>
 			{/* nav routes */}
+
+			{pathname === "/teams" && (
+				<SearchConnections
+					uid={uid}
+					profileImage={profileImage}
+					workHours={workHours}
+					jobTitle={jobTitle}
+					displayName={displayName}
+					contactNo={contactNo}
+					defaultPic={defaultPic}
+				/>
+			)}
+
 			<nav className="flex flex-1 justify-center items-center h-full">
 				{/* logo small screen */}
 
@@ -115,19 +109,6 @@ const Navbar: React.FC = () => {
 						</Link>
 					</div>
 				)}
-
-				{/* desktop menu */}
-				{/* {user && (
-					<SearchNavbar
-						defaultPic={defaultPic}
-						uid={user.uid}
-						profileImage={profileImage}
-						displayName={displayName}
-						contactNo={contactNo}
-						workHours={workHours}
-						jobTitle={jobTitle}
-					/>
-				)} */}
 
 				{/* mobile menu */}
 				<div className={mobileClassRoutes} onClick={handlerToggle}>

@@ -1,51 +1,20 @@
 import { DocumentData } from "firebase/firestore";
 import React from "react";
 
-import { SelectProps } from "../utilities/userDataProps";
+import Members from "./Members";
+import ConnectionRequest from "./chat/ConnectionRequest";
+
 type teamMemberProps = {
 	teamMembers: DocumentData[];
-	handleSelect: (selectMember: SelectProps) => void;
 };
 
-const TeamMembersList: React.FC<teamMemberProps> = ({
-	teamMembers,
-	handleSelect,
-}) => {
+const TeamMembersList: React.FC<teamMemberProps> = ({ teamMembers }) => {
 	return (
-		<ul className="flex flex-1 space-x-2 p-2">
+		<ul className="flex ml-1 flex-col space-y-2">
+			<ConnectionRequest />
 			{teamMembers
-				? teamMembers.map(team => (
-						<li
-							onClick={() =>
-								handleSelect({
-									chatId: team[0],
-									userUid: team[1].userInfo.uid,
-									displayName: team[1].userInfo.displayName,
-									profileImage: team[1].userInfo.profileImage,
-								})
-							}
-							className="flex flex-ro h-24 px-4 text-gray-400 hover:text-[#E6EDF3] hover:cursor-pointer justify-center items-center space-x-4 border border-[#30363E] bg-[#161B22]"
-							key={team[1].userInfo.uid}
-						>
-							{team[1].userInfo.profileImage ? (
-								<img
-									className="rounded-full w-10 h-10 object-cover"
-									src={team[1].userInfo.profileImage}
-									alt="team member"
-								/>
-							) : (
-								<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 text-black">
-									<p>{team[1].userInfo.displayName?.charAt(0).toUpperCase()}</p>
-								</span>
-							)}
-							<div className="flex flex-col justify-center ">
-								<p className="text-[#508D69] uppercase">
-									{team[1].userInfo.displayName}
-								</p>
-								<p>{team[1].userInfo.jobTitle}</p>
-								<p>{team[1].userInfo.workHours}</p>
-							</div>
-						</li>
+				? teamMembers.map(member => (
+						<Members key={member.uid} member={member} />
 				  ))
 				: null}
 		</ul>

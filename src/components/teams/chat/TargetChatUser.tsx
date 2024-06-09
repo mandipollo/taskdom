@@ -1,18 +1,19 @@
 import React from "react";
-import dotMenu from "../../assets/dotMenu.svg";
-import call from "../../assets/call.svg";
+import dotMenu from "../../../assets/dotMenu.svg";
+import call from "../../../assets/call.svg";
+import { DocumentData } from "firebase/firestore";
 
 type targetChatUserProps = {
-	displayName: string | null;
+	member: DocumentData;
 };
 
-const TargetChatUser: React.FC<targetChatUserProps> = ({ displayName }) => {
+const TargetChatUser: React.FC<targetChatUserProps> = ({ member }) => {
 	return (
 		<div className="flex w-full h-20 items-center justify-center ">
-			<div className="flex w-80 h-full p-4 ">
+			<div className="flex  h-full p-4 ">
 				<div className="flex space-x-4 justify-between  items-center bg-[#161B22] h-full w-full  rounded-xl">
 					<div className="flex space-x-2 p-2 justify-center items-center">
-						<p className="uppercase"> {displayName}</p>
+						<p className="uppercase"> {member.displayName}</p>
 					</div>
 					<div className="flex p-2 space-x-2">
 						<button>

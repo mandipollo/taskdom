@@ -14,10 +14,9 @@ import Signuppage from "./pages/Signuppage";
 import UserDashboardPage from "./pages/UserDashboardPage";
 import AccountSettingpage from "./pages/AccountSettingpage";
 import TeamsPage from "./pages/TeamsPage";
-import ChatPage from "./pages/ChatPage";
 import ProjectPage from "./pages/ProjectPage";
-
 import ProjectsHomePage from "./pages/ProjectsHomePage";
+import RequestPage from "./pages/RequestPage";
 
 let persistor = persistStore(store);
 
@@ -48,7 +47,7 @@ const Route = createBrowserRouter([
 				path: "teams",
 				element: <TeamsPage />,
 			},
-			{ path: "chats", element: <ChatPage /> },
+			{ path: "connectionRequest", element: <RequestPage /> },
 
 			{
 				path: "projects",

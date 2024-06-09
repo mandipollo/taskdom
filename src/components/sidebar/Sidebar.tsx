@@ -3,7 +3,7 @@ import dashboard from "../../assets/dashboard.svg";
 import project from "../../assets/project.svg";
 
 import teams from "../../assets/teams.svg";
-import chat from "../../assets/chat.svg";
+
 import setting from "../../assets/setting.svg";
 import logout from "../../assets/logout.svg";
 
@@ -33,7 +33,7 @@ const Sidebar: React.FC = () => {
 
 	const classBtn =
 		"flex flex-row space-x-2 hover:underline underline-offset-4 ";
-	const classP = `${open ? "hidden" : "block"}`;
+	const classP = `${open ? "hidden" : "hidden sm:block "}`;
 
 	const active = " text-white underline underline-offset-4";
 	const pending = " text-red-400 ";
@@ -47,7 +47,7 @@ const Sidebar: React.FC = () => {
 	return (
 		<div
 			className={`${
-				open ? "w-10" : "w-40"
+				open ? "w-10" : " sm:w-40 w-10"
 			} transition-all ease-in-out duration-300 flex flex-col items-center border border-[#30363E] bg-[#0D1117] `}
 		>
 			<ul className="flex flex-col space-y-6 pt-10">
@@ -98,19 +98,6 @@ const Sidebar: React.FC = () => {
 						<button className={classBtn}>
 							<img src={teams} width={20} height={20} alt="clients" />
 							<p className={classP}>Teams</p>
-						</button>
-					</NavLink>
-				</li>
-				<li className="flex  items-center">
-					<NavLink
-						to="/chats"
-						className={({ isActive, isPending }) =>
-							isPending ? pending : isActive ? active : ""
-						}
-					>
-						<button className={classBtn}>
-							<img src={chat} width={20} height={20} alt="chat" />
-							<p className={classP}> Chat</p>
 						</button>
 					</NavLink>
 				</li>

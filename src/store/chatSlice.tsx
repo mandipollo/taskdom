@@ -2,21 +2,24 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+interface User {
+	chatId: string | undefined;
+	uid: string | null;
+	displayName: string | null;
+	profileImage: string | null;
+}
 interface chatState {
-	chatId: string | null;
-	user: {
-		uid: string | null;
-		displayName: string | null;
-		profileImage: string | undefined;
-	};
+	displayChat: Boolean;
+	user: User | null;
 }
 
 const initialState: chatState = {
-	chatId: null,
+	displayChat: false,
 	user: {
+		chatId: undefined,
 		uid: null,
 		displayName: null,
-		profileImage: undefined,
+		profileImage: null,
 	},
 };
 
@@ -24,17 +27,23 @@ const chatSlice = createSlice({
 	name: "chat",
 	initialState,
 	reducers: {
-		setUserChat: (state, action: PayloadAction<chatState | null>) => {
-			if (action.payload) {
-				(state.chatId = action.payload.chatId),
-					(state.user = action.payload.user);
+		setUserChat: (state, action: PayloadAction<User>) => {
+			if (action.payload !== undefined) {
+				state.user = action.payload;
 			}
 		},
 		resetUserChat: () => {
 			return { ...initialState };
 		},
+		setDisplayChat: (state, action: PayloadAction<boolean>) => {
+			state.displayChat = action.payload;
+		},
+		toggleDisplayChat: state => {
+			state.displayChat = !state.displayChat;
+		},
 	},
 });
 
-export const { setUserChat, resetUserChat } = chatSlice.actions;
+export const { setUserChat, resetUserChat, setDisplayChat, toggleDisplayChat } =
+	chatSlice.actions;
 export default chatSlice.reducer;

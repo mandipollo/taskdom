@@ -51,13 +51,15 @@ const Tasks: React.FC<TaskListProps> = ({
 	});
 	return (
 		<div className="flex flex-col flex-1 w-full space-y-2">
-			<ul className="grid auto-cols-auto lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-2 ">
+			<ul className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2">
 				{sortedTask.map(task => (
-					<Task
-						task={task}
-						handleTaskIdAndToggleAssignTask={handleTaskIdAndToggleAssignTask}
-						key={task.id}
-					/>
+					<div key={task.id} className=" break-inside-avoid">
+						<Task
+							task={task}
+							handleTaskIdAndToggleAssignTask={handleTaskIdAndToggleAssignTask}
+							key={task.id}
+						/>
+					</div>
 				))}
 			</ul>
 		</div>
