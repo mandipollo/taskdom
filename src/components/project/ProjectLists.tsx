@@ -1,27 +1,12 @@
-import {
-	Timestamp,
-	collection,
-	getCountFromServer,
-	getDocs,
-	query,
-	where,
-} from "firebase/firestore";
+import { collection, getCountFromServer, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 
 import { db } from "../../../firebase.config";
+import { ProjectProps } from "../utilities/userDataProps";
 
 import IndividualProject from "./IndividualProject";
 type ProjectlistProps = {
-	projectList: {
-		status: string;
-		description: string;
-		title: string;
-		id: string;
-		teamLeadPhoto: string;
-		teamLeadName: string;
-		startDate: Timestamp;
-		endDate: Timestamp;
-	}[];
+	projectList: ProjectProps[];
 	userUid: string;
 	filterProjectStatus: string;
 };
@@ -31,19 +16,26 @@ const ProjectLists: React.FC<ProjectlistProps> = ({
 	userUid,
 	filterProjectStatus,
 }) => {
+	const [isOngoingTaskLoading, setIsOngoingTaskLoading] =
+		useState<Boolean>(true);
+
+	const [isTotalTaskLoading, setIsTotalTaskLoading] = useState<Boolean>(true);
+
 	// task counts
 	const [taskCounts, setTaskCounts] = useState<Record<string, number>>({});
 
 	// get count of total tasks in a project
 
 	const getTaskCount = async (projectId: string) => {
-		const ref = collection(
-			db,
-			`projects/${userUid}/projects/${projectId}/tasks`
-		);
+		try {
+			const ref = collection(db, `projects/${projectId}/tasks`);
 
-		const snapshot = await getCountFromServer(ref);
-		return snapshot.data().count;
+			const snapshot = await getCountFromServer(ref);
+			return snapshot.data().count;
+		} catch (err) {
+			console.log(err);
+			return 0;
+		}
 	};
 	useEffect(() => {
 		const fetchTaskCounts = async () => {
@@ -55,6 +47,7 @@ const ProjectLists: React.FC<ProjectlistProps> = ({
 				counts[project.id] = count;
 			}
 			setTaskCounts(counts);
+			setIsTotalTaskLoading(false);
 		};
 
 		fetchTaskCounts();
@@ -64,14 +57,15 @@ const ProjectLists: React.FC<ProjectlistProps> = ({
 	const [ongoingCounts, setOngoingCount] = useState<Record<string, number>>({});
 
 	const getOngoingTasksCount = async (projectId: string) => {
-		const ref = collection(
-			db,
-			`projects/${userUid}/projects/${projectId}/tasks`
-		);
+		try {
+			const ref = collection(db, `projects/${projectId}/tasks`);
 
-		const ongoingQuery = query(ref, where("status", "==", "Ongoing"));
-		const querySnapshot = await getDocs(ongoingQuery);
-		return querySnapshot.size;
+			const querySnapshot = await getDocs(ref);
+			return querySnapshot.size;
+		} catch (err) {
+			console.log(err);
+			return 0;
+		}
 	};
 	useEffect(() => {
 		const fetchTaskCounts = async () => {
@@ -83,6 +77,7 @@ const ProjectLists: React.FC<ProjectlistProps> = ({
 			}
 
 			setOngoingCount(ongoings);
+			setIsOngoingTaskLoading(false);
 		};
 
 		fetchTaskCounts();
@@ -102,6 +97,8 @@ const ProjectLists: React.FC<ProjectlistProps> = ({
 			<ul className="grid lg:grid-cols-2 md:grid-cols-1  w-full gap-4 ">
 				{filteredProjects.map(project => (
 					<IndividualProject
+						isOngoingTaskLoading={isOngoingTaskLoading}
+						isTotalTaskLoading={isTotalTaskLoading}
 						key={project.id}
 						userUid={userUid}
 						project={project}

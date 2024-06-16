@@ -12,10 +12,10 @@ type ProjectInputProps = {
 	handleProjectSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 	projectTitle: string;
 	projectDescription: string;
-	startDate: Date | null;
-	endDate: Date | null;
-	setStartDate: (date: Date | null) => void;
-	setEndDate: (date: Date | null) => void;
+	startDate: Date;
+	endDate: Date;
+	setStartDate: (date: Date) => void;
+	setEndDate: (date: Date) => void;
 };
 const ProjectInput: React.FC<ProjectInputProps> = ({
 	handleProjectDescription,

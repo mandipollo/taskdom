@@ -18,10 +18,7 @@ const ToggleButton: React.FC<ToggleProps> = ({ task, userUid }) => {
 	const { id, projectId, status } = task;
 	const toggleStatus = async (task: DocumentData) => {
 		if (task) {
-			const ref = doc(
-				db,
-				`projects/${userUid}/projects/${projectId}/tasks/${id}`
-			);
+			const ref = doc(db, `projects/${projectId}/tasks/${id}`);
 
 			if (status === "Ongoing") {
 				await updateDoc(ref, {

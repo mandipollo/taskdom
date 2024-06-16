@@ -3,24 +3,18 @@ import team from "../../assets/teams.svg";
 import { DocumentData } from "firebase/firestore";
 import add from "../../assets/add.svg";
 import sort from "../../assets/list.svg";
+import { ProjectProps } from "../utilities/userDataProps";
 
 type ProjectDetailsProps = {
-	projectData: DocumentData;
+	projectData: ProjectProps;
 	handleToggleAddTeamMembers: () => void;
-	teamMembers: {
-		contactNo: string;
-		displayName: string;
-		email: string;
-		jobTitle: string;
-		profileImage: string;
-		uid: string;
-		workHours: string;
-	}[];
+	teamMembers: DocumentData[];
 	handleToggleForm: () => void;
 	handleFilterStatus: (e: string) => void;
 	filterStatus: string;
 	handleSortBy: (e: string) => void;
 	sortBy: string;
+	userUid: string;
 };
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 	projectData,
@@ -31,8 +25,9 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 	filterStatus,
 	handleSortBy,
 	sortBy,
+	userUid,
 }) => {
-	const { description, title, teamLeadName, teamLeadPhoto } = projectData;
+	const { description, title, adminName, adminPhoto } = projectData;
 	const [showMore, setShowMore] = useState<boolean>(false);
 
 	const handleToggleDescription = () => {
@@ -74,16 +69,16 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 
 				<div className="flex h-full items-center w-full py-2  justify-between">
 					<div className="flex items-center space-x-2 ">
-						<p className="text-gray-400">Team Lead:</p>
-						<p className=" text-sm">{teamLeadName.toUpperCase()}</p>
-						{teamLeadPhoto ? (
+						<p className="text-gray-400">Project Owner:</p>
+						<p className=" text-sm">{adminName.toUpperCase()}</p>
+						{adminPhoto ? (
 							<img
-								src={teamLeadPhoto}
+								src={adminPhoto}
 								className="rounded-full w-8 h-8 object-cover"
 							></img>
 						) : (
 							<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 text-black">
-								{teamLeadName.charAt(0).toUpperCase()}
+								{adminName.charAt(0).toUpperCase()}
 							</span>
 						)}
 					</div>
@@ -128,15 +123,19 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 					</div>
 				</div>
 			</div>
+
 			<div className="h-20 p-2 space-x-2 flex items-center justify-between">
-				<button
-					onClick={handleToggleForm}
-					className="rounded-md flex bg-[#0D1117] p-2"
-				>
-					<img src={add} width={20} height={20} alt="" />
-					<p>Add Task</p>
-				</button>
+				{projectData.adminUid === userUid && (
+					<button
+						onClick={handleToggleForm}
+						className="rounded-md flex bg-[#0D1117] p-2"
+					>
+						<img src={add} width={20} height={20} alt="" />
+						<p>Add Task</p>
+					</button>
+				)}
 			</div>
+
 			<div className="flex w-full">
 				<ul className="flex flex-row w-full  space-x-4">
 					<li>

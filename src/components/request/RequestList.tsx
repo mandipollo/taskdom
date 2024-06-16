@@ -18,14 +18,23 @@ interface RequestListProps {
 const RequestList: React.FC<RequestListProps> = ({ req }) => {
 	const currentUser = useAppSelector(state => state.userFirestoreData);
 
-	// accept request ,  setup chat collection and update request received/sent collection
+	// setup chat collection, update target connection list  and update request received/sent collection
 	const handleAccept = async (req: DocumentData) => {
 		if (currentUser && currentUser.uid) {
+			// update users connection list
 			const connectionsRef = collection(
 				db,
 				`users/${currentUser.uid}/connections`
 			);
 			await setDoc(doc(connectionsRef, req.uid), req);
+
+			// update other parties connection list
+			const otherPartyConnectionRef = collection(
+				db,
+				`users/${req.uid}/connections`
+			);
+
+			await setDoc(doc(otherPartyConnectionRef, currentUser.uid), currentUser);
 			const combinedUserId =
 				currentUser.uid > req.uid
 					? currentUser.uid + req.uid

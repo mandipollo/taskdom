@@ -1,39 +1,46 @@
 import React, { useState } from "react";
 
-import { Timestamp, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import editImg from "../../assets/edit.svg";
 
 import tickImg from "../../assets/tick.svg";
 import crossImg from "../../assets/cross.svg";
 import deleteImg from "../../assets/delete.svg";
-import { db } from "../../../firebase.config";
+import { functions } from "../../../firebase.config";
 import PopUpConfirmation from "../utilities/PopUpConfirmation";
 
-import ToggleButtonProject from "../utilities/ToggleButtonProject";
+import ToggleButtonProject from "../archive/ToggleButtonProject";
+import { ProjectProps } from "../utilities/userDataProps";
+import { httpsCallable } from "firebase/functions";
 
-interface ProjectProps {
+interface IndividualProjectProps {
 	userUid: string;
-	project: {
-		status: string;
-		description: string;
-		title: string;
-		id: string;
-		teamLeadPhoto: string;
-		teamLeadName: string;
-		startDate: Timestamp;
-		endDate: Timestamp;
-	};
+	project: ProjectProps;
 
 	onGoingCounts: Record<string, number>;
 	taskCounts: Record<string, number>;
+	isTotalTaskLoading: Boolean;
+	isOngoingTaskLoading: Boolean;
 }
-const IndividualProject: React.FC<ProjectProps> = ({
+const IndividualProject: React.FC<IndividualProjectProps> = ({
 	project,
 	onGoingCounts,
 	taskCounts,
 	userUid,
+	isOngoingTaskLoading,
+	isTotalTaskLoading,
 }) => {
+	const {
+		status,
+		description,
+		title,
+		id,
+		adminPhoto,
+		adminName,
+		startDate,
+		endDate,
+	} = project;
+
 	// pop state
 
 	const [isPopUpOpen, setIsPopUpOpen] = useState<Boolean>(false);
@@ -43,14 +50,10 @@ const IndividualProject: React.FC<ProjectProps> = ({
 		setIsPopUpOpen(!isPopUpOpen);
 	};
 
-	// ref
-	const ref = doc(db, `projects/${userUid}/projects/${project.id}`);
 	// edit project labels
 	const [isEditing, setIsEditing] = useState<Boolean>(false);
-	const [editTitle, setEditTitle] = useState<string>(project.title);
-	const [editDescription, setEditDescription] = useState<string>(
-		project.description
-	);
+	const [editTitle, setEditTitle] = useState<string>(title);
+	const [editDescription, setEditDescription] = useState<string>(description);
 
 	const handleIsEditing = () => {
 		setIsEditing(!isEditing);
@@ -65,16 +68,23 @@ const IndividualProject: React.FC<ProjectProps> = ({
 	};
 
 	const handleSubmitEdit = async () => {
-		await updateDoc(ref, {
-			title: editTitle,
-			description: editDescription,
+		const updateProjectFunction = httpsCallable(functions, "updateProject");
+		await updateProjectFunction({
+			editTitle,
+			editDescription,
+			id,
 		});
 		setIsEditing(!isEditing);
 	};
 
 	const handleDeleteProject = () => {
+		const deleteProjectFunction = httpsCallable(functions, "deleteProject");
 		const deleteProject = async () => {
-			await deleteDoc(ref);
+			try {
+				await deleteProjectFunction({ id });
+			} catch (err) {
+				console.log(err);
+			}
 		};
 		setCurrentAction(() => deleteProject);
 		setIsPopUpOpen(true);
@@ -88,8 +98,10 @@ const IndividualProject: React.FC<ProjectProps> = ({
 	};
 	return (
 		<li
-			className={` hover:border-gray-400 w-full relative  border-t-2 rounded-md border-green-400 grid-items p-4 bg-[#161B22] text-[#E6EDF3]`}
-			key={project.id}
+			className={` ${
+				status === "Complete" ? " border-gray-400 " : "border-green-400"
+			}  w-full relative border-t-2 rounded-md  grid-items p-4 bg-[#161B22] text-[#E6EDF3]`}
+			key={id}
 		>
 			<div className="sm:flex hidden md:justify-between  ">
 				<div
@@ -103,9 +115,7 @@ const IndividualProject: React.FC<ProjectProps> = ({
 							className=" rounded-md border placeholder-gray-400  outline-[#30363E] outline-2  border-[#30363E] bg-[#161B22] text-[#E6EDF3] "
 						></input>
 					) : (
-						<p className="text-xl  flex flex-row justify-center">
-							{project.title}
-						</p>
+						<p className="text-xl  flex flex-row justify-center">{title}</p>
 					)}
 
 					<button onClick={handleIsEditing}>
@@ -134,15 +144,12 @@ const IndividualProject: React.FC<ProjectProps> = ({
 						)}
 					</button>
 
-					{!isEditing && project.startDate && project.endDate && (
+					{/* {!isEditing && startDate && endDate && (
 						<p className="text-gray-400">
-							{project.startDate &&
-								project.startDate.toDate().toLocaleDateString()}
-							-
-							{project.startDate &&
-								project.endDate.toDate().toLocaleDateString()}
+							{startDate.toDate().toLocaleDateString()}-
+							{endDate.toDate().toLocaleDateString()}
 						</p>
-					)}
+					)} */}
 				</div>
 				<PopUpConfirmation
 					message="Proceed?"
@@ -155,7 +162,7 @@ const IndividualProject: React.FC<ProjectProps> = ({
 				{!isPopUpOpen && (
 					<div className="flex flex-row space-x-1">
 						<ToggleButtonProject userUid={userUid} project={project} />
-						{onGoingCounts && taskCounts && (
+						{!isOngoingTaskLoading && !isTotalTaskLoading && (
 							<div className="flex flex-row">
 								<p className="text-gray-400">
 									Tasks:
@@ -179,9 +186,7 @@ const IndividualProject: React.FC<ProjectProps> = ({
 							className=" rounded-md border placeholder-gray-400  outline-[#30363E] outline-2  border-[#30363E] bg-[#161B22] text-[#E6EDF3] "
 						></input>
 					) : (
-						<p className="text-xl  flex flex-row justify-center">
-							{project.title}
-						</p>
+						<p className="text-xl  flex flex-row justify-center">{title}</p>
 					)}
 					<button onClick={handleIsEditing}>
 						{isEditing && (
@@ -209,15 +214,12 @@ const IndividualProject: React.FC<ProjectProps> = ({
 					</button>
 				</div>
 				<div>
-					{project.startDate && project.endDate && (
+					{/* {startDate && endDate && (
 						<p className="text-gray-400">
-							{project.startDate &&
-								project.startDate.toDate().toLocaleDateString()}
-							-
-							{project.startDate &&
-								project.endDate.toDate().toLocaleDateString()}
+							{startDate && startDate.toDate().toLocaleDateString()}-
+							{startDate && endDate.toDate().toLocaleDateString()}
 						</p>
-					)}
+					)} */}
 
 					<PopUpConfirmation
 						message="Proceed?"
@@ -227,27 +229,10 @@ const IndividualProject: React.FC<ProjectProps> = ({
 							currentAction(), setIsPopUpOpen(false);
 						}}
 					/>
-					{!isPopUpOpen && (
-						<div className="flex flex-row space-x-1">
-							<ToggleButtonProject userUid={userUid} project={project} />
-							{onGoingCounts && taskCounts && (
-								<div className="flex flex-row">
-									<p className="text-gray-400">
-										Tasks:
-										{onGoingCounts[project.id] !== undefined &&
-											onGoingCounts[project.id]}
-										/
-										{taskCounts[project.id] !== undefined &&
-											taskCounts[project.id]}
-									</p>
-								</div>
-							)}
-						</div>
-					)}
 				</div>
 			</div>
 			<Link
-				to={`/projects/${project.id}`}
+				to={`/projects/${id}`}
 				state={project}
 				className="space-y-2"
 				onClick={handleLinkClick}
@@ -260,23 +245,23 @@ const IndividualProject: React.FC<ProjectProps> = ({
 							className=" w-full rounded-md border placeholder-gray-400  outline-[#30363E] outline-2  border-[#30363E] bg-[#161B22] text-[#E6EDF3] "
 						></input>
 					) : (
-						<p className="text-gray-400 ">{project.description}</p>
+						<p className="text-gray-400 ">{description}</p>
 					)}
 				</div>
 
 				<div className="flex gap-2 justify-between items-center">
 					<div className="flex items-center gap-2">
-						{project.teamLeadPhoto ? (
+						{adminPhoto ? (
 							<img
-								src={project.teamLeadPhoto}
+								src={adminPhoto}
 								className="rounded-full w-10 h-10 object-cover"
 							></img>
 						) : (
 							<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 text-black">
-								{project.teamLeadName.charAt(0).toUpperCase()}
+								{adminName.charAt(0).toUpperCase()}
 							</span>
 						)}
-						<p className="text-gray-400">{project.teamLeadName}</p>
+						<p className="text-gray-400">{adminName}</p>
 					</div>
 				</div>
 			</Link>

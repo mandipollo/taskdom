@@ -1,26 +1,17 @@
-import { DocumentData, Timestamp, doc, updateDoc } from "firebase/firestore";
+import { DocumentData, doc, updateDoc } from "firebase/firestore";
 import React from "react";
 import { db } from "../../../firebase.config";
+import { ProjectProps } from "../utilities/userDataProps";
 
 interface ToggleProps {
-	project: {
-		status: string;
-		description: string;
-		title: string;
-		id: string;
-		teamLeadPhoto: string;
-		teamLeadName: string;
-		startDate: Timestamp;
-		endDate: Timestamp;
-	};
+	project: ProjectProps;
 	userUid: string;
 }
 const ToggleButtonProject: React.FC<ToggleProps> = ({ project, userUid }) => {
-	const { id, status } = project;
-	const toggleStatus = async (task: DocumentData) => {
-		if (task) {
-			const ref = doc(db, `projects/${userUid}/projects/${id}`);
-
+	const { id, status, adminUid } = project;
+	const toggleStatus = async () => {
+		const ref = doc(db, `projects/${id}`);
+		if (userUid === adminUid) {
 			if (status === "Ongoing") {
 				await updateDoc(ref, {
 					status: "Complete",

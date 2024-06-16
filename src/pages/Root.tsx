@@ -39,6 +39,7 @@ const Root = () => {
 	// set up a listener for firestore data linked to user
 
 	useEffect(() => {
+		if (!userState.uid) return;
 		const fetchData = async () => {
 			// Call userFirestoreUpdate when the component mounts
 			const dataRef = doc(db, `users/${userState.uid}`);

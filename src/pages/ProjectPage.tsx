@@ -19,21 +19,13 @@ import { v4 as uuid } from "uuid";
 import Tasks from "../components/task/Tasks";
 import AddTeamMembers from "../components/project/AddTeamMembers";
 import AssignTask from "../components/task/AssignTask";
+import { ProjectProps } from "../components/utilities/userDataProps";
 
-interface teamMember {
-	contactNo: string;
-	displayName: string;
-	email: string;
-	jobTitle: string;
-	profileImage: string;
-	uid: string;
-	workHours: string;
-}
 const ProjectsPage = () => {
 	const userUid = useAppSelector(state => state.auth.uid);
 
 	const url = useParams();
-	const [projectData, setProjectData] = useState<DocumentData | undefined>(
+	const [projectData, setProjectData] = useState<ProjectProps | undefined>(
 		undefined
 	);
 
@@ -41,10 +33,10 @@ const ProjectsPage = () => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const docRef = doc(db, `projects/${userUid}/projects/${url.projectId}`);
+			const docRef = doc(db, `projects/${url.projectId}`);
 			const data = await getDoc(docRef);
 			if (data.exists()) {
-				setProjectData(data.data());
+				setProjectData(data.data() as ProjectProps);
 			}
 		};
 
@@ -54,8 +46,6 @@ const ProjectsPage = () => {
 	const [toggleForm, setToggleForm] = useState<boolean>(false);
 	const [toggleAddTeamMembers, setToggleAddTeamMembers] =
 		useState<boolean>(false);
-
-	// project firebase ref
 
 	// task
 
@@ -108,10 +98,7 @@ const ProjectsPage = () => {
 		let unsubscribe: Unsubscribe | undefined;
 
 		if (userUid && projectData) {
-			const taskRef = collection(
-				db,
-				`projects/${userUid}/projects/${projectData.id}/tasks`
-			);
+			const taskRef = collection(db, `projects/${projectData.id}/tasks`);
 			unsubscribe = onSnapshot(taskRef, snapshot => {
 				setTaskList([]);
 				snapshot.forEach(doc => {
@@ -133,10 +120,7 @@ const ProjectsPage = () => {
 		e.preventDefault();
 
 		if (taskDescription && taskTitle && projectData && priority && targetDate) {
-			const taskRef = collection(
-				db,
-				`projects/${userUid}/projects/${projectData.id}/tasks`
-			);
+			const taskRef = collection(db, `projects/${projectData.id}/tasks`);
 			let id = uuid();
 			const newTask = {
 				id,
@@ -159,38 +143,30 @@ const ProjectsPage = () => {
 
 	// team member collection
 
-	const [teamMembers, setTeamMembers] = useState<teamMember[]>([]);
+	const [teamMembers, setTeamMembers] = useState<DocumentData[]>([]);
 
 	useEffect(() => {
-		let unsubscribe: Unsubscribe | undefined;
+		const fetchData = async () => {
+			const ref = doc(db, `projects/${projectData?.id}`);
 
-		if (userUid && projectData) {
-			const teamMemberRef = collection(
-				db,
-				`projects/${userUid}/projects/${projectData.id}/teamMember`
-			);
-			unsubscribe = onSnapshot(teamMemberRef, async snapshot => {
-				setTeamMembers([]);
+			const projectDoc = await getDoc(ref);
 
-				snapshot.forEach(async member => {
-					const { uid }: DocumentData = member.data();
-					const ref = doc(db, `users`, uid);
-					const memberData = await getDoc(ref);
-					if (memberData.exists()) {
-						const data = memberData.data() as teamMember;
-
-						setTeamMembers(prev => [...prev, data]);
+			if (projectDoc.exists()) {
+				const teamMembersTemp: DocumentData[] = [];
+				const projectData = projectDoc.data() as ProjectProps;
+				const membersArray = projectData.teamMemberUids;
+				if (membersArray && membersArray.length > 0) {
+					for (const memberId of membersArray) {
+						const memberRef = doc(db, `users/${memberId}`);
+						const memberdoc = await getDoc(memberRef);
+						memberdoc.exists() && teamMembersTemp.push(memberdoc.data());
 					}
-				});
-			});
-		}
-
-		return () => {
-			if (unsubscribe) {
-				unsubscribe();
+					setTeamMembers(teamMembersTemp);
+				}
 			}
 		};
-	}, [userUid, projectData]);
+		fetchData();
+	}, [projectData]);
 	// assign task
 
 	const [toggleAssignTask, setToggleAssignTask] = useState<Boolean>(false);
@@ -232,7 +208,7 @@ const ProjectsPage = () => {
 				></div>
 			)}
 
-			{toggleForm && (
+			{userUid && toggleForm && projectData?.adminUid == userUid && (
 				<TaskInput
 					targetDate={targetDate}
 					setTargetDate={setTargetDate}
@@ -277,8 +253,9 @@ const ProjectsPage = () => {
 				/>
 			)}
 
-			{projectData && (
+			{projectData && userUid && (
 				<ProjectDetails
+					userUid={userUid}
 					filterStatus={filterStatus}
 					handleToggleForm={handleToggleForm}
 					teamMembers={teamMembers}
@@ -290,12 +267,15 @@ const ProjectsPage = () => {
 				/>
 			)}
 
-			<Tasks
-				sortBy={sortBy}
-				filterStatus={filterStatus}
-				handleTaskIdAndToggleAssignTask={handleTaskIdAndToggleAssignTask}
-				taskList={taskList}
-			/>
+			{userUid && (
+				<Tasks
+					userUid={userUid}
+					sortBy={sortBy}
+					filterStatus={filterStatus}
+					handleTaskIdAndToggleAssignTask={handleTaskIdAndToggleAssignTask}
+					taskList={taskList}
+				/>
+			)}
 		</div>
 	);
 };

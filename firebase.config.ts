@@ -3,7 +3,9 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import { getFirestore, writeBatch } from "firebase/firestore";
-import { getMessaging, getToken } from "firebase/messaging";
+
+import "firebase/functions";
+import { getFunctions } from "firebase/functions";
 
 // Your web app's Firebase configuration
 
@@ -25,17 +27,4 @@ export const auth = getAuth(app);
 export const storage = getStorage();
 export const db = getFirestore(app);
 export const batch = writeBatch(db);
-export const messaging = getMessaging(app);
-
-export const generateToken = async () => {
-	const permission = await Notification.requestPermission();
-	console.log(permission);
-
-	if (permission === "granted") {
-		const token = await getToken(messaging, {
-			vapidKey:
-				"BCgVvescJc9l3JNDTPuazVhxKK9zu_hTKhj1l2-JcjDAkqr9XNnx7h2oh2LKzJcxiaD8RtsaMOmqpftz_qHL4Gw",
-		});
-		console.log(token);
-	}
-};
+export const functions = getFunctions(app);

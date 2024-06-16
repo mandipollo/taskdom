@@ -4,12 +4,11 @@ import { DocumentData, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase.config";
 import TeamMembersList from "../components/teams/TeamMembersList";
 
-import SearchConnections from "../components/navbar/SearchConnections";
 import ChatConnections from "../components/teams/chat/ChatConnections";
 const TeamsPage = () => {
 	const userState = useAppSelector(state => state.userFirestoreData);
 
-	const { uid, displayName, profileImage } = userState as {
+	const { uid } = userState as {
 		displayName: string;
 		contactNo: string;
 		workHours: string | null;

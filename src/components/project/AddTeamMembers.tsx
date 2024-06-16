@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import close from "../../assets/cross.svg";
-
+import removeImg from "../../assets/delete.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import {
 	DocumentData,
+	arrayRemove,
+	arrayUnion,
 	collection,
 	deleteDoc,
 	doc,
@@ -14,19 +16,13 @@ import {
 	where,
 } from "firebase/firestore";
 import { db } from "../../../firebase.config";
+import { ProjectProps } from "../utilities/userDataProps";
 
 type TaskInputProps = {
 	handleToggleAddTeamMembers: () => void;
 	userUid: string | null;
-	projectData: DocumentData;
-	activeTeamMembers: {
-		contactNo: string;
-		displayName: string;
-		email: string;
-		jobTitle: string;
-		profileImage: string;
-		uid: string;
-	}[];
+	projectData: ProjectProps;
+	activeTeamMembers: DocumentData[];
 };
 const AddTeamMembers: React.FC<TaskInputProps> = ({
 	handleToggleAddTeamMembers,
@@ -35,10 +31,19 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 	activeTeamMembers,
 }) => {
 	const { id } = projectData;
+
+	// role
+
+	const [role, SetRole] = useState<string | null>(null);
+
+	const handleSetRole = (e: string) => {
+		SetRole(e);
+	};
 	const [searchedUser, setSearchedUser] = useState<string>("");
 	const [users, setUsers] = useState<DocumentData[]>([]);
 
 	const [err, setErr] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<Boolean>(true);
 
 	const handleSearchedUser = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchedUser(e.target.value);
@@ -46,10 +51,11 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 
 	// perform search on firestore users collection on key enter
 	const handleSearch = async () => {
-		const usersRef = collection(db, "users");
+		setIsLoading(true);
+		const connectionRef = collection(db, `users/${userUid}/connections`);
 
 		// Create a query against the collection.
-		const q = query(usersRef, where("displayName", "==", searchedUser));
+		const q = query(connectionRef, where("displayName", "==", searchedUser));
 
 		try {
 			const querySnapshot = await getDocs(q);
@@ -58,9 +64,9 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 			querySnapshot.forEach(doc => {
 				const data = doc.data();
 				if (userUid !== data.uid) foundUsers.push(data);
-				console.log(doc.data());
 			});
 			setUsers(foundUsers);
+			setIsLoading(false);
 		} catch (err) {
 			setErr(true);
 			console.log(err);
@@ -77,15 +83,24 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 	// add team members to the project
 
 	const handleAddMember = async (user: DocumentData) => {
+		const projectRef = doc(db, `projects/${id}`);
+
+		// update teamMembers projects docs
+
+		const teamMemberRef = collection(db, `users/${user.uid}/userProjects`);
 		try {
-			if (user) {
-				const projectCollectionRef = collection(
-					db,
-					`projects/${userUid}/projects/${id}/teamMember`
-				);
-				await setDoc(doc(projectCollectionRef, user.uid), user);
+			if (user && role) {
+				await updateDoc(projectRef, {
+					teamMemberUids: arrayUnion(user.uid),
+				});
+
+				await setDoc(doc(teamMemberRef, id), {
+					role: "admin",
+				});
+
 				setSearchedUser("");
 				handleToggleAddTeamMembers();
+				SetRole(null);
 			}
 		} catch (err) {
 			setErr(true);
@@ -93,16 +108,19 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 		}
 	};
 
-	// remove team members
+	// remove team members from project and update members project list
 
 	const handleRemoveMemberList = async (memberId: string) => {
 		try {
-			const ref = doc(
-				db,
-				`projects/${userUid}/projects/${id}/teamMember/${memberId}`
-			);
+			const ref = doc(db, `projects/${id}`);
 
-			await deleteDoc(ref);
+			await updateDoc(ref, {
+				teamMemberUids: arrayRemove(memberId),
+			});
+
+			// update members project list
+
+			await deleteDoc(doc(db, `users/${memberId}/userProjects/${id}`));
 		} catch (err) {
 			console.log(err);
 		}
@@ -110,10 +128,7 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 
 	const handleRemoveMemberFromTasks = async (memberId: string) => {
 		try {
-			const assignedRef = collection(
-				db,
-				`projects/${userUid}/projects/${id}/tasks`
-			);
+			const assignedRef = collection(db, `projects/${id}/tasks`);
 
 			const q = query(assignedRef, where("assignedMemberUid", "==", memberId));
 
@@ -187,16 +202,32 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 								<p className="sm:block hidden">
 									{user.workHours || "unavailable"}
 								</p>
-								<button
-									type="button"
-									className="bg-[#508D69] p-2 rounded-sm"
-									onClick={() => handleAddMember(user)}
+								<select
+									className={` ${
+										role ? "border-[#30363E]" : "border-red-800 animate-pulse"
+									} bg-[#0D1117] border-[#30363E] border text-white p-2`}
+									onChange={e => handleSetRole(e.target.value)}
 								>
-									Invite
-								</button>
+									<option value="Team Lead">Team Lead</option>
+									<option value="Team Member">Team Member</option>
+								</select>
+								{projectData.adminUid === userUid && (
+									<button
+										type="button"
+										className="bg-[#508D69] p-2 rounded-sm"
+										onClick={() => handleAddMember(user)}
+									>
+										Add
+									</button>
+								)}
 							</li>
 						))}
 					</ul>
+				)}
+				{users.length === 0 && !isLoading && (
+					<span className="absolute flex flex-col top-full w-full space-y-4 bg-black  divide-y divide-gray-400 border-[#30363E] border p-2">
+						No users found
+					</span>
 				)}
 			</div>
 
@@ -231,12 +262,19 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 							</div>
 						</div>
 
-						<button
-							className="border rounded-md p-2 "
-							onClick={() => handleRemoveTeamMember(member.uid)}
-						>
-							Remove
-						</button>
+						<div className="flex flex-col items-end justify-end ">
+							<p>{member.role}</p>
+							{projectData.adminUid === userUid && (
+								<button onClick={() => handleRemoveTeamMember(member.uid)}>
+									<img
+										src={removeImg}
+										alt="remove members"
+										width={20}
+										height={20}
+									/>
+								</button>
+							)}
+						</div>
 					</li>
 				))}
 			</ul>

@@ -38,10 +38,7 @@ const Task: React.FC<TaskProps> = ({
 
 	const handleDelete = async (task: DocumentData) => {
 		if (task) {
-			const ref = doc(
-				db,
-				`projects/${userData.uid}/projects/${task.projectId}/tasks/${task.id}`
-			);
+			const ref = doc(db, `projects/${task.projectId}/tasks/${task.id}`);
 
 			await deleteDoc(ref);
 		}

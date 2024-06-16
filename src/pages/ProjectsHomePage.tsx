@@ -1,43 +1,34 @@
 import React, { useEffect, useState } from "react";
 
 import ProjectHead from "../components/project/ProjectHead";
-
 import ProjectLists from "../components/project/ProjectLists";
 import { useAppSelector } from "../store/store";
+
+import { db, functions } from "../../firebase.config";
+import ProjectInput from "../components/project/ProjectInput";
+
+import { ProjectProps } from "../components/utilities/userDataProps";
+import { httpsCallable } from "firebase/functions";
 import {
-	Unsubscribe,
+	CollectionReference,
+	DocumentReference,
 	collection,
 	doc,
 	onSnapshot,
-	setDoc,
 } from "firebase/firestore";
-import { db } from "../../firebase.config";
-import ProjectInput from "../components/project/ProjectInput";
-
-import { v4 as uuid } from "uuid";
-
-import { ProjectListProps } from "../components/utilities/userDataProps";
 
 const ProjectsHomePage: React.FC = () => {
 	const userData = useAppSelector(state => state.auth);
 
-	//local states
-
-	const [startDate, setStartDate] = useState<Date | null>(new Date());
-	const [endDate, setEndDate] = useState<Date | null>(new Date());
+	// Local states
+	const [startDate, setStartDate] = useState<Date>(new Date());
+	const [endDate, setEndDate] = useState<Date>(new Date());
 
 	const [projectTitle, setProjectTitle] = useState<string>("");
 	const [projectDescription, setProjectDescription] = useState<string>("");
 	const [toggleForm, setToggleForm] = useState<boolean>(false);
 
-	const [projectList, setProjectList] = useState<ProjectListProps>([]);
-
-	// projects ref
-	const projectRef = doc(db, `projects/${userData.uid}`);
-	const projectCollectionRef = collection(projectRef, "projects");
-
-	// inputs
-
+	// Inputs
 	const handleProjectTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setProjectTitle(e.target.value);
 	};
@@ -50,71 +41,110 @@ const ProjectsHomePage: React.FC = () => {
 	const handleToggleForm = () => {
 		setToggleForm(!toggleForm);
 	};
-
-	// listener for projects
+	// project
+	const [projectIdList, setProjectIdList] = useState<string[]>([]);
+	const [projectList, setProjectList] = useState<ProjectProps[]>([]);
+	// setup listener for users project list
 
 	useEffect(() => {
-		let unsubscribe: Unsubscribe | undefined;
-
-		if (userData.uid) {
-			const projectsRef = collection(
-				doc(db, "projects", userData.uid),
-				"projects"
-			);
-			unsubscribe = onSnapshot(projectsRef, snapshot => {
-				setProjectList([]);
-				snapshot.forEach(doc => {
-					const data: any = doc.data();
-
-					setProjectList(prev => [...prev, data]);
+		if (!userData.uid) return;
+		setProjectIdList([]);
+		const usersProjectRef: CollectionReference = collection(
+			db,
+			`users/${userData.uid}/userProjects`
+		);
+		const unSubscribe = () => {
+			onSnapshot(usersProjectRef, docs => {
+				docs.forEach(doc => {
+					setProjectIdList(prevDoc => [...prevDoc, doc.id]);
 				});
 			});
-		}
-
-		return () => {
-			if (unsubscribe) {
-				unsubscribe();
-			}
 		};
+
+		return () => unSubscribe();
 	}, [userData.uid]);
 
-	// submit project
+	// setup listener for each projects
+
+	const fetchProjectData = (projectIdList: string[]) => {
+		const unsubscribes: (() => void)[] = [];
+
+		projectIdList.forEach(projectId => {
+			const ref: DocumentReference = doc(db, `projects`, projectId);
+			const unsubscribe = onSnapshot(ref, docSnapShot => {
+				if (docSnapShot.exists()) {
+					const data = docSnapShot.data() as ProjectProps;
+
+					setProjectList(prevProjectList => {
+						const existingProjectIndex = prevProjectList.findIndex(
+							project => project.id === projectId
+						);
+						if (existingProjectIndex !== -1) {
+							const updatedProjectList = [...prevProjectList];
+							updatedProjectList[existingProjectIndex] = data;
+							return updatedProjectList;
+						} else {
+							return [...prevProjectList, data];
+						}
+					});
+				}
+			});
+
+			unsubscribes.push(unsubscribe);
+		});
+
+		// Return a function to unsubscribe from all listeners when component unmounts or dependencies change
+		return () => {
+			unsubscribes.forEach(unsubscribe => unsubscribe());
+		};
+	};
+
+	useEffect(() => {
+		if (!projectIdList) return;
+		const unsubscribe = fetchProjectData(projectIdList);
+
+		// Cleanup on unmount or when projectIdList changes
+		return () => {
+			unsubscribe();
+		};
+	}, [projectIdList]);
+
+	// Submit project
 	const handleProjectSubmit = async (e: React.FormEvent) => {
-		// project firebase ref
-
 		e.preventDefault();
-		if (projectTitle && projectDescription) {
-			let idDocument = uuid();
-			const newProject = {
-				title: projectTitle,
-				description: projectDescription,
-				status: "Ongoing",
-				id: idDocument,
-				teamLeadPhoto: userData.photoURL ? userData.photoURL : null,
-				teamLeadName: userData.displayName,
-				startDate: startDate,
-				endDate: endDate,
-			};
-
-			await setDoc(doc(projectCollectionRef, idDocument), newProject);
-
-			setProjectTitle("");
-			setProjectDescription("");
-			handleToggleForm();
+		if (projectTitle && projectDescription && endDate && startDate) {
+			const submitProject = httpsCallable(functions, "submitProject");
+			try {
+				await submitProject({
+					title: projectTitle,
+					description: projectDescription,
+					status: "Ongoing",
+					adminPhoto: userData.photoURL ? userData.photoURL : null,
+					adminName: userData.displayName,
+					startDate: startDate,
+					endDate: endDate,
+					adminUid: userData.uid,
+				});
+				setProjectTitle("");
+				setProjectDescription("");
+				handleToggleForm();
+			} catch (error) {
+				console.error("Error submitting project:", error);
+			}
 		}
 	};
 
-	// filter projects
-
+	// Filter projects
 	const [filterProjectStatus, setFilterProjectStatus] = useState<string>("");
 
 	const handleFilterProjectStatus = (e: string) => {
 		setFilterProjectStatus(e);
 	};
+
 	return (
 		<div
-			className="flex relative flex-col w-full p-4 overflow-auto"
-			style={{ maxHeight: " calc( 100vh - 3.5rem )" }}
+			className="flex relative flex-col w-full px-2 overflow-auto"
+			style={{ maxHeight: "calc(100vh - 3.5rem)" }}
 		>
 			{toggleForm && (
 				<div

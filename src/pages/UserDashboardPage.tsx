@@ -27,10 +27,10 @@ const UserDashboardPage: React.FC = () => {
 	}, []);
 
 	const day = currentDateTime.toLocaleString("en-UK", { weekday: "long" });
-	const date = currentDateTime.toLocaleString("en-US", {
+	const date = currentDateTime.toLocaleString("en-UK", {
 		day: "numeric",
 	});
-	const time = currentDateTime.toLocaleString("en-US", {
+	const time = currentDateTime.toLocaleString("en-UK", {
 		hour: "numeric",
 		minute: "numeric",
 		second: "numeric",

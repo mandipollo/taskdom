@@ -9,14 +9,7 @@ type TaskInputProps = {
 	handleToggleAssignTask: () => void;
 	userUid: string | null;
 	projectData: DocumentData;
-	activeTeamMembers: {
-		contactNo: string;
-		displayName: string;
-		email: string;
-		jobTitle: string;
-		profileImage: string;
-		uid: string;
-	}[];
+	activeTeamMembers: DocumentData[];
 };
 const AssignTask: React.FC<TaskInputProps> = ({
 	taskId,
@@ -32,10 +25,7 @@ const AssignTask: React.FC<TaskInputProps> = ({
 
 	const handleAssignMember = async (member: DocumentData) => {
 		try {
-			const assignRef = doc(
-				db,
-				`projects/${userUid}/projects/${id}/tasks/${taskId}`
-			);
+			const assignRef = doc(db, `projects/${id}/tasks/${taskId}`);
 
 			await updateDoc(assignRef, {
 				assignedMemberUid: member.uid,
@@ -83,6 +73,8 @@ const AssignTask: React.FC<TaskInputProps> = ({
 							<p className="text-[#508D69] uppercase">{member.displayName}</p>
 							<p className="text-gray-400">{member.jobTitle}</p>
 						</div>
+
+						<p className="text-gray-400">{member.role}</p>
 					</li>
 				))}
 			</ul>

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import logo from "../../assets/logo.svg";
 
 import { useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { auth, db } from "../../../firebase.config";
 
 import { User } from "firebase/auth";
@@ -119,10 +119,6 @@ const Navbar: React.FC = () => {
 			{user ? (
 				<Link to="/accountSetting">
 					<div className=" h-full flex justify-center items-center space-x-2 hover:cursor-pointer ">
-						<p className="font-mono sm:block hidden text-[#508D69]">
-							{auth.currentUser?.displayName}
-						</p>
-
 						{auth.currentUser?.photoURL ? (
 							<img
 								src={auth.currentUser?.photoURL}
