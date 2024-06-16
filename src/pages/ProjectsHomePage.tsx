@@ -41,27 +41,28 @@ const ProjectsHomePage: React.FC = () => {
 	const handleToggleForm = () => {
 		setToggleForm(!toggleForm);
 	};
-	// project
+	//
 	const [projectIdList, setProjectIdList] = useState<string[]>([]);
 	const [projectList, setProjectList] = useState<ProjectProps[]>([]);
 	// setup listener for users project list
 
 	useEffect(() => {
 		if (!userData.uid) return;
-		setProjectIdList([]);
+
 		const usersProjectRef: CollectionReference = collection(
 			db,
 			`users/${userData.uid}/userProjects`
 		);
-		const unSubscribe = () => {
-			onSnapshot(usersProjectRef, docs => {
-				docs.forEach(doc => {
-					setProjectIdList(prevDoc => [...prevDoc, doc.id]);
-				});
-			});
-		};
 
-		return () => unSubscribe();
+		const unsubscribe = onSnapshot(usersProjectRef, snapshot => {
+			const tempProjectIdList: string[] = [];
+			snapshot.forEach(doc => {
+				tempProjectIdList.push(doc.id);
+			});
+			setProjectIdList(tempProjectIdList);
+		});
+
+		return () => unsubscribe();
 	}, [userData.uid]);
 
 	// setup listener for each projects
@@ -87,6 +88,11 @@ const ProjectsHomePage: React.FC = () => {
 							return [...prevProjectList, data];
 						}
 					});
+				} else {
+					// Project does not exist, remove it from the list
+					setProjectList(prevProjectList =>
+						prevProjectList.filter(project => project.id !== projectId)
+					);
 				}
 			});
 

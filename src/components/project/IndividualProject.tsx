@@ -89,6 +89,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 		setCurrentAction(() => deleteProject);
 		setIsPopUpOpen(true);
 	};
+
 	const handleLinkClick = (
 		event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
 	) => {
@@ -144,12 +145,12 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 						)}
 					</button>
 
-					{/* {!isEditing && startDate && endDate && (
+					{!isEditing && startDate && endDate && (
 						<p className="text-gray-400">
 							{startDate.toDate().toLocaleDateString()}-
 							{endDate.toDate().toLocaleDateString()}
 						</p>
-					)} */}
+					)}
 				</div>
 				<PopUpConfirmation
 					message="Proceed?"

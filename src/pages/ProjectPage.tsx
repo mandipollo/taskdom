@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { db } from "../../firebase.config";
+import { db, functions } from "../../firebase.config";
 import { useAppSelector } from "../store/store";
 
 import ProjectDetails from "../components/project/ProjectDetails";
@@ -20,28 +20,38 @@ import Tasks from "../components/task/Tasks";
 import AddTeamMembers from "../components/project/AddTeamMembers";
 import AssignTask from "../components/task/AssignTask";
 import { ProjectProps } from "../components/utilities/userDataProps";
+import { httpsCallable } from "firebase/functions";
 
 const ProjectsPage = () => {
 	const userUid = useAppSelector(state => state.auth.uid);
 
 	const url = useParams();
+	const projectId = url.projectId;
+
 	const [projectData, setProjectData] = useState<ProjectProps | undefined>(
 		undefined
 	);
 
-	// retreive project data
+	// fetch project data from cloud functions
+
+	const fetchProjectData = httpsCallable(functions, "fetchProjectData");
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const docRef = doc(db, `projects/${url.projectId}`);
-			const data = await getDoc(docRef);
-			if (data.exists()) {
-				setProjectData(data.data() as ProjectProps);
+			try {
+				const response = await fetchProjectData({ projectId });
+				const data = response.data as ProjectProps;
+
+				setProjectData(data);
+			} catch (err) {
+				console.log(err);
 			}
 		};
 
-		fetchData();
-	}, []);
+		if (userUid) {
+			fetchData();
+		}
+	}, [userUid]);
 
 	const [toggleForm, setToggleForm] = useState<boolean>(false);
 	const [toggleAddTeamMembers, setToggleAddTeamMembers] =
