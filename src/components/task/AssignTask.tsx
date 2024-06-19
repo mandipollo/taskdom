@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { DocumentData, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../firebase.config";
+import { DocumentData } from "firebase/firestore";
+import { functions } from "../../../firebase.config";
+import { httpsCallable } from "firebase/functions";
 
 type TaskInputProps = {
 	taskId: string;
@@ -23,15 +24,22 @@ const AssignTask: React.FC<TaskInputProps> = ({
 
 	// assign task
 
+	const assignMemberTask = httpsCallable(functions, "assignTask");
+
 	const handleAssignMember = async (member: DocumentData) => {
 		try {
-			const assignRef = doc(db, `projects/${id}/tasks/${taskId}`);
+			const memberUid = member.uid;
+			const memberDisplayName = member.displayName;
+			const memberProfileImage = member.profileImage;
 
-			await updateDoc(assignRef, {
-				assignedMemberUid: member.uid,
-				assignedMemberName: member.displayName,
-				assignedMemberImage: member.profileImage,
+			await assignMemberTask({
+				projectId: id,
+				memberUid,
+				memberDisplayName,
+				memberProfileImage,
+				taskId,
 			});
+
 			handleToggleAssignTask();
 		} catch (err) {
 			console.log(err);

@@ -4,19 +4,14 @@ import removeImg from "../../assets/delete.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import {
 	DocumentData,
-	arrayRemove,
-	arrayUnion,
 	collection,
-	deleteDoc,
-	doc,
 	getDocs,
 	query,
-	setDoc,
-	updateDoc,
 	where,
 } from "firebase/firestore";
-import { db } from "../../../firebase.config";
+import { db, functions } from "../../../firebase.config";
 import { ProjectProps } from "../utilities/userDataProps";
+import { httpsCallable } from "firebase/functions";
 
 type TaskInputProps = {
 	handleToggleAddTeamMembers: () => void;
@@ -82,21 +77,12 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 
 	// add team members to the project
 
+	const addMember = httpsCallable(functions, "addTeamMember");
+
 	const handleAddMember = async (user: DocumentData) => {
-		const projectRef = doc(db, `projects/${id}`);
-
-		// update teamMembers projects docs
-
-		const teamMemberRef = collection(db, `users/${user.uid}/userProjects`);
 		try {
 			if (user && role) {
-				await updateDoc(projectRef, {
-					teamMemberUids: arrayUnion(user.uid),
-				});
-
-				await setDoc(doc(teamMemberRef, id), {
-					role: "admin",
-				});
+				await addMember({ role, memberUid: user.uid, projectId: id });
 
 				setSearchedUser("");
 				handleToggleAddTeamMembers();
@@ -110,49 +96,11 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 
 	// remove team members from project and update members project list
 
-	const handleRemoveMemberList = async (memberId: string) => {
+	const removeMember = httpsCallable(functions, "removeTeamMember");
+
+	const handleRemoveMember = async (memberId: string) => {
 		try {
-			const ref = doc(db, `projects/${id}`);
-
-			await updateDoc(ref, {
-				teamMemberUids: arrayRemove(memberId),
-			});
-
-			// update members project list
-
-			await deleteDoc(doc(db, `users/${memberId}/userProjects/${id}`));
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
-	const handleRemoveMemberFromTasks = async (memberId: string) => {
-		try {
-			const assignedRef = collection(db, `projects/${id}/tasks`);
-
-			const q = query(assignedRef, where("assignedMemberUid", "==", memberId));
-
-			const querySnapshot = await getDocs(q);
-
-			querySnapshot.forEach(taskDoc => {
-				const ref = taskDoc.ref;
-
-				updateDoc(ref, {
-					assignedMemberUid: null,
-					assignedMemberImage: null,
-					assignedMemberName: null,
-				});
-				console.log(ref);
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	};
-	const handleRemoveTeamMember = async (memberId: string) => {
-		try {
-			handleRemoveMemberList(memberId);
-			handleRemoveMemberFromTasks(memberId);
-
+			await removeMember({ projectId: id, memberUid: memberId });
 			handleToggleAddTeamMembers();
 		} catch (err) {
 			console.log(err);
@@ -265,7 +213,7 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 						<div className="flex flex-col items-end justify-end ">
 							<p>{member.role}</p>
 							{projectData.adminUid === userUid && (
-								<button onClick={() => handleRemoveTeamMember(member.uid)}>
+								<button onClick={() => handleRemoveMember(member.uid)}>
 									<img
 										src={removeImg}
 										alt="remove members"

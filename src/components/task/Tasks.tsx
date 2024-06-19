@@ -27,7 +27,6 @@ const Tasks: React.FC<TaskListProps> = ({
 	handleTaskIdAndToggleAssignTask,
 	filterStatus,
 	sortBy,
-	userUid,
 }) => {
 	// filter task
 

@@ -1,4 +1,4 @@
-import { DocumentData, doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import React from "react";
 import { db } from "../../../firebase.config";
 import { ProjectProps } from "../utilities/userDataProps";

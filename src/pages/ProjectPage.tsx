@@ -6,7 +6,6 @@ import {
 	doc,
 	getDoc,
 	onSnapshot,
-	setDoc,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -15,7 +14,7 @@ import { useAppSelector } from "../store/store";
 
 import ProjectDetails from "../components/project/ProjectDetails";
 import TaskInput from "../components/task/TaskInput";
-import { v4 as uuid } from "uuid";
+
 import Tasks from "../components/task/Tasks";
 import AddTeamMembers from "../components/project/AddTeamMembers";
 import AssignTask from "../components/task/AssignTask";
@@ -126,23 +125,20 @@ const ProjectsPage = () => {
 		};
 	}, [userUid, projectData]);
 
+	const taskSubmit = httpsCallable(functions, "taskSubmit");
+
 	const handleTaskSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
 		if (taskDescription && taskTitle && projectData && priority && targetDate) {
-			const taskRef = collection(db, `projects/${projectData.id}/tasks`);
-			let id = uuid();
-			const newTask = {
-				id,
-				title: taskTitle,
-				description: taskDescription,
-				status: "Ongoing",
-				priority: priority,
-				targetDate: targetDate,
-				projectId: projectData.id,
-			};
-
-			await setDoc(doc(taskRef, id), newTask);
+			const projectId = projectData.id;
+			await taskSubmit({
+				taskTitle,
+				taskDescription,
+				priority,
+				targetDate,
+				projectId,
+			});
 
 			setTaskDescription("");
 			setTaskTitle("");

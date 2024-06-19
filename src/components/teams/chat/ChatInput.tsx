@@ -3,6 +3,8 @@ import sendIcon from "../../../assets/sendIcon.svg";
 import attach from "../../../assets/attach.svg";
 import { useAppSelector } from "../../../store/store";
 import { v4 as uuid } from "uuid";
+import { db, storage } from "../../../../firebase.config";
+
 import {
 	Timestamp,
 	collection,
@@ -11,9 +13,8 @@ import {
 	setDoc,
 	updateDoc,
 } from "firebase/firestore";
-import { db, storage } from "../../../../firebase.config";
-import { ref, uploadBytesResumable } from "firebase/storage";
 import getProfileImage from "../../../firebaseAuth/getProfileImage";
+import { ref, uploadBytesResumable } from "firebase/storage";
 
 const ChatInput = () => {
 	const uid = useAppSelector(state => state.auth.uid);
@@ -88,6 +89,7 @@ const ChatInput = () => {
 		setText(null);
 		setImg(undefined);
 	};
+
 	return (
 		<form
 			onSubmit={handleSend}

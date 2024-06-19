@@ -21,8 +21,8 @@ const ProjectsHomePage: React.FC = () => {
 	const userData = useAppSelector(state => state.auth);
 
 	// Local states
-	const [startDate, setStartDate] = useState<Date>(new Date());
-	const [endDate, setEndDate] = useState<Date>(new Date());
+	const [startDate, setStartDate] = useState<Date | null>(new Date());
+	const [endDate, setEndDate] = useState<Date | null>(new Date());
 
 	const [projectTitle, setProjectTitle] = useState<string>("");
 	const [projectDescription, setProjectDescription] = useState<string>("");

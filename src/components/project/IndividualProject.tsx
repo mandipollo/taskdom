@@ -9,9 +9,9 @@ import deleteImg from "../../assets/delete.svg";
 import { functions } from "../../../firebase.config";
 import PopUpConfirmation from "../utilities/PopUpConfirmation";
 
-import ToggleButtonProject from "../archive/ToggleButtonProject";
 import { ProjectProps } from "../utilities/userDataProps";
 import { httpsCallable } from "firebase/functions";
+import ToggleButtonProject from "../utilities/ToggleButtonProject";
 
 interface IndividualProjectProps {
 	userUid: string;
@@ -215,12 +215,12 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 					</button>
 				</div>
 				<div>
-					{/* {startDate && endDate && (
+					{startDate && endDate && (
 						<p className="text-gray-400">
 							{startDate && startDate.toDate().toLocaleDateString()}-
 							{startDate && endDate.toDate().toLocaleDateString()}
 						</p>
-					)} */}
+					)}
 
 					<PopUpConfirmation
 						message="Proceed?"

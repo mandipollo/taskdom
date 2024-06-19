@@ -14,7 +14,7 @@ interface ToggleProps {
 	};
 	userUid: string;
 }
-const ToggleButton: React.FC<ToggleProps> = ({ task, userUid }) => {
+const ToggleButton: React.FC<ToggleProps> = ({ task }) => {
 	const { id, projectId, status } = task;
 	const toggleStatus = async (task: DocumentData) => {
 		if (task) {
