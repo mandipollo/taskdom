@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import Add from "../../assets/add.svg";
-import searchIcon from "../../assets/search.svg";
 
 type ProjectHeadProps = {
 	handleToggleForm: () => void;
@@ -13,14 +12,8 @@ const ProjectHead: React.FC<ProjectHeadProps> = ({
 	handleFilterProjectStatus,
 	filterProjectStatus,
 }) => {
-	const [searchBar, setSearchBar] = useState<Boolean>(false);
-
-	const handleShowSearchBar = () => {
-		setSearchBar(!searchBar);
-	};
-
 	return (
-		<div className="flex w-full z-10  flex-col sticky top-0 left-0 bg-[#000408] ">
+		<div className="flex w-full z-10 mt-2  flex-col sticky top-0 left-0 bg-[#000408] ">
 			<div className="flex-1 sm:flex hidden gap-4 items-center">
 				<p className="text-xl">Project dashboard</p>
 				<button
@@ -111,25 +104,6 @@ const ProjectHead: React.FC<ProjectHeadProps> = ({
 					>
 						Completed
 					</p>
-				</div>
-				<div className="flex  md:w-1/2 ">
-					<div className="flex relative flex-1 ">
-						<input
-							placeholder="Search projects..."
-							className={`${
-								searchBar ? "w-full" : "w-8"
-							}  transition-all duration-300 ease-in-out p-2  rounded-md border placeholder-gray-400  outline-[#30363E] outline-2 pl-10 border-[#30363E] bg-[#161B22] text-[#E6EDF3] `}
-							type="text"
-						/>
-						<img
-							onClick={handleShowSearchBar}
-							className="absolute top-2 left-3"
-							src={searchIcon}
-							width={25}
-							height={25}
-							alt=""
-						/>
-					</div>
 				</div>
 			</div>
 		</div>

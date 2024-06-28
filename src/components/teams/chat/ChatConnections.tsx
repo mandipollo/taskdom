@@ -24,12 +24,12 @@ const ChatConnections: React.FC<ChatConnectionsProps> = ({}) => {
 		<div
 			className={`${
 				chatState.displayChat ? "flex" : "hidden"
-			} relative   flex-1 flex-col w-full h-full border-[#30363E] border-l`}
+			} relative flex-col w-full h-full border-[#30363E] border-l`}
 		>
 			<div className="w-full items-center h-20 flex   flex-row">
 				{chatState.user && <TargetChatUser member={chatState.user} />}
 				<button
-					className="mr-2 rounded-md w-10 hover:bg-[#D04848] h-10 border flex justify-center items-center border-[#30363E]"
+					className="mr-2 w-10  h-10 flex justify-center items-center "
 					onClick={handleResetUser}
 				>
 					<img src={closeImg} alt="close" width={20} height={20} />

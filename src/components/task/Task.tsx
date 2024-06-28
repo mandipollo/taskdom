@@ -1,11 +1,12 @@
-import { DocumentData, Timestamp, deleteDoc, doc } from "firebase/firestore";
+import { DocumentData, Timestamp } from "firebase/firestore";
 import React from "react";
 import calendarIcon from "../../assets/calendarIcon.svg";
 import ToggleButton from "../utilities/ToggleButton";
 
 import { useAppSelector } from "../../store/store";
 import bin from "../../assets/delete.svg";
-import { db } from "../../../firebase.config";
+import { functions } from "../../../firebase.config";
+import { httpsCallable } from "firebase/functions";
 
 interface TaskProps {
 	task: {
@@ -36,13 +37,21 @@ const Task: React.FC<TaskProps> = ({
 			: "bg-green-800";
 	};
 
+	const deleteTask = httpsCallable(functions, "taskDelete");
+
 	const handleDelete = async (task: DocumentData) => {
 		if (task) {
-			const ref = doc(db, `projects/${task.projectId}/tasks/${task.id}`);
-
-			await deleteDoc(ref);
+			await deleteTask({ projectId: task.projectId, taskId: task.id });
 		}
 	};
+
+	// const handleDelete = async (task: DocumentData) => {
+	// 	if (task) {
+	// 		const ref = doc(db, `projects/${task.projectId}/tasks/${task.id}`);
+
+	// 		await deleteDoc(ref);
+	// 	}
+	// };
 
 	return (
 		<li

@@ -72,19 +72,25 @@ const ChatInput = () => {
 
 			// update current user last message
 
-			await updateDoc(doc(db, `usersChat/${uid}`), {
-				[chatState.user.chatId + ".lastMessage"]: {
-					text,
-				},
-				[chatState.user.chatId + ".date"]: serverTimestamp(),
-			});
+			await updateDoc(
+				doc(db, `users/${uid}/connections/${chatState.user.uid}`),
+				{
+					lastMessage: {
+						text,
+						date: serverTimestamp(),
+					},
+				}
+			);
 			// update the chat user last message
-			await updateDoc(doc(db, `usersChat/${chatState.user.uid}`), {
-				[chatState.user.chatId + ".lastMessage"]: {
-					text,
-				},
-				[chatState.user.chatId + ".date"]: serverTimestamp(),
-			});
+			await updateDoc(
+				doc(db, `users/${chatState.user.uid}/connections/${uid}`),
+				{
+					lastMessage: {
+						text,
+						date: serverTimestamp(),
+					},
+				}
+			);
 		}
 		setText(null);
 		setImg(undefined);

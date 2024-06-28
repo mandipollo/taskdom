@@ -155,7 +155,7 @@ const SearchConnections = ({
 				</span>
 			)}
 			{users.length > 0 && (
-				<ul className="absolute z-10 flex flex-col top-full w-full space-y-4 border-[#30363E] border divide-y divide-gray-400 p-2 bg-[#0D1117] ">
+				<ul className="absolute  flex flex-col top-full w-full space-y-4 border-[#30363E] border divide-y divide-gray-400 p-2 bg-[#0D1117] ">
 					{users.map(user => (
 						<li
 							key={user.uid}

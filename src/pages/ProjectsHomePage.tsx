@@ -21,6 +21,7 @@ const ProjectsHomePage: React.FC = () => {
 	const userData = useAppSelector(state => state.auth);
 
 	// Local states
+
 	const [startDate, setStartDate] = useState<Date | null>(new Date());
 	const [endDate, setEndDate] = useState<Date | null>(new Date());
 
@@ -118,25 +119,24 @@ const ProjectsHomePage: React.FC = () => {
 	// Submit project
 	const handleProjectSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		if (projectTitle && projectDescription && endDate && startDate) {
-			const submitProject = httpsCallable(functions, "submitProject");
-			try {
-				await submitProject({
-					title: projectTitle,
-					description: projectDescription,
-					status: "Ongoing",
-					adminPhoto: userData.photoURL ? userData.photoURL : null,
-					adminName: userData.displayName,
-					startDate: startDate,
-					endDate: endDate,
-					adminUid: userData.uid,
-				});
-				setProjectTitle("");
-				setProjectDescription("");
-				handleToggleForm();
-			} catch (error) {
-				console.error("Error submitting project:", error);
-			}
+
+		const submitProject = httpsCallable(functions, "submitProject");
+		try {
+			await submitProject({
+				projectTitle,
+				projectDescription,
+				status: "Ongoing",
+				adminPhoto: userData.photoURL ? userData.photoURL : null,
+				adminName: userData.displayName,
+				startDate,
+				endDate,
+				adminUid: userData.uid,
+			});
+			setProjectTitle("");
+			setProjectDescription("");
+			handleToggleForm();
+		} catch (error) {
+			console.error(error);
 		}
 	};
 
@@ -148,10 +148,7 @@ const ProjectsHomePage: React.FC = () => {
 	};
 
 	return (
-		<div
-			className="flex relative flex-col w-full px-2 overflow-auto"
-			style={{ maxHeight: "calc(100vh - 3.5rem)" }}
-		>
+		<div className="flex relative flex-col w-full px-2 overflow-auto">
 			{toggleForm && (
 				<div
 					className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10"

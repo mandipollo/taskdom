@@ -30,26 +30,18 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 
 	const snackbarState = useAppSelector(state => state.snackBar);
 
-	// retrieve user info from the redux
 	const { displayName, contactNo, workHours, jobTitle, uid } =
-		userFirestoreData || {
-			displayName: "",
-			contactNo: "",
-			workHours: "",
-			jobTitle: "",
-			uid: "",
-			profileImage: "",
-		};
+		userFirestoreData;
 
 	// default profile picture
 
 	const defaultPic = displayName.charAt(0).toUpperCase();
 	//inputs
 	const [error, setError] = useState<boolean>(false);
-	const [job, setJob] = useState<string>("");
-	const [name, setName] = useState<string>("");
-	const [workTime, setWorkTime] = useState<string>("");
-	const [contactPh, setContactPh] = useState<string>("");
+	const [job, setJob] = useState<string>(jobTitle);
+	const [name, setName] = useState<string>(displayName);
+	const [workTime, setWorkTime] = useState<string>(workHours);
+	const [contactPh, setContactPh] = useState<string>(contactNo);
 	const [user, setUser] = useState<User | null>(null);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);

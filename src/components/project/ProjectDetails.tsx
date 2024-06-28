@@ -47,7 +47,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 
 	return (
 		<div className="sticky top-0 flex flex-col space-x-2 bg-[#000408] z-10 ">
-			<div className="flex h-full flex-col w-full border-b border-[#30363E]">
+			<div className="flex h-full flex-col w-full border-b space-y-1 border-[#30363E]">
 				<div className="flex  w-full items-center justify-between ">
 					<p className="text-xl">{title}</p>
 					<button
@@ -61,13 +61,13 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 
 				<div
 					className={`${
-						showMore ? "h-40" : "h-0"
-					} transition-all overflow-y-auto duration-500 ease-in-out  `}
+						showMore ? "max-h-40" : "max-h-0"
+					} transition-all overflow-y-auto duration-500 ease-in-out `}
 				>
-					<p className="text-gray-400">{description}</p>
+					<p className="text-gray-400 ">{description}</p>
 				</div>
 
-				<div className="flex h-full items-center w-full py-2  justify-between">
+				<div className="flex items-center w-full  justify-between">
 					<div className="flex items-center space-x-2 ">
 						<p className="text-gray-400">Project Owner:</p>
 						<p className=" text-sm">{adminName.toUpperCase()}</p>

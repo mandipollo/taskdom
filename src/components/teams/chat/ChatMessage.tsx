@@ -58,13 +58,13 @@ const ChatMessage = () => {
 	}, [messages]);
 
 	return (
-		<div className="flex overflow-hidden w-full relative flex-1 flex-col  ">
+		<div
+			className="flex w-full flex-col h-full p-2"
+			style={{ maxHeight: "calc( 100vh - 12rem )" }}
+		>
 			{messages && (
-				<div
-					className="flex  overflow-auto mb-10 "
-					style={{ maxHeight: "calc( 100% - 5rem)" }}
-				>
-					<ul className="flex flex-1 w-full h-full flex-col space-y-4  ">
+				<div className="flex flex-1 w-full h-full  ">
+					<ul className="flex overflow-hidden flex-1 overflow-y-auto flex-col space-y-4 ">
 						{messages.map((message: DocumentData) => {
 							return (
 								<li

@@ -17,7 +17,6 @@ const AssignTask: React.FC<TaskInputProps> = ({
 	handleToggleAssignTask,
 	projectData,
 	activeTeamMembers,
-	userUid,
 }) => {
 	const { id } = projectData;
 	const [err, setErr] = useState<boolean>(false);

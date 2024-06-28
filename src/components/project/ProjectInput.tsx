@@ -31,6 +31,7 @@ const ProjectInput: React.FC<ProjectInputProps> = ({
 }) => {
 	return (
 		<form
+			id="projectInput"
 			onSubmit={handleProjectSubmit}
 			className="rounded-md border p-4 border-[#30363E] bg-[#0D1117] z-10 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  sm:w-1/2 sm:h-1/2 w-3/4 h-3/4"
 			aria-label="add project form"
@@ -73,7 +74,10 @@ const ProjectInput: React.FC<ProjectInputProps> = ({
 			</div>
 			<div className="flex"></div>
 			<div className="flex justify-between pt-2">
-				<button className="p-2 w-36 rounded-sm border-[#30363E] border">
+				<button
+					onClick={handleToggleForm}
+					className="p-2 w-36 rounded-sm border-[#30363E] border"
+				>
 					Cancel
 				</button>
 				<button type="submit" className="p-2 bg-[#508D69] w-36 rounded-sm">

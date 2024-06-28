@@ -13,21 +13,17 @@ import { setUserFirestoreData } from "../../store/userFirestoreData";
 import { UserDataProps } from "../utilities/userDataProps";
 import SearchConnections from "./SearchConnections";
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+	handleDropDown: () => void;
+}
+const Navbar: React.FC<NavbarProps> = ({ handleDropDown }) => {
 	const { pathname } = useLocation();
 
 	const dispatch = useAppDispatch();
 	const userState = useAppSelector(state => state.userFirestoreData);
 
 	const { uid, displayName, profileImage, workHours, contactNo, jobTitle } =
-		userState as {
-			displayName: string;
-			contactNo: string;
-			workHours: string | null;
-			jobTitle: string | null;
-			uid: string;
-			profileImage: string;
-		};
+		userState;
 
 	const defaultPic = displayName?.charAt(0).toUpperCase() || profileImage;
 	const [user, setUser] = useState<User | null>(null);
@@ -71,7 +67,7 @@ const Navbar: React.FC = () => {
 	}, [uid]);
 
 	return (
-		<div className="flex flex-1 h-14 p-2 space-x-2  w-full justify-center items-center border-b border-[#30363E] bg-[#000408]">
+		<div className="flex relative flex-1 h-14 p-2 space-x-2  w-full justify-center items-center border-b border-[#30363E] bg-[#000408]">
 			{/* logo medium screen */}
 
 			<Link to={linkHomeLogo}>
@@ -117,20 +113,21 @@ const Navbar: React.FC = () => {
 			</nav>
 
 			{user ? (
-				<Link to="/accountSetting">
-					<div className=" h-full flex justify-center items-center space-x-2 hover:cursor-pointer ">
-						{auth.currentUser?.photoURL ? (
-							<img
-								src={auth.currentUser?.photoURL}
-								className="rounded-full w-8 h-8 object-cover"
-							></img>
-						) : (
-							<span className="text-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
-								{defaultPic}
-							</span>
-						)}
-					</div>
-				</Link>
+				<div
+					onClick={() => handleDropDown()}
+					className=" h-full  flex justify-center items-center space-x-2 hover:cursor-pointer "
+				>
+					{auth.currentUser?.photoURL ? (
+						<img
+							src={auth.currentUser?.photoURL}
+							className="rounded-full w-8 h-8 object-cover"
+						></img>
+					) : (
+						<span className=" flex justify-center items-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
+							{defaultPic}
+						</span>
+					)}
+				</div>
 			) : (
 				<Link to="/login" className="h-full">
 					<button className=" h-full flex w-20 sm:w-40 justify-center items-center  rounded-md border-[#30363E] border text-[#E6EDF3]">

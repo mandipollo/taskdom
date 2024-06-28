@@ -1,7 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../../store/store";
-import { db } from "../../../../firebase.config";
+import { useAppSelector } from "../../store/store";
+import { db } from "../../../firebase.config";
 import { Link } from "react-router-dom";
 
 const ConnectionRequest: React.FC = () => {
@@ -26,16 +26,14 @@ const ConnectionRequest: React.FC = () => {
 
 		unsub();
 	}, [uid]);
+
+	const requestClass = `${requestCount ? "text-blue-400" : "text-white"}`;
 	return (
-		<div>
-			<Link to="/connectionRequest">
-				<button
-					className={`${
-						requestCount ? "block" : "hidden"
-					} rounded-full w-2 h-2 bg-red-400`}
-				></button>
-			</Link>
-		</div>
+		<Link to="/connectionRequest" className="flex flex-row space-x-1">
+			<p className={requestClass}>
+				Requests {requestCount && requestCount > 0 ? requestCount : ""}
+			</p>
+		</Link>
 	);
 };
 

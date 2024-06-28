@@ -47,7 +47,13 @@ const Members: React.FC<MemberProps> = ({ member }) => {
 					<p>{member.displayName?.charAt(0).toUpperCase()}</p>
 				</span>
 			)}
-			<p className="text-[#508D69] uppercase">{member.displayName}</p>
+
+			<div className="flex flex-col truncate">
+				<p className="text-[#508D69] uppercase">{member.displayName}</p>
+				{member.lastMessage && (
+					<p className="text-sm ">{member.lastMessage.text}</p>
+				)}
+			</div>
 		</li>
 	);
 };

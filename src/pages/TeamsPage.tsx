@@ -8,18 +8,9 @@ import ChatConnections from "../components/teams/chat/ChatConnections";
 const TeamsPage = () => {
 	const userState = useAppSelector(state => state.userFirestoreData);
 
-	const { uid } = userState as {
-		displayName: string;
-		contactNo: string;
-		workHours: string | null;
-		jobTitle: string | null;
-		uid: string;
-		profileImage: string;
-	};
+	const { uid } = userState;
 
 	const [teamMembers, setTeamMembers] = useState<DocumentData[]>([]);
-
-	//handle select display the selected user info
 
 	// set a listner for team members
 	useEffect(() => {
