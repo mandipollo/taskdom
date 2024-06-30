@@ -11,7 +11,7 @@ import PopUpConfirmation from "../utilities/PopUpConfirmation";
 
 import { ProjectProps } from "../utilities/userDataProps";
 import { httpsCallable } from "firebase/functions";
-import ToggleButtonProject from "../utilities/ToggleButtonProject";
+import ToggleButtonProject from "./ToggleButtonProject";
 
 interface IndividualProjectProps {
 	userUid: string;

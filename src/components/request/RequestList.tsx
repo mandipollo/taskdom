@@ -29,17 +29,17 @@ const RequestList: React.FC<RequestListProps> = ({ req }) => {
 	};
 	return (
 		<li
-			className="flex rounded-md h-24 justify-center items-center p-2 flex-row border border-[#30363E] bg-[#0D1117]"
+			className="flex rounded-md  justify-center items-center p-2 flex-row border border-[#30363E] bg-[#0D1117]"
 			key={req.uid}
 		>
 			{req.profileImage ? (
 				<img
 					src={req.profileImage}
 					alt="profileImage"
-					className="h-20 w-20 object-contain"
+					className=" lg:h-20 lg:w-20  sm:h-14 sm:w-14 h-10 w-10 object-cover"
 				/>
 			) : (
-				<span className="text-center text-2xl flex items-center justify-center rounded-full bg-gray-300 h-20 w-20 p-2 text-black">
+				<span className="text-center lg:text-4xl md:text-2xl text-lg flex items-center justify-center  bg-gray-300 lg:h-20 lg:w-20  sm:h-14 sm:w-14 h-10 w-10 text-black">
 					{req.displayName.charAt(0).toUpperCase()}
 				</span>
 			)}

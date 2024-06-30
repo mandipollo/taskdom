@@ -17,7 +17,7 @@ import getProfileImage from "../../../firebaseAuth/getProfileImage";
 import { ref, uploadBytesResumable } from "firebase/storage";
 
 const ChatInput = () => {
-	const uid = useAppSelector(state => state.auth.uid);
+	const uid = useAppSelector(state => state.userFirestoreData.uid);
 	const chatState = useAppSelector(state => state.chat);
 	const [text, setText] = useState<string | null>(null);
 	const [img, setImg] = useState<File | undefined>(undefined);

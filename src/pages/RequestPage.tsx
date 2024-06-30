@@ -9,7 +9,7 @@ const RequestPage: React.FC = () => {
 		[]
 	);
 
-	const uid = useAppSelector(state => state.auth.uid);
+	const uid = useAppSelector(state => state.userFirestoreData.uid);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -17,10 +17,10 @@ const RequestPage: React.FC = () => {
 				db,
 				`connectionRequest/${uid}/requestReceived`
 			);
-			const unsubscribe = onSnapshot(requestRef, doc => {
+			const unsubscribe = onSnapshot(requestRef, snapshot => {
 				setConnectionRequest([]);
-				doc.forEach(d => {
-					const data = d.data();
+				snapshot.forEach(doc => {
+					const data = doc.data();
 
 					setConnectionRequest(prev => [...prev, data]);
 				});
@@ -32,13 +32,16 @@ const RequestPage: React.FC = () => {
 
 		fetchData();
 	}, [uid]);
+
 	return (
-		<div className="flex  p-2 w-full h-full space-x-2">
-			<ul className="flex flex-row gap-2">
+		<div className="p-2">
+			<ul className="grid 2xl:grid-cols-auto lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-2 ">
 				{connectionRequest.map(req => (
 					<RequestList key={req.uid} req={req} />
 				))}
 			</ul>
+
+			{connectionRequest.length === 0 && <p>Its quiet in here....</p>}
 		</div>
 	);
 };

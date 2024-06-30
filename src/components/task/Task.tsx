@@ -28,7 +28,7 @@ const Task: React.FC<TaskProps> = ({
 	task,
 	handleTaskIdAndToggleAssignTask,
 }) => {
-	const userData = useAppSelector(state => state.auth);
+	const userData = useAppSelector(state => state.userFirestoreData);
 	const getBgColor = (priority: string) => {
 		return priority === "High"
 			? "bg-red-800"

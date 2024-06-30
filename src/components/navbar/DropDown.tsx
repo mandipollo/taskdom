@@ -25,6 +25,11 @@ const DropDown: React.FC<DropDownProps> = ({ handleDropDown }) => {
 				<Link to="/accountSetting">Settings</Link>
 			</li>
 			<li className="flex  items-center">
+				<button>
+					<p>Light theme</p>
+				</button>
+			</li>
+			<li className="flex  items-center">
 				<button onClick={signOutHandler}>
 					<p>Sign out</p>
 				</button>

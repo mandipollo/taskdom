@@ -13,7 +13,7 @@ import { db } from "../../../../firebase.config";
 
 const ChatMessage = () => {
 	const chatState = useAppSelector(state => state.chat);
-	const user = useAppSelector(state => state.auth);
+	const user = useAppSelector(state => state.userFirestoreData);
 
 	// if image not available
 
@@ -59,7 +59,7 @@ const ChatMessage = () => {
 
 	return (
 		<div
-			className="flex w-full flex-col h-full p-2"
+			className="flex w-full flex-col h-full px-4"
 			style={{ maxHeight: "calc( 100vh - 12rem )" }}
 		>
 			{messages && (

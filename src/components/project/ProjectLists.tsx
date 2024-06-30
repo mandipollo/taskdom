@@ -1,4 +1,10 @@
-import { collection, getCountFromServer, getDocs } from "firebase/firestore";
+import {
+	collection,
+	getCountFromServer,
+	getDocs,
+	query,
+	where,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 
 import { db } from "../../../firebase.config";
@@ -60,7 +66,8 @@ const ProjectLists: React.FC<ProjectlistProps> = ({
 		try {
 			const ref = collection(db, `projects/${projectId}/tasks`);
 
-			const querySnapshot = await getDocs(ref);
+			const onGoingQuery = query(ref, where("status", "==", "Ongoing"));
+			const querySnapshot = await getDocs(onGoingQuery);
 			return querySnapshot.size;
 		} catch (err) {
 			console.log(err);

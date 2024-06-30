@@ -18,7 +18,7 @@ import {
 } from "firebase/firestore";
 
 const ProjectsHomePage: React.FC = () => {
-	const userData = useAppSelector(state => state.auth);
+	const userData = useAppSelector(state => state.userFirestoreData);
 
 	// Local states
 
@@ -126,7 +126,7 @@ const ProjectsHomePage: React.FC = () => {
 				projectTitle,
 				projectDescription,
 				status: "Ongoing",
-				adminPhoto: userData.photoURL ? userData.photoURL : null,
+				adminPhoto: userData.profileImage ? userData.profileImage : null,
 				adminName: userData.displayName,
 				startDate,
 				endDate,
@@ -148,7 +148,7 @@ const ProjectsHomePage: React.FC = () => {
 	};
 
 	return (
-		<div className="flex relative flex-col w-full px-2 overflow-auto">
+		<div className="flex relative flex-col w-full px-2   overflow-auto">
 			{toggleForm && (
 				<div
 					className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10"

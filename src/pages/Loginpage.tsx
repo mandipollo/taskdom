@@ -12,9 +12,6 @@ import { setEmailState } from "../store/emailSlice";
 import isValidEmail from "../components/utilities/emailValidation";
 import isPasswordValid from "../components/utilities/passwordValidation";
 import signInUser from "../firebaseAuth/signInUser";
-import getFirestoreData from "../firebaseAuth/getFirestoreData";
-import { setUserFirestoreData } from "../store/userFirestoreData";
-import { UserDataProps } from "../components/utilities/userDataProps";
 
 const LoginPage: React.FC = () => {
 	const navigate = useNavigate();
@@ -53,7 +50,8 @@ const LoginPage: React.FC = () => {
 		setShowPasswordForm(false);
 	};
 
-	// submit function
+	// sign in then fetch user data to sync with state
+
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
@@ -68,13 +66,8 @@ const LoginPage: React.FC = () => {
 				setPasswordValidity(true);
 
 				// sign in user
-				const { user, error } = await signInUser({ email, password });
+				const { error } = await signInUser({ email, password });
 
-				// store the user data in the redux
-
-				const data = (await getFirestoreData(user.uid)) as UserDataProps;
-
-				dispatch(setUserFirestoreData(data));
 				setError(error);
 				navigate("/userDashboard");
 			} catch (err) {
@@ -86,6 +79,38 @@ const LoginPage: React.FC = () => {
 			}
 		}
 	};
+	// const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	// 	e.preventDefault();
+
+	// 	// handle password validation
+	// 	if (isPasswordValid(password) === false) {
+	// 		setPasswordValidity(false);
+
+	// 		return;
+	// 	} else {
+	// 		try {
+	// 			isPasswordValid(password);
+	// 			setPasswordValidity(true);
+
+	// 			// sign in user
+	// 			const { user, error } = await signInUser({ email, password });
+
+	// 			// store the user data in the redux
+
+	// 			const data = (await getFirestoreData(user.uid)) as UserDataProps;
+
+	// 			dispatch(setUserFirestoreData(data));
+	// 			setError(error);
+	// 			navigate("/userDashboard");
+	// 		} catch (err) {
+	// 			if (err instanceof Error) {
+	// 				setError(err.message);
+	// 			} else {
+	// 				setError(null);
+	// 			}
+	// 		}
+	// 	}
+	// };
 	// dynamic classes
 	const emailFormClass: string = ` ${
 		showPasswordForm ? "hidden " : "flex"

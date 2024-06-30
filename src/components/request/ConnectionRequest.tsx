@@ -5,7 +5,7 @@ import { db } from "../../../firebase.config";
 import { Link } from "react-router-dom";
 
 const ConnectionRequest: React.FC = () => {
-	const uid = useAppSelector(state => state.auth.uid);
+	const uid = useAppSelector(state => state.userFirestoreData.uid);
 	const [requestCount, setRequestCount] = useState<number | null>(null);
 
 	const handleRequestCount = (e: number) => {

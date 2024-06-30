@@ -2,15 +2,18 @@ import { Outlet } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar";
 import Sidebar from "../components/sidebar/Sidebar";
 import { useEffect, useState } from "react";
-import { resetUser, setUser } from "../store/authSlice";
+
 import { auth, db } from "../../firebase.config";
 import { useAppDispatch, useAppSelector } from "../store/store";
-import { resetUserChat } from "../store/chatSlice";
 
 import { DocumentSnapshot, doc, onSnapshot } from "firebase/firestore";
 import { UserDataProps } from "../components/utilities/userDataProps";
-import { setUserFirestoreData } from "../store/userFirestoreData";
+import {
+	resetUserFirestoreData,
+	setUserFirestoreData,
+} from "../store/userFirestoreData";
 import DropDown from "../components/navbar/DropDown";
+import { onAuthStateChanged } from "firebase/auth";
 const Root = () => {
 	// drop down menu
 
@@ -20,50 +23,36 @@ const Root = () => {
 		setIsDropDown(!isDropDown);
 	};
 	const dispatch = useAppDispatch();
-	const userState = useAppSelector(state => state.auth);
-
-	// sets a listener for current user state
-	useEffect(() => {
-		const unsubscribe = auth.onAuthStateChanged(user => {
-			if (user) {
-				dispatch(
-					setUser({
-						displayName: user.displayName,
-						email: user.email,
-						uid: user.uid,
-						photoURL: user.photoURL || undefined,
-					})
-				);
-			} else {
-				// User signed out, reset the user state and chat state
-				dispatch(resetUser());
-				dispatch(resetUserChat());
-			}
-		});
-
-		return () => unsubscribe(); // Cleanup function to unsubscribe from the listener
-	}, [dispatch]);
+	const userState = useAppSelector(state => state.userFirestoreData);
 
 	// set up a listener for firestore data linked to user
 
 	useEffect(() => {
-		if (!userState.uid) return;
-		const fetchData = async () => {
-			// Call userFirestoreUpdate when the component mounts
-			const dataRef = doc(db, `users/${userState.uid}`);
-			const unsubscribe = onSnapshot(dataRef, (doc: DocumentSnapshot) => {
-				if (doc.exists()) {
-					const data = doc.data() as UserDataProps;
-					dispatch(setUserFirestoreData(data));
-				}
-			});
+		const unsubscribeAuth = onAuthStateChanged(auth, user => {
+			if (user) {
+				const uid = user.uid;
+				const dataRef = doc(db, `users/${uid}`);
+				const unsubscribeSnapshot = onSnapshot(
+					dataRef,
+					(doc: DocumentSnapshot) => {
+						if (doc.exists()) {
+							const data = doc.data() as UserDataProps;
+							dispatch(setUserFirestoreData(data));
+						}
+					}
+				);
 
-			// Return a cleanup function to unsubscribe when the component unmounts
-			return () => unsubscribe();
-		};
+				// Return a cleanup function to unsubscribe from snapshot listener
+				return () => unsubscribeSnapshot();
+			} else {
+				// Handle case when user is not logged in or user logs out
+				dispatch(resetUserFirestoreData());
+			}
+		});
 
-		fetchData();
-	}, [userState.uid]);
+		// Return a cleanup function to unsubscribe from auth listener
+		return () => unsubscribeAuth();
+	}, [dispatch]);
 
 	return (
 		<div className="flex relative h-screen flex-col w-full ">

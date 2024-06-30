@@ -13,25 +13,15 @@ const ProjectHead: React.FC<ProjectHeadProps> = ({
 	filterProjectStatus,
 }) => {
 	return (
-		<div className="flex w-full z-10 mt-2  flex-col sticky top-0 left-0 bg-[#000408] ">
-			<div className="flex-1 sm:flex hidden gap-4 items-center">
-				<p className="text-xl">Project dashboard</p>
-				<button
-					onClick={() => handleToggleForm()}
-					className="flex flex-row border p-2  border-[#30363E] ]"
-				>
-					<img src={Add} width={20} height={20} alt="" />
-					Add new project
-				</button>
-			</div>
-			<div className="flex-1 sm:hidden flex gap-4 items-center">
+		<div className="flex w-full z-10 mt-2  flex-col gap-2 sticky top-0 left-0 bg-[#000408] ">
+			<div className="flex-1 flex gap-4 items-center">
 				<p className="text-xl">Dashboard</p>
 				<button
 					onClick={() => handleToggleForm()}
 					className="flex flex-row border p-2  border-[#30363E] ]"
 				>
 					<img src={Add} width={20} height={20} alt="" />
-					Add project
+					Add Project
 				</button>
 			</div>
 

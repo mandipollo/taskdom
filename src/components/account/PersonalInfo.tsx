@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import edit from "../../assets/edit.svg";
-import updateUserInfo from "../../firebaseAuth/updateUserInfo";
 import { ref } from "firebase/storage";
-import { storage, auth } from "../../../firebase.config";
+import { storage, auth, functions } from "../../../firebase.config";
 import { uploadBytes } from "firebase/storage";
 import { db } from "../../../firebase.config";
 import { doc, updateDoc } from "firebase/firestore";
@@ -14,6 +13,7 @@ import { setSnackBar, hideSnackbar } from "../../store/snackBarSlice";
 
 import Snackbar from "../utilities/Snackbar";
 import { useAppDispatch, useAppSelector } from "../../store/store";
+import { httpsCallable } from "firebase/functions";
 type personalProps = {
 	userFirestoreData: UserDataProps | null;
 };
@@ -37,7 +37,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 
 	const defaultPic = displayName.charAt(0).toUpperCase();
 	//inputs
-	const [error, setError] = useState<boolean>(false);
+
 	const [job, setJob] = useState<string>(jobTitle);
 	const [name, setName] = useState<string>(displayName);
 	const [workTime, setWorkTime] = useState<string>(workHours);
@@ -67,9 +67,6 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 	const contactPhHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setContactPh(e.target.value);
 	};
-
-	const inputClass = `flex p-2 rounded-md focus:outline-0 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none `;
-	const inputDivClass = `flex flex-col space-y-2 md:w-3/4 `;
 
 	//image handler
 	const imageHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -133,39 +130,33 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 		}
 	};
 	// update user info on the firestore
+
 	const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		try {
-			if (user === null) {
-				console.log("no user");
-				return;
-			}
+		const updatePersonalInfo = httpsCallable(functions, "updatePersonalInfo");
 
-			// update firestore data
-			await updateUserInfo({
+		try {
+			const res = await updatePersonalInfo({
 				displayName: name,
 				contactNo: contactPh,
 				jobTitle: job,
 				workHours: workTime,
 			});
 
-			// update auth
-			await updateProfile(user, {
-				displayName: name,
-			});
+			console.log(res.data);
 
 			dispatch(setSnackBar({ show: true, message: "Profile updated!" }));
 			setTimeout(() => {
 				dispatch(hideSnackbar());
 			}, 2000);
-			console.log("submitted");
-		} catch (error) {
-			setError(true);
+		} catch (err) {
+			console.error(err);
 		}
 	};
+
 	return (
-		<div className="flex  h-full  w-full pt-2 pl-2 md:flex-row md:space-x-10 flex-col border-t-[#30363E] border-t text-[#E6EDF3] ">
+		<div className="flex  h-full  w-full p-2 lg:flex-row flex-col border-t-[#30363E] border-t text-[#E6EDF3] ">
 			<Snackbar message={snackbarState.message} show={snackbarState.show} />
 			<div className="md:h-36 md:w-36 h-20 w-20 overflow-hidden flex justify-center items-center rounded-full relative 0">
 				{user?.photoURL ? (
@@ -201,11 +192,12 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 				</button>
 			</div>
 			<form
+				id="personalInfo"
 				onSubmit={submitHandler}
-				className="flex md:flex-row flex-col h-full w-full flex-1 "
+				className="flex md:flex-row flex-col h-full w-full gap-2 flex-1 "
 			>
-				<div className="md:w-1/2  h-full md:items-center space-y-2 flex flex-col">
-					<div className={inputDivClass}>
+				<div className=" h-full space-y-2 md:items-center flex flex-col">
+					<div className="flex flex-col">
 						<p className="text-gray-400">Display Name</p>
 
 						<input
@@ -213,23 +205,23 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 							onChange={nameHandler}
 							value={name || ""}
 							type="text"
-							className={inputClass}
+							className="flex p-2 md:w-60 rounded-md focus:outline-0 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none "
 						/>
 					</div>
-					<div className={inputDivClass}>
+					<div className="flex flex-col">
 						<p className="text-gray-400">Work hours</p>
 
 						<input
 							placeholder={workHours || ""}
 							onChange={workTimeHandler}
 							value={workTime || ""}
-							className={inputClass}
+							className="flex p-2 md:w-60 rounded-md focus:outline-0 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none "
 							type="text"
 						/>
 					</div>
 				</div>
-				<div className="md:w-1/2 h-full space-y-2 md:items-center flex flex-col">
-					<div className={inputDivClass}>
+				<div className=" h-full space-y-2 md:items-center flex flex-col">
+					<div className="flex flex-col">
 						<p className="text-gray-400">Job Title</p>
 
 						<input
@@ -237,31 +229,29 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 							type="text"
 							onChange={jobHandler}
 							value={job || ""}
-							className={inputClass}
+							className="flex p-2 md:w-60 rounded-md focus:outline-0 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none "
 						/>
 					</div>
-					<div className={inputDivClass}>
+					<div className="flex flex-col">
 						<p className="text-gray-400">Contact no.</p>
 
 						<input
 							placeholder={contactNo || ""}
 							onChange={contactPhHandler}
 							value={contactPh || ""}
-							className={inputClass}
+							className="flex p-2 md:w-60 rounded-md focus:outline-0 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none "
 							type="text"
 						/>
 					</div>
-					<div className="flex  py-2">
-						<button
-							type="submit"
-							className="bg-[#508D69] p-2 rounded-md px-8  text-lg text-white"
-						>
-							Save changes
-						</button>
-					</div>
+
+					<button
+						type="submit"
+						className="bg-[#508D69] w-full p-2 rounded-md  text-lg "
+					>
+						Save changes
+					</button>
 				</div>
 			</form>
-			{error && <span>{error}</span>}
 		</div>
 	);
 };

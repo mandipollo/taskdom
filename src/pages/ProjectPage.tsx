@@ -22,7 +22,7 @@ import { ProjectProps } from "../components/utilities/userDataProps";
 import { httpsCallable } from "firebase/functions";
 
 const ProjectsPage = () => {
-	const userUid = useAppSelector(state => state.auth.uid);
+	const userUid = useAppSelector(state => state.userFirestoreData.uid);
 
 	const url = useParams();
 	const projectId = url.projectId;
