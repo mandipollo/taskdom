@@ -6,8 +6,6 @@ import loginLogo from "../assets/loginLogo.svg";
 import { Link } from "react-router-dom";
 import facebookLogo from "../assets/facebook.svg";
 import instagramLogo from "../assets/instagram.svg";
-import { useAppDispatch } from "../store/store";
-import { setEmailState } from "../store/emailSlice";
 
 import isValidEmail from "../components/utilities/emailValidation";
 import isPasswordValid from "../components/utilities/passwordValidation";
@@ -15,7 +13,6 @@ import signInUser from "../firebaseAuth/signInUser";
 
 const LoginPage: React.FC = () => {
 	const navigate = useNavigate();
-	const dispatch = useAppDispatch();
 
 	const [email, setEmail] = useState<string | null>(null);
 	const [emailValidity, setEmailValidity] = useState<boolean>(true);
@@ -41,7 +38,6 @@ const LoginPage: React.FC = () => {
 			setEmailValidity(false);
 		} else if (isValidEmail(email)) {
 			setEmailValidity(true);
-			dispatch(setEmailState(email));
 			setShowPasswordForm(true);
 		}
 	};
@@ -79,38 +75,7 @@ const LoginPage: React.FC = () => {
 			}
 		}
 	};
-	// const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-	// 	e.preventDefault();
 
-	// 	// handle password validation
-	// 	if (isPasswordValid(password) === false) {
-	// 		setPasswordValidity(false);
-
-	// 		return;
-	// 	} else {
-	// 		try {
-	// 			isPasswordValid(password);
-	// 			setPasswordValidity(true);
-
-	// 			// sign in user
-	// 			const { user, error } = await signInUser({ email, password });
-
-	// 			// store the user data in the redux
-
-	// 			const data = (await getFirestoreData(user.uid)) as UserDataProps;
-
-	// 			dispatch(setUserFirestoreData(data));
-	// 			setError(error);
-	// 			navigate("/userDashboard");
-	// 		} catch (err) {
-	// 			if (err instanceof Error) {
-	// 				setError(err.message);
-	// 			} else {
-	// 				setError(null);
-	// 			}
-	// 		}
-	// 	}
-	// };
 	// dynamic classes
 	const emailFormClass: string = ` ${
 		showPasswordForm ? "hidden " : "flex"
@@ -134,14 +99,20 @@ const LoginPage: React.FC = () => {
 	return (
 		<div className="flex h-full w-full flex-col bg-[#000408]">
 			<div className="flex justify-center items-center h-2/4 flex-col space-y-2">
-				<img src={loginLogo} height={40} width={40}></img>
+				<img
+					className="transition hover:animate-spin "
+					src={loginLogo}
+					height={40}
+					width={40}
+				></img>
 				<p className="text-lg md:text-sm text-[#E6EDF3]">iDon'tKnowUI</p>
 			</div>
 			<div className="flex flex-col h-2/4 justify-center items-center flex-1  ">
 				{/* email section */}
-				<form onSubmit={handleNext} className={emailFormClass}>
+				<form onSubmit={handleNext} id="email" className={emailFormClass}>
 					<div className="flex  flex-col w-full h-full justify-center items-center space-y-4 flex-1 ">
 						<input
+							autoFocus={true}
 							onChange={emailHandler}
 							value={email ?? ""}
 							className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center w-3/4 "
@@ -176,7 +147,7 @@ const LoginPage: React.FC = () => {
 				</form>
 
 				{/* password section */}
-				<form onSubmit={handleSubmit} className={passwordFormClass}>
+				<form onSubmit={handleSubmit} id="submit" className={passwordFormClass}>
 					<div className="flex  flex-col w-full h-full justify-center items-center space-y-4 flex-1 ">
 						<input
 							onChange={passwordHandler}

@@ -3,8 +3,7 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 
 // slice
-import email from "./emailSlice";
-// import auth from "./authSlice";
+
 import chat from "./chatSlice";
 import snackBar from "./snackBarSlice";
 
@@ -13,8 +12,6 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 const rootReducer = combineReducers({
 	userFirestoreData,
-	email,
-
 	chat,
 	snackBar,
 });
