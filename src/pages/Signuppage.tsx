@@ -2,21 +2,25 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
-import facebookLogo from "../assets/facebook.svg";
-import instagramLogo from "../assets/instagram.svg";
 
 import isValidEmail from "../components/utilities/emailValidation";
 import isPasswordValid from "../components/utilities/passwordValidation";
 
-import signUpUser from "../firebaseAuth/signUpUser";
+import {
+	createUserWithEmailAndPassword,
+	sendEmailVerification,
+	updateProfile,
+} from "firebase/auth";
+import { auth, db } from "../../firebase.config";
+import { doc, setDoc } from "firebase/firestore";
 
 const SignupPage: React.FC = () => {
 	const navigate = useNavigate();
 
 	const [email, setEmail] = useState<string | null>(null);
-	const [emailValidity, setEmailValidity] = useState<boolean>(true);
+
 	const [password, setPassword] = useState<string | null>(null);
-	const [passwordValidity, setPasswordValidity] = useState<boolean>(true);
+
 	const [displayName, setDisplayName] = useState<string | null>(null);
 
 	const [error, setError] = useState<string | null>(null);
@@ -33,115 +37,115 @@ const SignupPage: React.FC = () => {
 	const displayNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setDisplayName(e.target.value);
 	};
-	const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (isPasswordValid(password) === false || isValidEmail(email) === false) {
-			setEmailValidity(false);
-			setPasswordValidity(false);
 
-			console.log("Invalid credentials");
+		if (!email || !password || !displayName) {
+			setError("Missing fields!");
 			return;
-		} else {
-			isPasswordValid(password);
-			setPasswordValidity(true);
-			setEmailValidity(true);
+		}
+		if (!isPasswordValid(password) || !isValidEmail(email)) {
+			setError("Invalid email or password!");
+			return;
+		}
 
-			const { user, error } = await signUpUser({
+		try {
+			// sign up user
+			const userCredential = await createUserWithEmailAndPassword(
+				auth,
 				email,
-				password,
-				displayName,
+				password
+			);
+			const user = userCredential.user;
+			await sendEmailVerification(user);
+
+			// update profile name
+			await updateProfile(user, { displayName });
+
+			// Add a new document in users collection
+			await setDoc(doc(db, "users", user.uid), {
+				uid: user.uid,
+				displayName: displayName,
+				email: email,
+				jobTitle: null,
+				workHours: null,
+				contactNo: null,
 			});
+			// Add a new document in userschat collection
+			await setDoc(doc(db, "usersChat", user.uid), {});
 
-			console.log(user, error);
-
-			if (error) {
-				if (error.includes("email-already-in-use")) {
-					setError("email already in use");
-				} else {
-					setError("Opps something went wrong!");
-				}
-			} else {
-				navigate("/userDashboard");
-			}
+			navigate("/userDashboard");
+		} catch (err: any) {
+			setError(err.message);
 		}
 	};
 
-	const emailTextHelper: string = `${
-		emailValidity ? "hidden" : "flex"
-	}  text-red-500`;
-
-	const passwordTextHelper: string = `${
-		passwordValidity ? "hidden" : "flex"
-	}  text-red-500`;
 	return (
-		<div className="flex w-full h-full flex-1 justify-center items-center flex-col bg-[#000408] ">
-			<form className="flex  relative flex-col justify-center items-center h-3/4  md:w-2/4 sm:w-3/4 w-3/4 bg-[#0D1117]  border-[#30363E]   border">
-				<div className="flex  flex-col w-full h-full justify-center items-center space-y-4 flex-1 ">
-					<p className="flex text-2xl font-bold text-[#E6EDF3]">Get started</p>
-					<p className="text-sm text-gray-400 flex text-wrap">
-						We are limited by only our imagination
-					</p>
+		<main className="flex w-full h-full flex-1 gap-4 justify-center items-center flex-col bg-gradient-to-tr from-black from-40%  via-[#613F5A] to-black">
+			<form
+				onSubmit={handleSubmit}
+				id="sign-up"
+				className="flex  relative flex-col justify-center items-center h-3/4  md:w-2/4 sm:w-3/4 w-3/4 "
+			>
+				<section className="flex  flex-col w-full h-full justify-center items-center space-y-2 flex-1 ">
+					<article className="flex text-2xl font-bold text-[#E6EDF3]">
+						Get started
+					</article>
+
+					<label aria-label="input display name" htmlFor="display-name-input">
+						Display name
+					</label>
 					<input
+						id="display-name-input"
 						onChange={displayNameHandler}
 						value={displayName ?? ""}
-						className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center w-3/4 "
-						placeholder="What should we call you?"
+						className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center md:w-60 w-40 rounded-md  "
+						placeholder="Display name"
 						type="text"
 					></input>
+					<label aria-label="input email" htmlFor="email-input">
+						Email
+					</label>
 					<input
+						id="email-input"
 						onChange={emailHandler}
 						value={email ?? ""}
-						className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center w-3/4 "
+						className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center md:w-60 w-40 rounded-md  "
 						placeholder="Email"
 						type="email"
 					></input>
-					<p className={emailTextHelper}>
-						Please provide a valid email address
-					</p>
+					<label aria-label="input password" htmlFor="password-input">
+						Password
+					</label>
 					<input
+						id="password-input"
 						onChange={passwordHandler}
 						value={password ?? ""}
-						className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center w-3/4 "
+						className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center md:w-60 w-40 rounded-md  "
 						placeholder="Password"
 						type="password"
 					></input>
 					<p className="text-red-500">{error}</p>
-					<p className={passwordTextHelper}>
-						The password needs to be 6 characters long
-					</p>
-					<div className="flex justify-center-items-center space-x-4">
-						<img
-							src={facebookLogo}
-							alt="facebook logo"
-							width={30}
-							height={30}
-						/>
-						<img
-							src={instagramLogo}
-							alt="instagram logo"
-							width={30}
-							height={30}
-						/>
-					</div>
-				</div>
+				</section>
 				<button
+					aria-label="Create account"
 					disabled={!password}
-					onClick={handleSubmit}
 					type="submit"
-					className="absolute -bottom-5 rounded-2xl  z-10  bg-[#0D1117] border-[#30363E] border text-[#E6EDF3] py-2 px-12"
+					className="rounded-2xl bg-[#0D1117] border-[#30363E] border text-[#E6EDF3] py-2 px-12"
 				>
 					CREATE FREE ACCOUNT
 				</button>
+				{error && <p>{error}</p>}
 			</form>
 
-			<div className="flex relative h-1/6 w-3/4  justify-center items-center  ">
-				<Link to="/login">
-					<button className="font-semibold font-montserrat tracking-wider text-[#E6EDF3]">
-						LOG IN
+			<section className="flex relative justify-center items-center  ">
+				<Link to="/login" aria-label="Navigate to sign in">
+					<button className="font-semibold font-montserrat  text-[#2C74D9]">
+						Go back to sign in.
 					</button>
 				</Link>
-			</div>
-		</div>
+			</section>
+		</main>
 	);
 };
 

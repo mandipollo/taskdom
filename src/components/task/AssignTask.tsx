@@ -48,7 +48,7 @@ const AssignTask: React.FC<TaskInputProps> = ({
 
 	return (
 		<form
-			className="flex-1 rounded-md border p-4 border-[#010101] bg-[#0D1117] z-20 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  sm:w-1/2 sm:h-1/2 w-3/4 h-3/4"
+			className="flex-1 rounded-md dark:border p-4 border-[#010101] bg-white dark:bg-[#0D1117] z-20 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  sm:w-1/2 sm:h-1/2 w-3/4 h-3/4"
 			aria-label="add project form"
 		>
 			{err && (

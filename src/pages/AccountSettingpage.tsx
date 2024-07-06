@@ -21,36 +21,40 @@ const AccountSettingPage: React.FC = () => {
 		setActiveSection("loginAndSecurity");
 	};
 	return (
-		<div className="flex flex-col h-full w-full">
-			<div className="flex h-1/6 flex-col items-center  md:mx-14 mx-2">
+		<main className="flex flex-col h-full w-full">
+			<section className="flex h-1/6 flex-col items-center  md:mx-14 mx-2">
 				<div className="flex items-center space-x-6 h-full w-full">
 					<button
+						aria-label="Personal info"
 						onClick={handlePersonalInfo}
 						className={`${
-							activeSection === "personalInfo" ? "text-white" : "text-gray-400"
+							activeSection === "personalInfo"
+								? "dark:text-white"
+								: "text-gray-400"
 						}`}
 					>
 						Personal Info
 					</button>
 					<button
+						aria-label="Login and security"
 						onClick={handleSecurity}
 						className={`${
 							activeSection === "loginAndSecurity"
-								? "text-white"
+								? "dark:text-white"
 								: "text-gray-400"
 						}`}
 					>
 						Login & Security
 					</button>
 				</div>
-			</div>
-			<div className="flex  flex-1 justify-center items-center relative md:mx-14 mx-2">
+			</section>
+			<section className="flex  flex-1 justify-center items-center relative md:mx-14 mx-2">
 				{activeSection === "personalInfo" && (
 					<PersonalInfo userFirestoreData={userState} />
 				)}
 				{activeSection === "loginAndSecurity" && <LoginAndSecurity />}
-			</div>
-		</div>
+			</section>
+		</main>
 	);
 };
 

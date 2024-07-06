@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import logo from "../../assets/logo.svg";
 
+import Logo from "../../assets/logo.svg?react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { auth, db } from "../../../firebase.config";
@@ -36,17 +36,6 @@ const Navbar: React.FC<NavbarProps> = ({ handleDropDown }) => {
 		return () => unsubscribe(); // Cleanup function to unsubscribe from the listener
 	}, []);
 
-	const [open, setOpen] = useState<boolean>(false);
-
-	const handlerToggle = (): void => {
-		setOpen(!open);
-	};
-
-	//  ovelay
-	const mobileClassRoutes = `${
-		open ? "flex" : "hidden"
-	} z-40 absolute top-0 left-0 bottom-0 h-screen w-screen  py-1 pt-20 pl-12 space-y-3 text-lg uppercase bg-black text-white`;
-
 	const linkHomeLogo = user ? "/userDashboard" : "/";
 	// attach a listener to the firestore database
 
@@ -67,14 +56,14 @@ const Navbar: React.FC<NavbarProps> = ({ handleDropDown }) => {
 	}, [uid]);
 
 	return (
-		<div className="flex relative flex-1 h-14 p-2 space-x-2  w-full justify-center items-center border-b border-[#30363E] bg-[#000408]">
+		<div className="flex relative flex-1 h-14 p-2 space-x-2  w-full justify-between items-center border-b dark:border-[#30363E] bg-[#006FC9] dark:bg-[#000408] ">
 			{/* logo medium screen */}
 
-			<Link to={linkHomeLogo}>
-				<div className=" md:flex w-10  justify-center items-center space-x-4 h-full">
-					<img src={logo} alt="logo" height={20} width={20} />
-					{/* <p className="font-mono text-lg font-thin ">TASKDOM</p> */}
-				</div>
+			<Link
+				to={linkHomeLogo}
+				className=" md:flex w-10  justify-center items-center space-x-4 h-full"
+			>
+				<Logo className="w-10 h-10" />
 			</Link>
 
 			{/* nav routes */}
@@ -91,27 +80,6 @@ const Navbar: React.FC<NavbarProps> = ({ handleDropDown }) => {
 				/>
 			)}
 
-			<nav className="flex flex-1 justify-center items-center h-full">
-				{/* logo small screen */}
-
-				{!user && (
-					<div>
-						<Link
-							to={linkHomeLogo}
-							className="flex md:hidden w-full  justify-center items-center space-x-2"
-						>
-							<img src={logo} alt="logo" height={20} width={20} />
-							<p className="font-mono text-lg font-thin ">TASKDOM</p>
-						</Link>
-					</div>
-				)}
-
-				{/* mobile menu */}
-				<div className={mobileClassRoutes} onClick={handlerToggle}>
-					<p className="text-sm">Just wanted to put the hamburger menu...</p>
-				</div>
-			</nav>
-
 			{user ? (
 				<div
 					onClick={() => handleDropDown()}
@@ -120,7 +88,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleDropDown }) => {
 					{auth.currentUser?.photoURL ? (
 						<img
 							src={auth.currentUser?.photoURL}
-							className="rounded-full w-8 h-8 object-cover"
+							className="rounded-full w-8 h-8 object-cover border border-gray-400"
 						></img>
 					) : (
 						<span className=" flex justify-center items-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">

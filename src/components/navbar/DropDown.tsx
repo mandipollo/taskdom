@@ -4,6 +4,7 @@ import ConnectionRequest from "../request/ConnectionRequest";
 import signOutUser from "../../firebaseAuth/signOutUser";
 import { resetUserFirestoreData } from "../../store/userFirestoreData";
 import { useAppDispatch } from "../../store/store";
+import Modeswitcher from "../utilities/ModeSwitcher";
 interface DropDownProps {
 	handleDropDown: () => void;
 }
@@ -17,19 +18,17 @@ const DropDown: React.FC<DropDownProps> = ({ handleDropDown }) => {
 		handleDropDown();
 	};
 	return (
-		<ul className="absolute z-20 w-40 rounded-md  bg-[#0D1117] border border-[#30363E] top-10 right-4  p-2 flex flex-col space-y-2">
+		<ul className="absolute z-20 w-40 transition-colors duration-300 ease-in-out rounded-md text-black dark:text-white bg-gray-100 dark:bg-[#0D1117] border border-[#30363E] top-10 right-4  p-2 flex flex-col gap-2">
 			<li onClick={() => handleDropDown()}>
 				<ConnectionRequest />
 			</li>
 			<li onClick={() => handleDropDown()}>
 				<Link to="/accountSetting">Settings</Link>
 			</li>
-			<li className="flex  items-center">
-				<button>
-					<p>Light theme</p>
-				</button>
+			<li>
+				<Modeswitcher />
 			</li>
-			<li className="flex  items-center">
+			<li>
 				<button onClick={signOutHandler}>
 					<p>Sign out</p>
 				</button>

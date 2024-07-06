@@ -13,19 +13,21 @@ const DateTaskDisplay: React.FC<dateTaskProps> = ({
 	noTask,
 }) => {
 	return (
-		<div className="w-1/3 hidden sm:flex pt-10">
+		<section className="w-1/3 hidden sm:flex pt-10">
 			<div className="flex flex-col h-full w-full space-y-2 ">
-				<p className=" text-2xl">
+				<p aria-label="day and date" className=" text-2xl">
 					{day}, {date}
 				</p>
 
-				<p className=" text-2xl">{time}</p>
-				<p className="text-sm">
+				<p aria-label="time" className=" text-2xl">
+					{time}
+				</p>
+				<p aria-label="Number of tasks " className="text-sm">
 					You have <span className="text-green-400">{noTask} </span> tasks
 					today.
 				</p>
 			</div>
-		</div>
+		</section>
 	);
 };
 

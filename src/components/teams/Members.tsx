@@ -32,28 +32,30 @@ const Members: React.FC<MemberProps> = ({ member }) => {
 
 	return (
 		<li
-			className={` flex-row border border-[#30363E] space-x-1  items-center flex overflow-x-hidden rounded-md h-16 p-0.5 text-gray-400 hover:border-gray-400 hover:cursor-pointer`}
+			className={` flex-row border dark:border-[#30363E] space-x-1  items-center flex overflow-x-hidden rounded-md h-16 p-0.5 dark:text-gray-400 hover:border-gray-400 hover:cursor-pointer`}
 			onClick={() => handleSelect({ ...member, chatId })}
 			key={member.uid}
 		>
 			{member.profileImage ? (
-				<img
-					className="rounded-full w-10 h-10 object-cover"
-					src={member.profileImage}
-					alt="member member"
-				/>
+				<figure>
+					<img
+						className="rounded-full w-10 h-10 object-cover"
+						src={member.profileImage}
+						alt="member profile picture"
+					/>
+				</figure>
 			) : (
 				<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 text-black">
 					<p>{member.displayName?.charAt(0).toUpperCase()}</p>
 				</span>
 			)}
 
-			<div className="sm:flex flex-col hidden  truncate">
-				<p className="text-[#508D69] uppercase">{member.displayName}</p>
+			<article className="sm:flex flex-col hidden  truncate">
+				<p className="dark:text-[#508D69] uppercase">{member.displayName}</p>
 				{member.lastMessage && (
 					<p className="text-sm ">{member.lastMessage.text}</p>
 				)}
-			</div>
+			</article>
 		</li>
 	);
 };

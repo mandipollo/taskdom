@@ -31,12 +31,12 @@ const Sidebar: React.FC = () => {
 		open && "open"
 	}`;
 
-	const classBtn =
-		"flex flex-row space-x-2 hover:underline underline-offset-4 ";
+	const classBtn = "flex flex-row space-x-2";
 	const classP = `${open ? "hidden" : "hidden sm:block "}`;
 
-	const active = " text-white underline underline-offset-4";
-	const pending = " text-red-400 ";
+	const active =
+		" dark:text-white text-black p-2  rounded-md bg-white dark:bg-[#161B22] shadow-lg  w-full h-full";
+	const pending = " text-red-400 p-2 ";
 	// sign out
 	const signOutHandler = () => {
 		dispatch(resetUserFirestoreData());
@@ -48,10 +48,10 @@ const Sidebar: React.FC = () => {
 		<div
 			className={`${
 				open ? "w-10" : " sm:w-40 w-10"
-			} transition-all ease-in-out duration-300 flex flex-col items-center border border-[#30363E] bg-[#0D1117] `}
+			} transition-all ease-in-out duration-300 flex flex-col items-center dark:border dark:text-white text-black dark:border-[#30363E]  dark:bg-[#0D1117] `}
 		>
-			<ul className="flex flex-col space-y-6 pt-10">
-				<li className="flex  items-center">
+			<ul className="flex flex-col space-y-6 pt-10 w-full p-2">
+				<li className="flex w-full">
 					<button
 						onClick={handlerToggle}
 						id="menu-btn"
@@ -61,7 +61,7 @@ const Sidebar: React.FC = () => {
 						<img src={collapse} width={20} height={20} alt="collapse" />
 					</button>
 				</li>
-				<li className="flex  items-center">
+				<li className="flex w-full h-full">
 					<NavLink
 						to="userDashboard"
 						className={({ isActive, isPending }) =>
@@ -74,7 +74,7 @@ const Sidebar: React.FC = () => {
 						</button>
 					</NavLink>
 				</li>
-				<li className="flex  items-center">
+				<li className="flex ">
 					<NavLink
 						to="projects"
 						className={({ isActive, isPending }) =>
@@ -88,7 +88,7 @@ const Sidebar: React.FC = () => {
 					</NavLink>
 				</li>
 
-				<li className="flex  items-center">
+				<li className="flex  ">
 					<NavLink
 						to="/teams"
 						className={({ isActive, isPending }) =>
@@ -102,7 +102,7 @@ const Sidebar: React.FC = () => {
 					</NavLink>
 				</li>
 
-				<li className="flex  items-center">
+				<li className="flex  ">
 					<NavLink
 						to="/accountSetting"
 						className={({ isActive, isPending }) =>
@@ -115,7 +115,7 @@ const Sidebar: React.FC = () => {
 						</button>
 					</NavLink>
 				</li>
-				<li className="flex  items-center">
+				<li className="flex">
 					<button onClick={signOutHandler} className={classBtn}>
 						<img src={logout} width={20} height={20} alt="setting" />
 						<p className={classP}>Sign out</p>

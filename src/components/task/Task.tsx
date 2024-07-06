@@ -33,7 +33,7 @@ const Task: React.FC<TaskProps> = ({
 		return priority === "High"
 			? "bg-red-800"
 			: priority === "Medium"
-			? "bg-blue-800"
+			? "bg-[#006FC9]"
 			: "bg-green-800";
 	};
 
@@ -56,7 +56,7 @@ const Task: React.FC<TaskProps> = ({
 	return (
 		<li
 			key={task.id}
-			className="hover:border-gray-400 border border-[#161B22]  mb-4 break-inside-avoid bg-[#161B22] rounded-md p-2 space-y-2"
+			className=" border bg-white dark:border-[#161B22] shadow-md  mb-4 break-inside-avoid hover:scale-105 transition-transform duration-300 dark:bg-[#161B22] rounded-md p-2 space-y-2"
 		>
 			<div className="flex flex-row justify-between border-b border-[#30363E]">
 				<p className="text-lg">{task.title}</p>
@@ -77,7 +77,7 @@ const Task: React.FC<TaskProps> = ({
 					<p
 						className={`${getBgColor(
 							task.priority
-						)} rounded-xl text-sm w-fit px-2 `}
+						)} rounded-xl text-sm w-fit px-2 text-white `}
 					>
 						{task.priority}
 					</p>
@@ -96,9 +96,9 @@ const Task: React.FC<TaskProps> = ({
 			<div className="flex items-center flex-row space-x-2">
 				<button
 					onClick={() => handleTaskIdAndToggleAssignTask(task.id)}
-					className="flex border hover:border-gray-400 p-2 rounded-sm border-[#30363E] bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]"
+					className="flex dark:border rounded-md hover:border-gray-400 p-2  border-[#30363E] bg-[#006FC9] dark:bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]"
 				>
-					<p>Assign task</p>
+					Assign task
 				</button>
 				<div className="flex flex-row space-x-2">
 					{task.assignedMemberImage && (

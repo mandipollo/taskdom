@@ -99,9 +99,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 	};
 	return (
 		<li
-			className={` ${
-				status === "Complete" ? " border-gray-400 " : "border-green-400"
-			}  w-full relative border-t-2 rounded-md  grid-items p-4 bg-[#161B22] text-[#E6EDF3]`}
+			className={` hover:scale-105 transition-transform duration-300  w-full relative border-[#30363E] rounded-md  grid-items p-4 bg-white dark:bg-[#161B22] dark:text-[#E6EDF3] dark:shadow-white dark:shadow-sm shadow-lg`}
 			key={id}
 		>
 			<div className="sm:flex hidden md:justify-between  ">
@@ -113,7 +111,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 						<input
 							value={editTitle}
 							onChange={e => handleEditTitle(e.target.value)}
-							className=" rounded-md border placeholder-gray-400  outline-[#30363E] outline-2  border-[#30363E] bg-[#161B22] text-[#E6EDF3] "
+							className=" rounded-md border placeholder-gray-400  outline-[#30363E] outline-2  border-[#30363E] bg-[#161B22] dark:text-[#E6EDF3] "
 						></input>
 					) : (
 						<p className="text-xl  flex flex-row justify-center">{title}</p>
@@ -146,7 +144,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 					</button>
 
 					{!isEditing && startDate && endDate && (
-						<p className="text-gray-400">
+						<p className="dark:text-gray-400">
 							{startDate.toDate().toLocaleDateString()}-
 							{endDate.toDate().toLocaleDateString()}
 						</p>
@@ -165,7 +163,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 						<ToggleButtonProject userUid={userUid} project={project} />
 						{!isOngoingTaskLoading && !isTotalTaskLoading && (
 							<div className="flex flex-row">
-								<p className="text-gray-400">
+								<p className="dark:text-gray-400">
 									Tasks:
 									{onGoingCounts[project.id] !== undefined &&
 										onGoingCounts[project.id]}
@@ -262,7 +260,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 								{adminName.charAt(0).toUpperCase()}
 							</span>
 						)}
-						<p className="text-gray-400">{adminName}</p>
+						<p className="dark:text-gray-400">{adminName}</p>
 					</div>
 				</div>
 			</Link>

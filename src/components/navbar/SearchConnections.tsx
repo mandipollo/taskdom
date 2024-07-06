@@ -125,7 +125,7 @@ const SearchConnections = ({
 		setUserName("");
 	};
 	return (
-		<div className="flex w-full relative">
+		<div className="flex w-full relative ">
 			<input
 				type="text"
 				onKeyDown={handleKey}
@@ -134,7 +134,7 @@ const SearchConnections = ({
 				placeholder="Search connections..."
 				className={`${
 					searchBar ? "w-full " : "w-8"
-				}  transition-all duration-300  ease-in-out p-2  rounded-md border placeholder-gray-400  outline-[#30363E] outline-2 pl-10 border-[#30363E] bg-[#161B22] text-[#E6EDF3] `}
+				}  transition-all duration-300  ease-in-out p-2  rounded-md border placeholder-gray-400  outline-[#30363E] outline-2 pl-10 border-[#30363E] dark:bg-[#161B22] text-[#E6EDF3] `}
 			/>
 			<img
 				onClick={handleShowSearchBar}

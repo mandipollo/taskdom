@@ -99,7 +99,8 @@ const ChatInput = () => {
 	return (
 		<form
 			onSubmit={handleSend}
-			className="flex h-20 absolute bottom-0 right-0 left-0 w-full border-t border-[#30363E] space-x-4 justify-center items-center bg-[#0D1117]"
+			id="inputSubmit"
+			className="flex h-20 absolute bottom-0 right-0 left-0 w-full   space-x-4 justify-center items-center bg-[#F2F2F2] dark:bg-[#0D1117]"
 		>
 			<div className="relative">
 				<input
@@ -119,16 +120,18 @@ const ChatInput = () => {
 				value={text || ""}
 				onChange={textHandler}
 				placeholder="type a message"
-				className="rounded-md placeholder-gray-400 w-8/12 h-10 outline-[#30363E] outline-2 pl-2 border-[#30363E] bg-[#161B22] "
+				className="rounded-md placeholder-gray-400 w-8/12 h-10 outline-[#30363E] outline-2 pl-2 border-[#30363E] dark:bg-[#161B22] "
 				type="text"
 			/>
 			<button
 				type="submit"
 				onClick={handleSend}
-				className="h-10 rounded-md bg-[#508D69] flex flex-row w-32 justify-around items-center "
+				className="h-10 rounded-md bg-[#508D69] flex w-32 justify-around items-center "
 			>
-				<p>Send</p>
-				<img src={sendIcon} alt="send message" width={20} height={20} />
+				<figure className="flex space-x-2">
+					<figcaption>Send</figcaption>
+					<img src={sendIcon} alt="send message" width={20} height={20} />
+				</figure>
 			</button>
 		</form>
 	);

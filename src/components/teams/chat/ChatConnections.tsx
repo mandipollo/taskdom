@@ -21,10 +21,10 @@ const ChatConnections: React.FC<ChatConnectionsProps> = ({}) => {
 	};
 
 	return (
-		<div
+		<section
 			className={`${
 				chatState.displayChat ? "flex" : "hidden"
-			} relative flex-col w-full h-full border-[#30363E] border-l`}
+			} relative flex-col w-full h-full dark:border-[#30363E] border-l`}
 		>
 			<div className="w-full items-center h-20 flex   flex-row">
 				{chatState.user && <TargetChatUser member={chatState.user} />}
@@ -32,12 +32,14 @@ const ChatConnections: React.FC<ChatConnectionsProps> = ({}) => {
 					className="mr-2 w-10  h-10 flex justify-center items-center "
 					onClick={handleResetUser}
 				>
-					<img src={closeImg} alt="close" width={20} height={20} />
+					<figure>
+						<img src={closeImg} alt="close" width={20} height={20} />
+					</figure>
 				</button>
 			</div>
 			<ChatMessage />
 			<ChatInput />
-		</div>
+		</section>
 	);
 };
 

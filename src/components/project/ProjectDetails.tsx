@@ -46,13 +46,13 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 	};
 
 	return (
-		<div className="sticky top-0 flex flex-col space-x-2 bg-[#000408] z-10 ">
+		<div className="sticky top-0 flex flex-col space-x-2  z-10 ">
 			<div className="flex h-full flex-col w-full border-b space-y-1 border-[#30363E]">
 				<div className="flex  w-full items-center justify-between ">
 					<p className="text-xl">{title}</p>
 					<button
 						onClick={() => handleToggleDescription()}
-						className="mt-2 cursor-pointer w-40  p-2 border border-[#30363E] bg-[#0D1117]"
+						className="mt-2 cursor-pointer w-40  p-2 border border-[#30363E] rounded-md dark:bg-[#0D1117]"
 						id="toggleButton"
 					>
 						{showMore ? "Hide" : "Project outline"}
@@ -85,7 +85,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 					<div className="flex flex-row space-x-2">
 						<button
 							onClick={handleToggleAddTeamMembers}
-							className="flex flex-row space-x-2 p-2 border border-[#30363E] bg-[#0D1117] "
+							className="flex flex-row space-x-2 p-2 border border-[#30363E] dark:bg-[#0D1117] "
 						>
 							<img src={team} alt="team invite" width={20} height={20} />
 
@@ -128,7 +128,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 				{projectData.adminUid === userUid && (
 					<button
 						onClick={handleToggleForm}
-						className="rounded-md flex bg-[#0D1117] p-2"
+						className="rounded-md flex dark:bg-[#0D1117] shadow-md  p-2"
 					>
 						<img src={add} width={20} height={20} alt="" />
 						<p>Add Task</p>
@@ -142,7 +142,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 						<button
 							className={` ${
 								filterStatus === ""
-									? "text-white underline underline-offset-4"
+									? "dark:text-white text-black underline underline-offset-4"
 									: "text-gray-400"
 							} `}
 							onClick={() => handleFilterStatus("")}
@@ -154,7 +154,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 						<button
 							className={` ${
 								filterStatus === "Ongoing"
-									? "text-white underline underline-offset-4"
+									? "dark:text-white text-black underline underline-offset-4"
 									: "text-gray-400"
 							} `}
 							onClick={() => handleFilterStatus("Ongoing")}
@@ -167,7 +167,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 						<button
 							className={` ${
 								filterStatus === "Complete"
-									? "text-white underline underline-offset-4"
+									? "dark:text-white text:black underline underline-offset-4"
 									: "text-gray-400"
 							} `}
 							onClick={() => handleFilterStatus("Complete")}

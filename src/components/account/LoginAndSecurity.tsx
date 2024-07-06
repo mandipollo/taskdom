@@ -12,7 +12,7 @@ const LoginAndSecurity: React.FC<LoginAndSecurityProps> = ({}) => {
 	const snackbarState = useAppSelector(state => state.snackBar);
 
 	// css classes
-	const inputClass = `flex p-2 rounded-md focus:outline-0 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none `;
+	const inputClass = `flex p-2 rounded-md focus:outline-0 dark:bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none `;
 	const inputDivClass = `flex flex-col space-y-2 md:w-60`;
 
 	// local states
@@ -53,44 +53,59 @@ const LoginAndSecurity: React.FC<LoginAndSecurityProps> = ({}) => {
 		}
 	};
 	return (
-		<div className="flex  h-full  w-full p-2 md:flex-row md:space-x-10 flex-col border-t-[#30363E] border-t text-[#E6EDF3] ">
+		<section className="flex  h-full  w-full p-2 md:flex-row md:space-x-10 flex-col dark:border-t-[#30363E] border-t  dark:text-[#E6EDF3] ">
 			<Snackbar message={snackbarState.message} show={snackbarState.show} />
 			<form
-				id="personalInfo"
+				id="personal-info"
 				onSubmit={handleSubmitPassword}
 				className="flex flex-col h-full w-full flex-1 "
 			>
 				<p>Choose a strong password and don't reuse it for other accounts.</p>
 
 				<div className={inputDivClass}>
-					<p className="text-gray-400">New Password</p>
+					<label
+						aria-label="input new password"
+						htmlFor="password-input"
+						className="text-gray-400"
+					>
+						New Password
+					</label>
 
 					<input
+						id="password-input"
 						onChange={handlePassword}
 						value={password || ""}
-						type="text"
+						type="password"
 						className={inputClass}
 					/>
 				</div>
 				<div className={inputDivClass}>
-					<p className="text-gray-400">Confirm Password</p>
+					<label
+						aria-label="confirm new password"
+						htmlFor="confirm-password-input"
+						className="text-gray-400"
+					>
+						Confirm Password
+					</label>
 
 					<input
+						id="confirm-password-input"
 						onChange={handleConfirmPassword}
 						value={confirmPassword || ""}
 						className={inputClass}
-						type="text"
+						type="password"
 					/>
 					{err && <p className="text-sm text-red-400">{err}</p>}
 				</div>
 				<button
+					aria-label="Save"
 					type="submit"
-					className="bg-[#508D69] w-full p-2 rounded-md  text-lg md:w-60 mt-2"
+					className=" w-full p-2 rounded-md bg-[#006FC9] text-lg md:w-60 mt-2"
 				>
 					Submit
 				</button>
 			</form>
-		</div>
+		</section>
 	);
 };
 

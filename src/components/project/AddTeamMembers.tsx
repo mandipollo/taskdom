@@ -109,7 +109,7 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 
 	return (
 		<div
-			className="rounded-md border p-4 border-[#010101] bg-[#0D1117] z-20 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  sm:w-1/2 sm:h-1/2 w-3/4 h-3/4"
+			className="rounded-md dark:border p-4 bg-white border-[#010101] dark:bg-[#0D1117] z-20 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  sm:w-1/2 sm:h-1/2 w-3/4 h-3/4"
 			aria-label="add project form"
 		>
 			<div className="flex relative w-full p-2 items-center border-b border-[#30363E] justify-around">
@@ -119,13 +119,13 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 					onChange={handleSearchedUser}
 					placeholder="Search for members..."
 					type="text"
-					className=" w-full p-2 placeholder-gray-400 border-[#30363E] bg-[#161B22] text-[#E6EDF3]"
+					className=" w-full p-2 placeholder-gray-400 border-[#30363E] dark:bg-[#161B22] dark:text-[#E6EDF3]"
 				/>
 				<button onClick={handleToggleAddTeamMembers}>
 					<img src={close} alt="toggleForm" width={30} height={30} />
 				</button>
 				{users.length > 0 && (
-					<ul className="absolute w-full  flex flex-col top-full left-0  space-y-4 border-[#30363E] border divide-y divide-gray-400 p-2 bg-[#0D1117] ">
+					<ul className="absolute w-full  flex flex-col top-full left-0  space-y-4 border-[#30363E] border divide-y divide-gray-400 p-2 bg-[#F2F2F2] dark:bg-[#0D1117] ">
 						{users.map(user => (
 							<li
 								key={user.uid}
@@ -152,8 +152,8 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 								</p>
 								<select
 									className={` ${
-										role ? "border-[#30363E]" : "border-red-800 animate-pulse"
-									} bg-[#0D1117] border-[#30363E] border text-white p-2`}
+										role ? "border-[#30363E]" : "border-red-800 "
+									} dark:bg-[#0D1117] border-[#30363E] border dark:text-white p-2`}
 									onChange={e => handleSetRole(e.target.value)}
 								>
 									<option value="Team Lead">Team Lead</option>
@@ -162,7 +162,7 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 								{projectData.adminUid === userUid && (
 									<button
 										type="button"
-										className="bg-[#508D69] p-2 rounded-sm"
+										className="bg-[#006FC9] p-2 rounded-sm"
 										onClick={() => handleAddMember(user)}
 									>
 										Add
@@ -173,7 +173,7 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 					</ul>
 				)}
 				{users.length === 0 && !isLoading && (
-					<span className="absolute flex flex-col top-full w-full space-y-4 bg-black  divide-y divide-gray-400 border-[#30363E] border p-2">
+					<span className="absolute flex flex-col top-full w-full space-y-4 bg-[#F2F2F2] dark:bg-black  divide-y divide-gray-400 border-[#30363E] border p-2">
 						No users found
 					</span>
 				)}

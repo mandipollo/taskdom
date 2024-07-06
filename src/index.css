@@ -6,3 +6,8 @@ body {
 	margin: 0;
 	background: #000408;
 }
+
+.darkModeEnabled {
+	background-color: rgb(12, 12, 23);
+	color: white;
+}

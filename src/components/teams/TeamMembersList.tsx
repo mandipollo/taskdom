@@ -9,13 +9,15 @@ type teamMemberProps = {
 
 const TeamMembersList: React.FC<teamMemberProps> = ({ teamMembers }) => {
 	return (
-		<ul className="flex ml-1 flex-col space-y-2">
-			{teamMembers
-				? teamMembers.map(member => (
-						<Members key={member.uid} member={member} />
-				  ))
-				: null}
-		</ul>
+		<nav>
+			<ul className="flex p-2 flex-col space-y-2">
+				{teamMembers
+					? teamMembers.map(member => (
+							<Members key={member.uid} member={member} />
+					  ))
+					: null}
+			</ul>
+		</nav>
 	);
 };
 

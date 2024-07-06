@@ -156,7 +156,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 	};
 
 	return (
-		<div className="flex  h-full  w-full p-2 lg:flex-row flex-col border-t-[#30363E] border-t text-[#E6EDF3] ">
+		<section className="flex  h-full  w-full p-2 lg:flex-row flex-col dark:border-t-[#30363E] border-t  dark:text-[#E6EDF3] ">
 			<Snackbar message={snackbarState.message} show={snackbarState.show} />
 			<div className="md:h-36 md:w-36 h-20 w-20 overflow-hidden flex justify-center items-center rounded-full relative 0">
 				{user?.photoURL ? (
@@ -172,6 +172,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 				)}
 
 				<input
+					aria-label="choose profile picture"
 					type="file"
 					accept="image/*"
 					onChange={imageHandler}
@@ -192,67 +193,96 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 				</button>
 			</div>
 			<form
-				id="personalInfo"
+				id="personal-info"
 				onSubmit={submitHandler}
 				className="flex md:flex-row flex-col h-full w-full gap-2 flex-1 "
 			>
 				<div className=" h-full space-y-2 md:items-center flex flex-col">
 					<div className="flex flex-col">
-						<p className="text-gray-400">Display Name</p>
+						<label
+							aria-label="input display name"
+							htmlFor="display-name-input"
+							className="dark:text-gray-400 text-black"
+						>
+							Display Name
+						</label>
 
 						<input
+							id="display-name-input"
 							placeholder={displayName}
 							onChange={nameHandler}
 							value={name || ""}
 							type="text"
-							className="flex p-2 md:w-60 rounded-md focus:outline-0 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none "
+							className="flex p-2 md:w-60 rounded-md focus:outline-0 dark:bg-[#161B22] dark:placeholder-[#E6EDF3] dark:text-[#E6EDF3] text-black  outline-none "
 						/>
 					</div>
 					<div className="flex flex-col">
-						<p className="text-gray-400">Work hours</p>
+						<label
+							aria-label="Input work hours"
+							htmlFor="work-hours-input"
+							className="dark:text-gray-400 text-black"
+						>
+							Work hours
+						</label>
 
 						<input
+							id="work-hours-input"
 							placeholder={workHours || ""}
 							onChange={workTimeHandler}
 							value={workTime || ""}
-							className="flex p-2 md:w-60 rounded-md focus:outline-0 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none "
+							className="flex p-2 md:w-60 rounded-md focus:outline-0 dark:bg-[#161B22] dark:placeholder-[#E6EDF3] dark:text-[#E6EDF3] text-black   outline-none "
 							type="text"
 						/>
 					</div>
 				</div>
 				<div className=" h-full space-y-2 md:items-center flex flex-col">
 					<div className="flex flex-col">
-						<p className="text-gray-400">Job Title</p>
+						<label
+							aria-label="input job title"
+							htmlFor="job-title-input"
+							className="dark:text-gray-400 text-black"
+						>
+							Job Title
+						</label>
 
 						<input
+							id="job-title-input"
 							placeholder={jobTitle || ""}
 							type="text"
 							onChange={jobHandler}
 							value={job || ""}
-							className="flex p-2 md:w-60 rounded-md focus:outline-0 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none "
+							className="flex p-2 md:w-60 rounded-md focus:outline-0 dark:bg-[#161B22] dark:placeholder-[#E6EDF3] dark:text-[#E6EDF3] text-black   outline-none "
 						/>
 					</div>
 					<div className="flex flex-col">
-						<p className="text-gray-400">Contact no.</p>
+						<label
+							aria-label="input contact number"
+							htmlFor="contact-input"
+							className="dark:text-gray-400 text-black"
+						>
+							Contact no.
+						</label>
 
 						<input
+							id="contact-input"
 							placeholder={contactNo || ""}
 							onChange={contactPhHandler}
 							value={contactPh || ""}
-							className="flex p-2 md:w-60 rounded-md focus:outline-0 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none "
+							className="flex p-2 md:w-60 rounded-md focus:outline-0 dark:bg-[#161B22] dark:placeholder-[#E6EDF3] dark:text-[#E6EDF3] text-black   outline-none "
 							type="text"
 						/>
 					</div>
 
 					<button
+						aria-label="Save changes"
 						type="submit"
-						className="bg-[#508D69] w-full p-2 rounded-md  text-lg "
+						className="bg-[#006FC9] w-full p-2 rounded-md  text-lg "
 					>
 						Save changes
 					</button>
 				</div>
 			</form>
-		</div>
+		</section>
 	);
 };
 

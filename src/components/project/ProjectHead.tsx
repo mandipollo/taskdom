@@ -13,12 +13,12 @@ const ProjectHead: React.FC<ProjectHeadProps> = ({
 	filterProjectStatus,
 }) => {
 	return (
-		<div className="flex w-full z-10 mt-2  flex-col gap-2 sticky top-0 left-0 bg-[#000408] ">
+		<div className="flex w-full z-10 mt-2  flex-col gap-2 sticky top-0 left-0 dark:text-white text-black ">
 			<div className="flex-1 flex gap-4 items-center">
 				<p className="text-xl">Dashboard</p>
 				<button
 					onClick={() => handleToggleForm()}
-					className="flex flex-row border p-2  border-[#30363E] ]"
+					className="flex flex-row border p-2  border-[#30363E] rounded-md"
 				>
 					<img src={Add} width={20} height={20} alt="" />
 					Add Project

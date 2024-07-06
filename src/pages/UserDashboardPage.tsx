@@ -57,8 +57,8 @@ const UserDashboardPage: React.FC = () => {
 		fetchTask();
 	}, []);
 	return (
-		<div className="flex flex-col w-full  h-full  bg-[#000408] text-[#E6EDF3]">
-			<div className="flex justify-center items-center h-1/2 max-h-80  ">
+		<main className="flex flex-col w-full  h-full text-black  dark:text-[#E6EDF3]">
+			<section className="flex justify-center items-center h-1/2 max-h-80  ">
 				<div className="flex sm:w-2/3 w-full justify-center p-2 h-full">
 					<DateTaskDisplay date={date} day={day} time={time} noTask={noTask} />
 					<UpcomingMeetingDisplay profileImage={userState.profileImage} />
@@ -66,11 +66,11 @@ const UserDashboardPage: React.FC = () => {
 				<div className=" hidden justify-center items-center  w-1/3 h-full max-h-full sm:flex p-2">
 					<TaskDashboard taskList={taskList} />
 				</div>
-			</div>
-			<div className="flex justify-center items-center flex-1 bg-[#0D1117] border-[#30363E] border ">
+			</section>
+			<section className="flex justify-center items-center flex-1 dark:bg-[#0D1117] dark:border-[#30363E] border ">
 				<p>progress</p>
-			</div>
-		</div>
+			</section>
+		</main>
 	);
 };
 

@@ -32,12 +32,10 @@ const TeamsPage = () => {
 	}, []);
 
 	return (
-		<div className="h-full w-full  flex flex-col space-y-2">
-			<div className="flex flex-row flex-1 space-x-1 ">
-				<TeamMembersList teamMembers={teamMembers} />
-				<ChatConnections />
-			</div>
-		</div>
+		<main className="h-full w-full  flex flex-row ">
+			<TeamMembersList teamMembers={teamMembers} />
+			<ChatConnections />
+		</main>
 	);
 };
 
