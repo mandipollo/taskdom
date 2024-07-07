@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
-export default function Modeswitcher() {
+const Modeswitcher = () => {
 	// State to track the current theme
-	const [isDarkMode, setDarkMode] = useState(
+	const [isDarkMode, setDarkMode] = useState<string>(
 		() => localStorage.getItem("theme") || "light"
 	);
 
@@ -30,9 +30,12 @@ export default function Modeswitcher() {
 	// Return the DarkModeSwitch component
 	return (
 		<DarkModeSwitch
+			className="absolute right-20"
 			checked={isDarkMode === "dark"}
 			onChange={toggleDarkMode}
 			size={20}
 		/>
 	);
-}
+};
+
+export default Modeswitcher;

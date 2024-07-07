@@ -4,7 +4,6 @@ import ConnectionRequest from "../request/ConnectionRequest";
 import signOutUser from "../../firebaseAuth/signOutUser";
 import { resetUserFirestoreData } from "../../store/userFirestoreData";
 import { useAppDispatch } from "../../store/store";
-import Modeswitcher from "../utilities/ModeSwitcher";
 interface DropDownProps {
 	handleDropDown: () => void;
 }
@@ -25,9 +24,7 @@ const DropDown: React.FC<DropDownProps> = ({ handleDropDown }) => {
 			<li onClick={() => handleDropDown()}>
 				<Link to="/accountSetting">Settings</Link>
 			</li>
-			<li>
-				<Modeswitcher />
-			</li>
+
 			<li>
 				<button onClick={signOutHandler}>
 					<p>Sign out</p>

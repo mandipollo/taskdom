@@ -14,6 +14,10 @@ export default defineConfig({
 		svgr({
 			// A minimatch pattern, or array of patterns, which specifies the files in the build the plugin should include.
 			include: "**/*.svg?react",
+			svgrOptions: {
+				icon: true,
+				exportType: "named", // Ensure that the SVG is exported as a named component
+			},
 		}),
 	],
 	test: {

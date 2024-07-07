@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import ChatInput from "./ChatInput";
 import TargetChatUser from "./TargetChatUser";
-import closeImg from "../../../assets/cross.svg";
+
 import ChatMessage from "./ChatMessage";
 import { useAppDispatch, useAppSelector } from "../../../store/store";
 
 import { resetUserChat } from "../../../store/chatSlice";
+import { CrossSvg } from "../../../assets/action/ActionSvgs";
 interface ChatConnectionsProps {}
 const ChatConnections: React.FC<ChatConnectionsProps> = ({}) => {
 	// chat ui
@@ -33,7 +34,11 @@ const ChatConnections: React.FC<ChatConnectionsProps> = ({}) => {
 					onClick={handleResetUser}
 				>
 					<figure>
-						<img src={closeImg} alt="close" width={20} height={20} />
+						<CrossSvg
+							width={20}
+							height={20}
+							className="text-black dark:text-white"
+						/>
 					</figure>
 				</button>
 			</div>

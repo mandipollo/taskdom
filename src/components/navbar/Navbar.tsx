@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import Logo from "../../assets/logo.svg?react";
+import { Logo } from "../../assets/logos/Logo";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { auth, db } from "../../../firebase.config";
@@ -12,6 +12,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { setUserFirestoreData } from "../../store/userFirestoreData";
 import { UserDataProps } from "../utilities/userDataProps";
 import SearchConnections from "./SearchConnections";
+import Modeswitcher from "../utilities/ModeSwitcher";
 
 interface NavbarProps {
 	handleDropDown: () => void;
@@ -56,18 +57,15 @@ const Navbar: React.FC<NavbarProps> = ({ handleDropDown }) => {
 	}, [uid]);
 
 	return (
-		<div className="flex relative flex-1 h-14 p-2 space-x-2  w-full justify-between items-center border-b dark:border-[#30363E] bg-[#006FC9] dark:bg-[#000408] ">
+		<div className="flex relative flex-1 h-14 p-2 space-x-2  w-full  items-center border-b dark:border-[#30363E] bg-[#006FC9] dark:bg-[#000408] ">
 			{/* logo medium screen */}
-
 			<Link
 				to={linkHomeLogo}
 				className=" md:flex w-10  justify-center items-center space-x-4 h-full"
 			>
-				<Logo className="w-10 h-10" />
+				<Logo height={20} width={20} className=" text-[#508D69]" />
 			</Link>
-
 			{/* nav routes */}
-
 			{pathname === "/teams" && (
 				<SearchConnections
 					uid={uid}
@@ -80,10 +78,12 @@ const Navbar: React.FC<NavbarProps> = ({ handleDropDown }) => {
 				/>
 			)}
 
-			{user ? (
+			{user && <Modeswitcher />}
+
+			{user && (
 				<div
 					onClick={() => handleDropDown()}
-					className=" h-full  flex justify-center items-center space-x-2 hover:cursor-pointer "
+					className=" h-full absolute right-2 flex justify-center items-center space-x-2 hover:cursor-pointer "
 				>
 					{auth.currentUser?.photoURL ? (
 						<img
@@ -96,8 +96,10 @@ const Navbar: React.FC<NavbarProps> = ({ handleDropDown }) => {
 						</span>
 					)}
 				</div>
-			) : (
-				<Link to="/login" className="h-full">
+			)}
+
+			{!user && (
+				<Link to="/login" className=" h-10 absolute right-2">
 					<button className=" h-full flex w-20 sm:w-40 justify-center items-center  rounded-md border-[#30363E] border text-[#E6EDF3]">
 						LOGIN
 					</button>

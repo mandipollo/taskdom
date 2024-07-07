@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
-import editImg from "../../assets/edit.svg";
 
-import tickImg from "../../assets/tick.svg";
-import crossImg from "../../assets/cross.svg";
-import deleteImg from "../../assets/delete.svg";
+import {
+	EditSvg,
+	TickSvg,
+	CrossSvg,
+	DeleteSvg,
+} from "../../assets/action/ActionSvgs";
+
 import { functions } from "../../../firebase.config";
 import PopUpConfirmation from "../utilities/PopUpConfirmation";
 
@@ -119,26 +122,37 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 
 					<button onClick={handleIsEditing}>
 						{isEditing && (
-							<img src={crossImg} alt="undo edit" width={20} height={20} />
+							<CrossSvg
+								height={20}
+								width={20}
+								className="dark:text-white text-black"
+							/>
 						)}
 
 						{!isEditing && (
-							<img src={editImg} alt="edit" width={20} height={20} />
+							<EditSvg
+								height={20}
+								width={20}
+								className="dark:text-white text-black"
+							/>
 						)}
 					</button>
 					<button onClick={handleSubmitEdit}>
 						{isEditing && (
-							<img src={tickImg} alt="edit title" width={20} height={20} />
+							<TickSvg
+								height={20}
+								width={20}
+								className="dark:text-white text-black"
+							/>
 						)}
 					</button>
 
 					<button onClick={handleDeleteProject}>
 						{isEditing && (
-							<img
-								src={deleteImg}
-								alt="delete project"
-								width={20}
+							<DeleteSvg
 								height={20}
+								width={20}
+								className="dark:text-white text-black"
 							/>
 						)}
 					</button>
@@ -189,25 +203,36 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 					)}
 					<button onClick={handleIsEditing}>
 						{isEditing && (
-							<img src={crossImg} alt="undo edit" width={20} height={20} />
+							<CrossSvg
+								height={20}
+								width={20}
+								className="dark:text-white text-black"
+							/>
 						)}
 
 						{!isEditing && (
-							<img src={editImg} alt="edit" width={20} height={20} />
+							<EditSvg
+								height={20}
+								width={20}
+								className="dark:text-white text-black"
+							/>
 						)}
 					</button>
 					<button onClick={handleSubmitEdit}>
 						{isEditing && (
-							<img src={tickImg} alt="edit title" width={20} height={20} />
+							<TickSvg
+								height={20}
+								width={20}
+								className="dark:text-white text-black"
+							/>
 						)}
 					</button>
 					<button onClick={handleDeleteProject}>
 						{isEditing && (
-							<img
-								src={deleteImg}
-								alt="delete project"
-								width={20}
+							<DeleteSvg
 								height={20}
+								width={20}
+								className="dark:text-white text-black"
 							/>
 						)}
 					</button>

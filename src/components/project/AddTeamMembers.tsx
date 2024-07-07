@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import close from "../../assets/cross.svg";
-import removeImg from "../../assets/delete.svg";
+
 import "react-datepicker/dist/react-datepicker.css";
 import {
 	DocumentData,
@@ -12,6 +11,7 @@ import {
 import { db, functions } from "../../../firebase.config";
 import { ProjectProps } from "../utilities/userDataProps";
 import { httpsCallable } from "firebase/functions";
+import { CrossSvg, DeleteSvg } from "../../assets/action/ActionSvgs";
 
 type TaskInputProps = {
 	handleToggleAddTeamMembers: () => void;
@@ -122,7 +122,11 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 					className=" w-full p-2 placeholder-gray-400 border-[#30363E] dark:bg-[#161B22] dark:text-[#E6EDF3]"
 				/>
 				<button onClick={handleToggleAddTeamMembers}>
-					<img src={close} alt="toggleForm" width={30} height={30} />
+					<CrossSvg
+						width={30}
+						height={30}
+						className="dark:text-white text-black"
+					/>
 				</button>
 				{users.length > 0 && (
 					<ul className="absolute w-full  flex flex-col top-full left-0  space-y-4 border-[#30363E] border divide-y divide-gray-400 p-2 bg-[#F2F2F2] dark:bg-[#0D1117] ">
@@ -214,9 +218,8 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 							<p>{member.role}</p>
 							{projectData.adminUid === userUid && (
 								<button onClick={() => handleRemoveMember(member.uid)}>
-									<img
-										src={removeImg}
-										alt="remove members"
+									<DeleteSvg
+										className="dark:text-white text-black"
 										width={20}
 										height={20}
 									/>

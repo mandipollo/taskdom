@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
-import sendIcon from "../../../assets/sendIcon.svg";
-import attach from "../../../assets/attach.svg";
+
 import { useAppSelector } from "../../../store/store";
 import { v4 as uuid } from "uuid";
 import { db, storage } from "../../../../firebase.config";
@@ -15,6 +14,7 @@ import {
 } from "firebase/firestore";
 import getProfileImage from "../../../firebaseAuth/getProfileImage";
 import { ref, uploadBytesResumable } from "firebase/storage";
+import { AttachSvg, PaperPlaneSvg } from "../../../assets/Icons/Icons";
 
 const ChatInput = () => {
 	const uid = useAppSelector(state => state.userFirestoreData.uid);
@@ -112,7 +112,11 @@ const ChatInput = () => {
 					className="sr-only"
 				/>
 				<label htmlFor="fileInput" className="flex items-center cursor-pointer">
-					<img src={attach} width={25} height={25} alt="image upload" />
+					<AttachSvg
+						height={25}
+						width={25}
+						className="text-black dark:text-white"
+					/>
 				</label>
 			</div>
 
@@ -129,8 +133,9 @@ const ChatInput = () => {
 				className="h-10 rounded-md bg-[#508D69] flex w-32 justify-around items-center "
 			>
 				<figure className="flex space-x-2">
-					<figcaption>Send</figcaption>
-					<img src={sendIcon} alt="send message" width={20} height={20} />
+					<figcaption className="text-white">Send</figcaption>
+
+					<PaperPlaneSvg width={20} height={20} className="text-white" />
 				</figure>
 			</button>
 		</form>

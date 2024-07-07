@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import team from "../../assets/teams.svg";
+
 import { DocumentData } from "firebase/firestore";
-import add from "../../assets/add.svg";
-import sort from "../../assets/list.svg";
+
 import { ProjectProps } from "../utilities/userDataProps";
+import { TeamSvg } from "../../assets/sidebar/TeamSvg";
+import { AddSvg, SortSvg } from "../../assets/action/ActionSvgs";
 
 type ProjectDetailsProps = {
 	projectData: ProjectProps;
@@ -87,7 +88,11 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 							onClick={handleToggleAddTeamMembers}
 							className="flex flex-row space-x-2 p-2 border border-[#30363E] dark:bg-[#0D1117] "
 						>
-							<img src={team} alt="team invite" width={20} height={20} />
+							<TeamSvg
+								width={20}
+								height={20}
+								className="dark:text-white text-black"
+							/>
 
 							{!teamMembers && (
 								<p className="text-gray-400">Invite Team Members</p>
@@ -130,7 +135,12 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 						onClick={handleToggleForm}
 						className="rounded-md flex dark:bg-[#0D1117] shadow-md  p-2"
 					>
-						<img src={add} width={20} height={20} alt="" />
+						<AddSvg
+							width={20}
+							height={20}
+							className="dark:text-white text-black"
+						/>
+
 						<p>Add Task</p>
 					</button>
 				)}
@@ -182,7 +192,11 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 						onClick={handleSortTask}
 						className="relative"
 					>
-						<img width={20} height={20} src={sort} alt="sort" />
+						<SortSvg
+							width={20}
+							height={20}
+							className="dark:text-white text-black"
+						/>
 					</button>
 					<ul
 						className={` ${

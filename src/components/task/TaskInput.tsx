@@ -1,9 +1,9 @@
 import React from "react";
-import close from "../../assets/cross.svg";
 
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { CrossSvg } from "../../assets/action/ActionSvgs";
 
 type TaskInputProps = {
 	handlePriority: (e: string) => void;
@@ -49,7 +49,11 @@ const TaskInput: React.FC<TaskInputProps> = ({
 				</div>
 
 				<button onClick={handleToggleForm}>
-					<img src={close} alt="toggleForm" width={30} height={30} />
+					<CrossSvg
+						width={30}
+						height={30}
+						className="dark:text-white text-black"
+					/>
 				</button>
 			</div>
 			<div className="flex pt-2 w-full space-x-2">

@@ -1,19 +1,17 @@
 import React, { useState } from "react";
-import dashboard from "../../assets/dashboard.svg";
-import project from "../../assets/project.svg";
 
-import teams from "../../assets/teams.svg";
-
-import setting from "../../assets/setting.svg";
-import logout from "../../assets/logout.svg";
-
-import collapse from "../../assets/collapse-all-svgrepo-com.svg";
+import { CollapseSvg } from "../../assets/action/Collapse";
+import DashboardSvg from "../../assets/sidebar/DashboardSvg";
+import ProjectSvg from "../../assets/sidebar/ProjectSvg";
 
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../store/store";
 import signOutUser from "../../firebaseAuth/signOutUser";
 import { resetUserFirestoreData } from "../../store/userFirestoreData";
+import { TeamSvg } from "../../assets/sidebar/TeamSvg";
+import SettingSvg from "../../assets/sidebar/SettingSvg";
+import SignOutSvg from "../../assets/sidebar/SignOutSvg";
 
 const Sidebar: React.FC = () => {
 	const navigate = useNavigate();
@@ -58,7 +56,12 @@ const Sidebar: React.FC = () => {
 						type="button"
 						className={menu}
 					>
-						<img src={collapse} width={20} height={20} alt="collapse" />
+						<CollapseSvg
+							height={20}
+							width={20}
+							className="dark:text-white text-black"
+						/>
+						{/* <img src={collapse} width={20} height={20} alt="collapse" /> */}
 					</button>
 				</li>
 				<li className="flex w-full h-full">
@@ -69,7 +72,12 @@ const Sidebar: React.FC = () => {
 						}
 					>
 						<button className={classBtn}>
-							<img src={dashboard} width={20} height={20} alt="dashboard" />
+							<DashboardSvg
+								width={20}
+								height={20}
+								className="dark:text-white text-black"
+							/>
+
 							<p className={classP}>Dashboard</p>
 						</button>
 					</NavLink>
@@ -82,7 +90,11 @@ const Sidebar: React.FC = () => {
 						}
 					>
 						<button className={classBtn}>
-							<img src={project} width={20} height={20} alt="projects" />
+							<ProjectSvg
+								width={20}
+								height={20}
+								className="dark:text-white text-black"
+							/>
 							<p className={classP}>Projects</p>
 						</button>
 					</NavLink>
@@ -96,7 +108,12 @@ const Sidebar: React.FC = () => {
 						}
 					>
 						<button className={classBtn}>
-							<img src={teams} width={20} height={20} alt="clients" />
+							<TeamSvg
+								width={20}
+								height={20}
+								className="dark:text-white text-black"
+							/>
+
 							<p className={classP}>Teams</p>
 						</button>
 					</NavLink>
@@ -110,14 +127,24 @@ const Sidebar: React.FC = () => {
 						}
 					>
 						<button className={classBtn}>
-							<img src={setting} width={20} height={20} alt="setting" />
+							<SettingSvg
+								width={20}
+								height={20}
+								className="dark:text-white text-black"
+							/>
+
 							<p className={classP}>Settings</p>
 						</button>
 					</NavLink>
 				</li>
 				<li className="flex">
 					<button onClick={signOutHandler} className={classBtn}>
-						<img src={logout} width={20} height={20} alt="setting" />
+						<SignOutSvg
+							width={20}
+							height={20}
+							className="dark:text-white text-black"
+						/>
+
 						<p className={classP}>Sign out</p>
 					</button>
 				</li>

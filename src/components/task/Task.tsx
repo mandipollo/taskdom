@@ -1,12 +1,14 @@
 import { DocumentData, Timestamp } from "firebase/firestore";
 import React from "react";
-import calendarIcon from "../../assets/calendarIcon.svg";
+
 import ToggleButton from "../utilities/ToggleButton";
 
 import { useAppSelector } from "../../store/store";
-import bin from "../../assets/delete.svg";
+
 import { functions } from "../../../firebase.config";
 import { httpsCallable } from "firebase/functions";
+import { BinSvg } from "../../assets/action/ActionSvgs";
+import { CalenderSvg } from "../../assets/Icons/Icons";
 
 interface TaskProps {
 	task: {
@@ -66,7 +68,11 @@ const Task: React.FC<TaskProps> = ({
 						onClick={() => handleDelete(task)}
 						className=" flex justify-center items-center"
 					>
-						<img width={20} height={20} src={bin}></img>
+						<BinSvg
+							width={20}
+							height={20}
+							className="text-black dark:text-white"
+						/>
 					</button>
 				</div>
 			</div>
@@ -87,7 +93,12 @@ const Task: React.FC<TaskProps> = ({
 			</div>
 
 			<div className="flex flex-row space-x-2">
-				<img src={calendarIcon} alt="calendar icon" width={20} height={20} />
+				<CalenderSvg
+					width={20}
+					height={20}
+					className="text-black dark:text-white"
+				/>
+
 				<p className="text-gray-400">
 					{task.targetDate.toDate().toLocaleDateString()}
 				</p>

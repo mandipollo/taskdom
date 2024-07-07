@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import edit from "../../assets/edit.svg";
 import { ref } from "firebase/storage";
 import { storage, auth, functions } from "../../../firebase.config";
 import { uploadBytes } from "firebase/storage";
@@ -14,6 +13,7 @@ import { setSnackBar, hideSnackbar } from "../../store/snackBarSlice";
 import Snackbar from "../utilities/Snackbar";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { httpsCallable } from "firebase/functions";
+import { EditSvg } from "../../assets/action/ActionSvgs";
 type personalProps = {
 	userFirestoreData: UserDataProps | null;
 };
@@ -183,12 +183,10 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 					onClick={() => fileInputRef.current && fileInputRef.current.click()}
 					className="absolute flex justify-center items-center rounded-full md:h-10 md:w-10 h-5 w-5 md:bottom-5 bottom-2 right-2  bg-gray-600 text-[#E6EDF3] "
 				>
-					<img
-						src={edit}
-						alt="edit profile picture"
-						width="80%"
-						height="80%"
-						className=" object-fit"
+					<EditSvg
+						width={20}
+						height={20}
+						className="text-white dark:text-black"
 					/>
 				</button>
 			</div>
@@ -276,7 +274,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 					<button
 						aria-label="Save changes"
 						type="submit"
-						className="bg-[#006FC9] w-full p-2 rounded-md  text-lg "
+						className="bg-[#006FC9] w-full p-2 rounded-md text-white  text-lg "
 					>
 						Save changes
 					</button>
