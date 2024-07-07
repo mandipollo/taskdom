@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-import searchIcon from "../../assets/search.svg";
-
 import {
 	collection,
 	query,
@@ -14,8 +12,8 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../firebase.config";
 
-import cross from "../../assets/cross.svg";
-
+import { SearchSvg } from "../../assets/Icons/Icons";
+import { CrossSvg } from "../../assets/action/ActionSvgs";
 type searchProps = {
 	uid: string | null;
 	displayName: string | null;
@@ -134,19 +132,31 @@ const SearchConnections = ({
 				placeholder="Search connections..."
 				className={`${
 					searchBar ? "w-full " : "w-8"
-				}  transition-all duration-300  ease-in-out p-2  rounded-md border placeholder-gray-400  outline-darkSecondary outline-2 pl-10 border-darkBorder dark:bg-darkSecondary text-darkText `}
+				}  transition-all duration-300  ease-in-out p-2  rounded-md dark:border placeholder-gray-400  dark:outline-darkSecondary dark:outline-2 pl-10 border-darkBorder dark:bg-darkSecondary dark:text-darkText  text-black `}
 			/>
-			<img
+
+			{/* <img
 				onClick={handleShowSearchBar}
 				className="absolute top-2 left-3"
 				src={searchIcon}
 				width={25}
 				height={25}
 				alt=""
+			/> */}
+
+			<SearchSvg
+				height={25}
+				width={25}
+				onClick={handleShowSearchBar}
+				className="absolute top-2 left-3 text-black dark:text-white"
 			/>
 			{users.length > 0 && (
 				<button onClick={clearHandler} className="absolute right-1 p-2">
-					<img src={cross} width={20} height={20} alt="" />
+					<CrossSvg
+						width={20}
+						height={20}
+						className="text-black dark:text-white"
+					/>
 				</button>
 			)}
 			{err && (
@@ -155,7 +165,7 @@ const SearchConnections = ({
 				</span>
 			)}
 			{users.length > 0 && (
-				<ul className="absolute  flex flex-col top-full w-full space-y-4 border-darkBorder border divide-y divide-gray-400 p-2 bg-darkSecondary">
+				<ul className="absolute  flex flex-col top-full w-full space-y-4 border-darkBorder border divide-y divide-gray-400 p-2 bg-lightPrimary  dark:bg-darkSecondary">
 					{users.map(user => (
 						<li
 							key={user.uid}
@@ -181,7 +191,7 @@ const SearchConnections = ({
 								{user.workHours || "unavailable"}
 							</p>
 							<button
-								className="bg-[#508D69] p-2 rounded-sm"
+								className="bg-primaryGreen p-2 rounded-sm"
 								// onClick={() => handleSelect(user)}
 								onClick={() => handleRequest(user)}
 							>

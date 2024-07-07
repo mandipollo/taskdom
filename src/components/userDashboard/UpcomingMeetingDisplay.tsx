@@ -1,11 +1,10 @@
 import React from "react";
-import avatar from "../../assets/manAvatar.svg";
 
 type upcomingProps = {
 	profileImage: string | undefined;
 };
 const UpcomingMeetingDisplay: React.FC<upcomingProps> = ({ profileImage }) => {
-	const image = profileImage || avatar;
+	const image = profileImage;
 	return (
 		<section className="flex flex-col w-2/3 pt-10 space-y-2   ">
 			<div className="flex justify-center rounded-xl p-2 w-8/10 bg-primaryGreen ">

@@ -114,7 +114,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 						<input
 							value={editTitle}
 							onChange={e => handleEditTitle(e.target.value)}
-							className=" rounded-md border placeholder-gray-400 p-2  outline-darkBorder outline-2  border-darkBorder bg-darkSecondary dark:text-darkText "
+							className=" rounded-md border placeholder-gray-400 p-2  outline-darkBorder outline-2  border-darkBorder  dark:bg-darkSecondary dark:text-darkText "
 						></input>
 					) : (
 						<p className="text-xl  flex flex-row justify-center">{title}</p>
@@ -196,7 +196,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 						<input
 							value={editTitle}
 							onChange={e => handleEditTitle(e.target.value)}
-							className=" rounded-md border placeholder-gray-400  outline-darkBorder outline-2  border-darkBorder bg-darkSecondary text-darkText "
+							className=" rounded-md border placeholder-gray-400  outline-darkBorder outline-2  border-darkBorder dark:bg-darkSecondary text-darkText "
 						></input>
 					) : (
 						<p className="text-xl  flex flex-row justify-center">{title}</p>
@@ -266,7 +266,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 						<input
 							value={editDescription}
 							onChange={e => handleEditDescription(e.target.value)}
-							className=" w-full rounded-md border placeholder-gray-400  outline-darkBorder outline-2  border-darkSecondary bg-darkSecondary text-darkText "
+							className=" w-full p-2 rounded-md border placeholder-gray-400  outline-darkBorder outline-2  border-darkBorder dark:bg-darkSecondary dark:text-darkText "
 						></input>
 					) : (
 						<p className="text-gray-400 ">{description}</p>

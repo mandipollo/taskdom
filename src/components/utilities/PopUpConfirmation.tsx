@@ -16,19 +16,13 @@ const PopUpConfirmation: React.FC<PopUpConfirmationProps> = ({
 	if (!isOpen) return null;
 
 	return (
-		<div className="flex right-1 top-1 absolute  justify-center items-center flex-col p-2 border border-darkBorder bg-darkSurface">
+		<div className="flex right-1 top-1 absolute  justify-center items-center flex-col p-2 border border-darkBorder bg-lightPrimary dark:bg-darkSurface">
 			<p>{message}</p>
 			<div className="flex ">
-				<button
-					className="px-2 hover:underline hover:bg-gray-800"
-					onClick={() => onCancel()}
-				>
+				<button className="px-2 hover:underline" onClick={() => onCancel()}>
 					Cancel
 				</button>
-				<button
-					className="px-2 hover:underline hover:bg-red-800"
-					onClick={() => onConfirm()}
-				>
+				<button className="px-2 hover:underline" onClick={() => onConfirm()}>
 					Confirm
 				</button>
 			</div>

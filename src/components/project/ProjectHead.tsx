@@ -1,5 +1,4 @@
 import React from "react";
-import Add from "../../assets/add.svg";
 
 type ProjectHeadProps = {
 	handleToggleForm: () => void;
@@ -20,7 +19,6 @@ const ProjectHead: React.FC<ProjectHeadProps> = ({
 					onClick={() => handleToggleForm()}
 					className="flex flex-row border p-2  border-darkBorder rounded-md"
 				>
-					<img src={Add} width={20} height={20} alt="" />
 					Add Project
 				</button>
 			</div>
