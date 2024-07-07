@@ -57,8 +57,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleDropDown }) => {
 	}, [uid]);
 
 	return (
-		<div className="flex relative flex-1 h-14 p-2 space-x-2  w-full  items-center border-b dark:border-[#30363E] bg-[#006FC9] dark:bg-[#000408] ">
-			{/* logo medium screen */}
+		<div className="flex relative justify-between flex-1 h-14 p-2 space-x-2  w-full  items-center border-b dark:border-darkBorder bg-primaryBlue dark:bg-darkPrimary ">
 			<Link
 				to={linkHomeLogo}
 				className=" md:flex w-10  justify-center items-center space-x-4 h-full"
@@ -78,33 +77,35 @@ const Navbar: React.FC<NavbarProps> = ({ handleDropDown }) => {
 				/>
 			)}
 
-			{user && <Modeswitcher />}
+			<div className="flex gap-2 justify-center items-center">
+				{user && <Modeswitcher />}
 
-			{user && (
-				<div
-					onClick={() => handleDropDown()}
-					className=" h-full absolute right-2 flex justify-center items-center space-x-2 hover:cursor-pointer "
-				>
-					{auth.currentUser?.photoURL ? (
-						<img
-							src={auth.currentUser?.photoURL}
-							className="rounded-full w-8 h-8 object-cover border border-gray-400"
-						></img>
-					) : (
-						<span className=" flex justify-center items-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
-							{defaultPic}
-						</span>
-					)}
-				</div>
-			)}
+				{user && (
+					<div
+						onClick={() => handleDropDown()}
+						className=" h-full flex justify-center items-center space-x-2 hover:cursor-pointer "
+					>
+						{auth.currentUser?.photoURL ? (
+							<img
+								src={auth.currentUser?.photoURL}
+								className="rounded-full w-8 h-8 object-cover border border-gray-400"
+							></img>
+						) : (
+							<span className=" flex justify-center items-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
+								{defaultPic}
+							</span>
+						)}
+					</div>
+				)}
 
-			{!user && (
-				<Link to="/login" className=" h-10 absolute right-2">
-					<button className=" h-full flex w-20 sm:w-40 justify-center items-center  rounded-md border-[#30363E] border text-[#E6EDF3]">
-						LOGIN
-					</button>
-				</Link>
-			)}
+				{!user && (
+					<Link to="/login" className=" h-10">
+						<button className=" h-full flex w-20 sm:w-40 justify-center items-center  rounded-md border-darkBorder border text-darkText">
+							LOGIN
+						</button>
+					</Link>
+				)}
+			</div>
 		</div>
 	);
 };

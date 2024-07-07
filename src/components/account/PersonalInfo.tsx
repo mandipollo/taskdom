@@ -156,7 +156,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 	};
 
 	return (
-		<section className="flex  h-full  w-full p-2 lg:flex-row flex-col dark:border-t-[#30363E] border-t  dark:text-[#E6EDF3] ">
+		<section className="flex  h-full  w-full p-2 lg:flex-row flex-col dark:border-t-darkBorder border-t  dark:text-darkText ">
 			<Snackbar message={snackbarState.message} show={snackbarState.show} />
 			<div className="md:h-36 md:w-36 h-20 w-20 overflow-hidden flex justify-center items-center rounded-full relative 0">
 				{user?.photoURL ? (
@@ -228,7 +228,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 							placeholder={workHours || ""}
 							onChange={workTimeHandler}
 							value={workTime || ""}
-							className="flex p-2 md:w-60 rounded-md focus:outline-0 dark:bg-[#161B22] dark:placeholder-[#E6EDF3] dark:text-[#E6EDF3] text-black   outline-none "
+							className="flex p-2 md:w-60 rounded-md focus:outline-0 dark:bg-[#161B22] dark:placeholder-darkText dark:text-darkText text-black outline-none "
 							type="text"
 						/>
 					</div>
@@ -249,7 +249,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 							type="text"
 							onChange={jobHandler}
 							value={job || ""}
-							className="flex p-2 md:w-60 rounded-md focus:outline-0 dark:bg-[#161B22] dark:placeholder-[#E6EDF3] dark:text-[#E6EDF3] text-black   outline-none "
+							className="flex p-2 md:w-60 rounded-md focus:outline-0 dark:bg-darkSecondary dark:placeholder-darkText dark:text-darkText text-black outline-none "
 						/>
 					</div>
 					<div className="flex flex-col">
@@ -266,7 +266,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 							placeholder={contactNo || ""}
 							onChange={contactPhHandler}
 							value={contactPh || ""}
-							className="flex p-2 md:w-60 rounded-md focus:outline-0 dark:bg-[#161B22] dark:placeholder-[#E6EDF3] dark:text-[#E6EDF3] text-black   outline-none "
+							className="flex p-2 md:w-60 rounded-md focus:outline-0 dark:bg-darkSecondary dark:placeholder-darkText dark:text-darkText text-black outline-none "
 							type="text"
 						/>
 					</div>
@@ -274,7 +274,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 					<button
 						aria-label="Save changes"
 						type="submit"
-						className="bg-[#006FC9] w-full p-2 rounded-md text-white  text-lg "
+						className="bg-primaryBlue w-full p-2 rounded-md text-white  text-lg "
 					>
 						Save changes
 					</button>

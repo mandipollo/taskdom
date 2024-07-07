@@ -47,20 +47,12 @@ const Task: React.FC<TaskProps> = ({
 		}
 	};
 
-	// const handleDelete = async (task: DocumentData) => {
-	// 	if (task) {
-	// 		const ref = doc(db, `projects/${task.projectId}/tasks/${task.id}`);
-
-	// 		await deleteDoc(ref);
-	// 	}
-	// };
-
 	return (
 		<li
 			key={task.id}
-			className=" border bg-white dark:border-[#161B22] shadow-md  mb-4 break-inside-avoid hover:scale-105 transition-transform duration-300 dark:bg-[#161B22] rounded-md p-2 space-y-2"
+			className=" border bg-white dark:border-darkBorder shadow-md  mb-4 break-inside-avoid hover:scale-105 transition-transform duration-300 dark:bg-darkSecondary rounded-md p-2 space-y-2"
 		>
-			<div className="flex flex-row justify-between border-b border-[#30363E]">
+			<div className="flex flex-row justify-between border-b border-darkBorder">
 				<p className="text-lg">{task.title}</p>
 
 				<div className="flex flex-row justify-center items-center space-x-2">
@@ -107,7 +99,7 @@ const Task: React.FC<TaskProps> = ({
 			<div className="flex items-center flex-row space-x-2">
 				<button
 					onClick={() => handleTaskIdAndToggleAssignTask(task.id)}
-					className="flex dark:border rounded-md hover:border-gray-400 p-2  border-[#30363E] bg-[#006FC9] dark:bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]"
+					className="flex dark:border rounded-md hover:border-gray-400 p-2  border-darkBorder bg-primaryBlue dark:bg-darkSecondary placeholder-darkText text-darkText"
 				>
 					Assign task
 				</button>

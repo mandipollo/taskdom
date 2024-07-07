@@ -102,7 +102,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 	};
 	return (
 		<li
-			className={` hover:scale-105 transition-transform duration-300  w-full relative border-[#30363E] rounded-md  grid-items p-4 bg-white dark:bg-[#161B22] dark:text-[#E6EDF3] dark:shadow-white dark:shadow-sm shadow-lg`}
+			className={` hover:scale-105 transition-transform duration-300  w-full relative border-darkBorder rounded-md  grid-items p-4 bg-white dark:bg-darkSecondary dark:text-darkText shadow-lg`}
 			key={id}
 		>
 			<div className="sm:flex hidden md:justify-between  ">
@@ -114,7 +114,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 						<input
 							value={editTitle}
 							onChange={e => handleEditTitle(e.target.value)}
-							className=" rounded-md border placeholder-gray-400  outline-[#30363E] outline-2  border-[#30363E] bg-[#161B22] dark:text-[#E6EDF3] "
+							className=" rounded-md border placeholder-gray-400 p-2  outline-darkBorder outline-2  border-darkBorder bg-darkSecondary dark:text-darkText "
 						></input>
 					) : (
 						<p className="text-xl  flex flex-row justify-center">{title}</p>
@@ -196,7 +196,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 						<input
 							value={editTitle}
 							onChange={e => handleEditTitle(e.target.value)}
-							className=" rounded-md border placeholder-gray-400  outline-[#30363E] outline-2  border-[#30363E] bg-[#161B22] text-[#E6EDF3] "
+							className=" rounded-md border placeholder-gray-400  outline-darkBorder outline-2  border-darkBorder bg-darkSecondary text-darkText "
 						></input>
 					) : (
 						<p className="text-xl  flex flex-row justify-center">{title}</p>
@@ -266,7 +266,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 						<input
 							value={editDescription}
 							onChange={e => handleEditDescription(e.target.value)}
-							className=" w-full rounded-md border placeholder-gray-400  outline-[#30363E] outline-2  border-[#30363E] bg-[#161B22] text-[#E6EDF3] "
+							className=" w-full rounded-md border placeholder-gray-400  outline-darkBorder outline-2  border-darkSecondary bg-darkSecondary text-darkText "
 						></input>
 					) : (
 						<p className="text-gray-400 ">{description}</p>

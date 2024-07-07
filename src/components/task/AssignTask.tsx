@@ -48,11 +48,11 @@ const AssignTask: React.FC<TaskInputProps> = ({
 
 	return (
 		<form
-			className="flex-1 rounded-md dark:border p-4 border-[#010101] bg-white dark:bg-[#0D1117] z-20 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  sm:w-1/2 sm:h-1/2 w-3/4 h-3/4"
+			className="flex-1 rounded-md p-4 bg-white dark:bg-darkSurface z-20 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  sm:w-1/2 sm:h-1/2 w-3/4 h-3/4"
 			aria-label="add project form"
 		>
 			{err && (
-				<span className="absolute flex flex-col top-full w-10/12 space-y-4 bg-black  divide-y divide-gray-400 border-[#30363E] border p-2">
+				<span className="absolute flex flex-col top-full w-10/12 space-y-4 bg-black  divide-y divide-gray-400 border-darkBorder border p-2">
 					No users found
 				</span>
 			)}
@@ -62,7 +62,7 @@ const AssignTask: React.FC<TaskInputProps> = ({
 					<li
 						onClick={() => handleAssignMember(member)}
 						key={member.uid}
-						className="flex hover:border-gray-400 hover:cursor-pointer rounded-md p-2 flex-row space-x-2 border-[#30363E] border"
+						className="flex hover:border-gray-400 hover:cursor-pointer rounded-md p-2 flex-row space-x-2 border-darkBorder border"
 					>
 						{member.profileImage ? (
 							<img
@@ -77,7 +77,9 @@ const AssignTask: React.FC<TaskInputProps> = ({
 							</span>
 						)}
 						<div className="flex flex-col justify-center ">
-							<p className="text-[#508D69] uppercase">{member.displayName}</p>
+							<p className="text-primaryGreen uppercase">
+								{member.displayName}
+							</p>
 							<p className="text-gray-400">{member.jobTitle}</p>
 						</div>
 

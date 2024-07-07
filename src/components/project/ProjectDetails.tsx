@@ -48,12 +48,12 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 
 	return (
 		<div className="sticky top-0 flex flex-col space-x-2  z-10 ">
-			<div className="flex h-full flex-col w-full border-b space-y-1 border-[#30363E]">
+			<div className="flex h-full flex-col w-full border-b space-y-1 border-darkBorder">
 				<div className="flex  w-full items-center justify-between ">
 					<p className="text-xl">{title}</p>
 					<button
 						onClick={() => handleToggleDescription()}
-						className="mt-2 cursor-pointer w-40  p-2 border border-[#30363E] rounded-md dark:bg-[#0D1117]"
+						className="mt-2 cursor-pointer w-40  p-2 border border-darkBorder rounded-md dark:bg-darkSecondary"
 						id="toggleButton"
 					>
 						{showMore ? "Hide" : "Project outline"}
@@ -86,7 +86,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 					<div className="flex flex-row space-x-2">
 						<button
 							onClick={handleToggleAddTeamMembers}
-							className="flex flex-row space-x-2 p-2 border border-[#30363E] dark:bg-[#0D1117] "
+							className="flex flex-row space-x-2 p-2 border border-darkBorder dark:bg-darkSecondary "
 						>
 							<TeamSvg
 								width={20}
@@ -133,7 +133,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 				{projectData.adminUid === userUid && (
 					<button
 						onClick={handleToggleForm}
-						className="rounded-md flex dark:bg-[#0D1117] shadow-md  p-2"
+						className="rounded-md flex dark:bg-darkSecondary shadow-md  p-2"
 					>
 						<AddSvg
 							width={20}
@@ -201,7 +201,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 					<ul
 						className={` ${
 							sortTask ? "flex" : "hidden"
-						} absolute rounded-md top-0 right-6 z-10 text-sm space-y-4 flex-col border border-[#30363E]  w-36 p-2.5 bg-[#161B22] `}
+						} absolute rounded-md top-0 right-6 z-10 text-sm space-y-4 flex-col border border-darkBorder  w-36 p-2.5 bg-darkSecondary `}
 					>
 						<li className=" text-gray-400">Sort by</li>
 						<li

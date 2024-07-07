@@ -30,7 +30,7 @@ const Modeswitcher = () => {
 	// Return the DarkModeSwitch component
 	return (
 		<DarkModeSwitch
-			className="absolute right-20"
+			sunColor="yellow"
 			checked={isDarkMode === "dark"}
 			onChange={toggleDarkMode}
 			size={20}

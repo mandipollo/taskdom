@@ -16,7 +16,7 @@ const PopUpConfirmation: React.FC<PopUpConfirmationProps> = ({
 	if (!isOpen) return null;
 
 	return (
-		<div className="flex right-1 top-1 absolute  justify-center items-center flex-col p-2 border border-[#30363E] bg-[#0D1117]">
+		<div className="flex right-1 top-1 absolute  justify-center items-center flex-col p-2 border border-darkBorder bg-darkSurface">
 			<p>{message}</p>
 			<div className="flex ">
 				<button

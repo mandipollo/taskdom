@@ -29,7 +29,7 @@ const RequestList: React.FC<RequestListProps> = ({ req }) => {
 	};
 	return (
 		<li
-			className="flex hover:scale-105 transition-transform duration-300 rounded-md shadow-md justify-center items-center p-2 flex-row border dark:border-[#30363E] dark:bg-[#0D1117]"
+			className="flex hover:scale-105 transition-transform duration-300 rounded-md shadow-md justify-center items-center p-2 flex-row  dark:bg-darkSurface"
 			key={req.uid}
 		>
 			{req.profileImage ? (
@@ -52,13 +52,13 @@ const RequestList: React.FC<RequestListProps> = ({ req }) => {
 				<div className="h-1/2 flex space-x-2 p-2">
 					<button
 						onClick={() => handleDecline(req)}
-						className="bg-[#006FC9] py-1 px-4 rounded-md text-white dark:border border-[#30363E] "
+						className="bg-[#006FC9] py-1 px-4 rounded-md text-white dark:border border-darkBorder "
 					>
 						Decline
 					</button>
 					<button
 						onClick={() => handleAccept(req)}
-						className=" py-1 px-4 rounded-md border border-[#30363E] "
+						className=" py-1 px-4 rounded-md border border-darkBorder "
 					>
 						Accept
 					</button>

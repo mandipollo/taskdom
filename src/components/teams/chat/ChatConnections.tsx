@@ -25,7 +25,7 @@ const ChatConnections: React.FC<ChatConnectionsProps> = ({}) => {
 		<section
 			className={`${
 				chatState.displayChat ? "flex" : "hidden"
-			} relative flex-col w-full h-full dark:border-[#30363E] border-l`}
+			} relative flex-col w-full h-full dark:border-darkBorder border-l`}
 		>
 			<div className="w-full items-center h-20 flex   flex-row">
 				{chatState.user && <TargetChatUser member={chatState.user} />}

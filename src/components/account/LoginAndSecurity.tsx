@@ -53,7 +53,7 @@ const LoginAndSecurity: React.FC<LoginAndSecurityProps> = ({}) => {
 		}
 	};
 	return (
-		<section className="flex  h-full  w-full p-2 md:flex-row md:space-x-10 flex-col dark:border-t-[#30363E] border-t  dark:text-[#E6EDF3] ">
+		<section className="flex  h-full  w-full p-2 md:flex-row md:space-x-10 flex-col dark:border-t-darkBorder border-t  dark:text-darkText ">
 			<Snackbar message={snackbarState.message} show={snackbarState.show} />
 			<form
 				id="personal-info"
@@ -100,7 +100,7 @@ const LoginAndSecurity: React.FC<LoginAndSecurityProps> = ({}) => {
 				<button
 					aria-label="Save"
 					type="submit"
-					className=" w-full p-2 rounded-md bg-[#006FC9] text-lg md:w-60 mt-2"
+					className=" w-full p-2 rounded-md bg-primaryBlue text-lg md:w-60 mt-2"
 				>
 					Submit
 				</button>

@@ -134,7 +134,7 @@ const SearchConnections = ({
 				placeholder="Search connections..."
 				className={`${
 					searchBar ? "w-full " : "w-8"
-				}  transition-all duration-300  ease-in-out p-2  rounded-md border placeholder-gray-400  outline-[#30363E] outline-2 pl-10 border-[#30363E] dark:bg-[#161B22] text-[#E6EDF3] `}
+				}  transition-all duration-300  ease-in-out p-2  rounded-md border placeholder-gray-400  outline-darkSecondary outline-2 pl-10 border-darkBorder dark:bg-darkSecondary text-darkText `}
 			/>
 			<img
 				onClick={handleShowSearchBar}
@@ -150,12 +150,12 @@ const SearchConnections = ({
 				</button>
 			)}
 			{err && (
-				<span className="absolute flex flex-col top-full w-10/12 space-y-4 bg-black  divide-y divide-gray-400 border-[#30363E] border p-2">
+				<span className="absolute flex flex-col top-full w-10/12 space-y-4 bg-black  divide-y divide-gray-400 border-darkBorder border p-2">
 					No users found
 				</span>
 			)}
 			{users.length > 0 && (
-				<ul className="absolute  flex flex-col top-full w-full space-y-4 border-[#30363E] border divide-y divide-gray-400 p-2 bg-[#0D1117] ">
+				<ul className="absolute  flex flex-col top-full w-full space-y-4 border-darkBorder border divide-y divide-gray-400 p-2 bg-darkSecondary">
 					{users.map(user => (
 						<li
 							key={user.uid}

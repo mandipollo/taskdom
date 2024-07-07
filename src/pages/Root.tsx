@@ -56,7 +56,7 @@ const Root = () => {
 
 	return (
 		<div className="flex relative h-screen flex-col w-full ">
-			<header className="sticky top-0">
+			<header className="sticky top-0 ">
 				<Navbar handleDropDown={handleDropDown} />
 			</header>
 			<main

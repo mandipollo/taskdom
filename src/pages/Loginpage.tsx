@@ -67,7 +67,7 @@ const LoginPage: React.FC = () => {
 						autoFocus={true}
 						onChange={emailHandler}
 						value={email ?? ""}
-						className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center md:w-60 w-40 rounded-md  "
+						className="py-2 bg-darkSecondary placeholder-darkText text-darkText border-darkBorder outline-none border-b  text-center md:w-60 w-40 rounded-md  "
 						placeholder="Enter your email"
 						type="email"
 					></input>
@@ -79,7 +79,7 @@ const LoginPage: React.FC = () => {
 						id="password-input"
 						onChange={passwordHandler}
 						value={password ?? ""}
-						className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center md:w-60 w-40 rounded-md "
+						className="py-2  bg-darkSecondary placeholder-darkText text-darkText border-darkBorder  outline-none border-b text-center md:w-60 w-40 rounded-md "
 						placeholder="Enter your password"
 						type="password"
 					></input>
@@ -88,7 +88,7 @@ const LoginPage: React.FC = () => {
 				<button
 					aria-label="Sign in"
 					type="submit"
-					className="  rounded-2xl bg-[#0D1117] border-[#30363E] border text-[#E6EDF3] py-2 px-12 "
+					className="  rounded-2xl bg-darkSecondary border-darkBorder border text-darkText py-2 px-12 "
 				>
 					Sign in
 				</button>
@@ -97,7 +97,7 @@ const LoginPage: React.FC = () => {
 			<section className="flex relative justify-center items-center gap-2 ">
 				<article>Don't have an Account? </article>
 				<Link to="/signup" aria-label="Navigate to sign up">
-					<button className="rounded-2xl  text-green-400   font-semibold font-montserrat tracking-wider">
+					<button className="rounded-2xl  text-primaryGreen  font-semibold font-montserrat tracking-wider">
 						Sign up
 					</button>
 				</Link>

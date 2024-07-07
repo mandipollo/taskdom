@@ -18,7 +18,7 @@ const ProjectHead: React.FC<ProjectHeadProps> = ({
 				<p className="text-xl">Dashboard</p>
 				<button
 					onClick={() => handleToggleForm()}
-					className="flex flex-row border p-2  border-[#30363E] rounded-md"
+					className="flex flex-row border p-2  border-darkBorder rounded-md"
 				>
 					<img src={Add} width={20} height={20} alt="" />
 					Add Project

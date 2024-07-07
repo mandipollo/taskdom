@@ -57,7 +57,7 @@ const UserDashboardPage: React.FC = () => {
 		fetchTask();
 	}, []);
 	return (
-		<main className="flex flex-col w-full  h-full text-black  dark:text-[#E6EDF3]">
+		<main className="flex flex-col w-full  h-full text-black  dark:text-darkText">
 			<section className="flex justify-center items-center h-1/2 max-h-80  ">
 				<div className="flex sm:w-2/3 w-full justify-center p-2 h-full">
 					<DateTaskDisplay date={date} day={day} time={time} noTask={noTask} />
@@ -67,7 +67,7 @@ const UserDashboardPage: React.FC = () => {
 					<TaskDashboard taskList={taskList} />
 				</div>
 			</section>
-			<section className="flex justify-center items-center flex-1 dark:bg-[#0D1117] dark:border-[#30363E] border ">
+			<section className="flex justify-center items-center flex-1 ">
 				<p>progress</p>
 			</section>
 		</main>

@@ -33,8 +33,8 @@ const Sidebar: React.FC = () => {
 	const classP = `${open ? "hidden" : "hidden sm:block "}`;
 
 	const active =
-		" dark:text-white text-black p-2  rounded-md bg-white dark:bg-[#161B22] shadow-lg  w-full h-full";
-	const pending = " text-red-400 p-2 ";
+		" dark:text-darkText text-black p-2 rounded-md bg-white dark:bg-darkSecondary shadow-lg  w-full h-full";
+
 	// sign out
 	const signOutHandler = () => {
 		dispatch(resetUserFirestoreData());
@@ -45,11 +45,11 @@ const Sidebar: React.FC = () => {
 	return (
 		<div
 			className={`${
-				open ? "w-10" : " sm:w-40 w-10"
-			} transition-all ease-in-out duration-300 flex flex-col items-center dark:border dark:text-white text-black dark:border-[#30363E]  dark:bg-[#0D1117] `}
+				open ? "w-14" : " sm:w-40 w-14"
+			} transition-width duration-300 flex flex-col items-center  dark:text-white text-black    `}
 		>
 			<ul className="flex flex-col space-y-6 pt-10 w-full p-2">
-				<li className="flex w-full">
+				<li className="flex w-full p-2">
 					<button
 						onClick={handlerToggle}
 						id="menu-btn"
@@ -61,15 +61,12 @@ const Sidebar: React.FC = () => {
 							width={20}
 							className="dark:text-white text-black"
 						/>
-						{/* <img src={collapse} width={20} height={20} alt="collapse" /> */}
 					</button>
 				</li>
 				<li className="flex w-full h-full">
 					<NavLink
 						to="userDashboard"
-						className={({ isActive, isPending }) =>
-							isPending ? pending : isActive ? active : ""
-						}
+						className={({ isActive }) => (isActive ? active : " p-2")}
 					>
 						<button className={classBtn}>
 							<DashboardSvg
@@ -85,9 +82,7 @@ const Sidebar: React.FC = () => {
 				<li className="flex ">
 					<NavLink
 						to="projects"
-						className={({ isActive, isPending }) =>
-							isPending ? pending : isActive ? active : ""
-						}
+						className={({ isActive }) => (isActive ? active : " p-2")}
 					>
 						<button className={classBtn}>
 							<ProjectSvg
@@ -103,9 +98,7 @@ const Sidebar: React.FC = () => {
 				<li className="flex  ">
 					<NavLink
 						to="/teams"
-						className={({ isActive, isPending }) =>
-							isPending ? pending : isActive ? active : ""
-						}
+						className={({ isActive }) => (isActive ? active : " p-2")}
 					>
 						<button className={classBtn}>
 							<TeamSvg
@@ -122,9 +115,7 @@ const Sidebar: React.FC = () => {
 				<li className="flex  ">
 					<NavLink
 						to="/accountSetting"
-						className={({ isActive, isPending }) =>
-							isPending ? pending : isActive ? active : ""
-						}
+						className={({ isActive }) => (isActive ? active : " p-2")}
 					>
 						<button className={classBtn}>
 							<SettingSvg
@@ -137,7 +128,7 @@ const Sidebar: React.FC = () => {
 						</button>
 					</NavLink>
 				</li>
-				<li className="flex">
+				<li className="flex p-2">
 					<button onClick={signOutHandler} className={classBtn}>
 						<SignOutSvg
 							width={20}

@@ -88,7 +88,7 @@ const SignupPage: React.FC = () => {
 				className="flex  relative flex-col justify-center items-center h-3/4  md:w-2/4 sm:w-3/4 w-3/4 "
 			>
 				<section className="flex  flex-col w-full h-full justify-center items-center space-y-2 flex-1 ">
-					<article className="flex text-2xl font-bold text-[#E6EDF3]">
+					<article className="flex text-2xl font-bold text-darkText">
 						Get started
 					</article>
 
@@ -99,7 +99,7 @@ const SignupPage: React.FC = () => {
 						id="display-name-input"
 						onChange={displayNameHandler}
 						value={displayName ?? ""}
-						className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center md:w-60 w-40 rounded-md  "
+						className="py-2  bg-darkSecondary placeholder-darkText text-darkText border-darkBorder  outline-none border-b text-center md:w-60 w-40 rounded-md  "
 						placeholder="Display name"
 						type="text"
 					></input>
@@ -110,7 +110,7 @@ const SignupPage: React.FC = () => {
 						id="email-input"
 						onChange={emailHandler}
 						value={email ?? ""}
-						className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center md:w-60 w-40 rounded-md  "
+						className="py-2  bg-darkSecondary placeholder-darkText text-darkText border-darkBorder  outline-none border-b text-center md:w-60 w-40 rounded-md  "
 						placeholder="Email"
 						type="email"
 					></input>
@@ -121,7 +121,7 @@ const SignupPage: React.FC = () => {
 						id="password-input"
 						onChange={passwordHandler}
 						value={password ?? ""}
-						className="py-2 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none border-b border-[#30363E] text-center md:w-60 w-40 rounded-md  "
+						className="py-2  bg-darkSecondary placeholder-darkText text-darkText border-darkBorder  outline-none border-b text-center md:w-60 w-40 rounded-md  "
 						placeholder="Password"
 						type="password"
 					></input>
@@ -131,7 +131,7 @@ const SignupPage: React.FC = () => {
 					aria-label="Create account"
 					disabled={!password}
 					type="submit"
-					className="rounded-2xl bg-[#0D1117] border-[#30363E] border text-[#E6EDF3] py-2 px-12"
+					className="rounded-2xl bg-darkSecondary border-darkBorder border text-darkText py-2 px-12"
 				>
 					CREATE FREE ACCOUNT
 				</button>
@@ -140,7 +140,7 @@ const SignupPage: React.FC = () => {
 
 			<section className="flex relative justify-center items-center  ">
 				<Link to="/login" aria-label="Navigate to sign in">
-					<button className="font-semibold font-montserrat  text-[#2C74D9]">
+					<button className="font-semibold font-montserrat  text-primaryBlue">
 						Go back to sign in.
 					</button>
 				</Link>

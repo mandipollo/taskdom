@@ -109,17 +109,17 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 
 	return (
 		<div
-			className="rounded-md dark:border p-4 bg-white border-[#010101] dark:bg-[#0D1117] z-20 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  sm:w-1/2 sm:h-1/2 w-3/4 h-3/4"
+			className="rounded-md  p-4 bg-white  dark:bg-darkSurface z-20 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  sm:w-1/2 sm:h-1/2 w-3/4 h-3/4"
 			aria-label="add project form"
 		>
-			<div className="flex relative w-full p-2 items-center border-b border-[#30363E] justify-around">
+			<div className="flex relative w-full p-2 items-center border-b border-darkBorderjustify-around">
 				<input
 					value={searchedUser}
 					onKeyDown={handleKey}
 					onChange={handleSearchedUser}
 					placeholder="Search for members..."
 					type="text"
-					className=" w-full p-2 placeholder-gray-400 border-[#30363E] dark:bg-[#161B22] dark:text-[#E6EDF3]"
+					className=" w-full p-2 placeholder-gray-400 border-darkBorder dark:bg-darkSecondary dark:text-darkText"
 				/>
 				<button onClick={handleToggleAddTeamMembers}>
 					<CrossSvg
@@ -129,7 +129,7 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 					/>
 				</button>
 				{users.length > 0 && (
-					<ul className="absolute w-full  flex flex-col top-full left-0  space-y-4 border-[#30363E] border divide-y divide-gray-400 p-2 bg-[#F2F2F2] dark:bg-[#0D1117] ">
+					<ul className="absolute w-full  flex flex-col top-full left-0  space-y-4 border-darkBorder border divide-y divide-gray-400 p-2 bg-lightPrimary  dark:bg-darkSecondary ">
 						{users.map(user => (
 							<li
 								key={user.uid}
@@ -156,8 +156,8 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 								</p>
 								<select
 									className={` ${
-										role ? "border-[#30363E]" : "border-red-800 "
-									} dark:bg-[#0D1117] border-[#30363E] border dark:text-white p-2`}
+										role ? "border-darkBorder" : "border-red-800 "
+									} dark:bg-darkSurface border-darkBorder border dark:text-white p-2`}
 									onChange={e => handleSetRole(e.target.value)}
 								>
 									<option value="Team Lead">Team Lead</option>
@@ -166,7 +166,7 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 								{projectData.adminUid === userUid && (
 									<button
 										type="button"
-										className="bg-[#006FC9] p-2 rounded-sm"
+										className="bg-primaryBlue p-2 rounded-sm"
 										onClick={() => handleAddMember(user)}
 									>
 										Add
@@ -177,14 +177,14 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 					</ul>
 				)}
 				{users.length === 0 && !isLoading && (
-					<span className="absolute flex flex-col top-full w-full space-y-4 bg-[#F2F2F2] dark:bg-black  divide-y divide-gray-400 border-[#30363E] border p-2">
+					<span className="absolute flex flex-col top-full w-full space-y-4 bg-lightPrimary dark:bg-black  divide-y divide-gray-400 border-darkBorder border p-2">
 						No users found
 					</span>
 				)}
 			</div>
 
 			{err && (
-				<span className="absolute flex flex-col top-full w-10/12 space-y-4 bg-black  divide-y divide-gray-400 border-[#30363E] border p-2">
+				<span className="absolute flex flex-col top-full w-10/12 space-y-4 bg-black  divide-y divide-gray-400 border-darkBorder border p-2">
 					No users found
 				</span>
 			)}
@@ -193,7 +193,7 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 				{activeTeamMembers.map((member: DocumentData) => (
 					<li
 						key={member.uid}
-						className="flex rounded-md  p-2 items-center justify-between flex-row space-x-2 border-[#30363E] border"
+						className="flex rounded-md  p-2 items-center justify-between flex-row space-x-2 border-darkBorder border"
 					>
 						<div className="flex flex-row space-x-2">
 							{member.profileImage ? (
