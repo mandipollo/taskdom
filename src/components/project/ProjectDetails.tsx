@@ -201,7 +201,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 					<ul
 						className={` ${
 							sortTask ? "flex" : "hidden"
-						} absolute rounded-md top-0 right-6 z-10 text-sm space-y-4 flex-col border border-darkBorder  w-36 p-2.5 bg-darkSecondary `}
+						} absolute rounded-md top-0 right-6 z-10 text-sm space-y-4 flex-col border border-darkBorder  w-36 p-2.5 bg-lightPrimary dark:bg-darkSecondary `}
 					>
 						<li className=" text-gray-400">Sort by</li>
 						<li

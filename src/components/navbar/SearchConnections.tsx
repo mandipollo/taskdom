@@ -132,17 +132,8 @@ const SearchConnections = ({
 				placeholder="Search connections..."
 				className={`${
 					searchBar ? "w-full " : "w-8"
-				}  transition-all duration-300  ease-in-out p-2  rounded-md dark:border placeholder-gray-400  dark:outline-darkSecondary dark:outline-2 pl-10 border-darkBorder dark:bg-darkSecondary dark:text-darkText  text-black `}
+				}  transition-width duration-300  ease-in-out p-2  rounded-md dark:border placeholder-gray-400  dark:outline-darkSecondary dark:outline-2 pl-10 border-darkBorder dark:bg-darkSecondary dark:text-darkText  text-black `}
 			/>
-
-			{/* <img
-				onClick={handleShowSearchBar}
-				className="absolute top-2 left-3"
-				src={searchIcon}
-				width={25}
-				height={25}
-				alt=""
-			/> */}
 
 			<SearchSvg
 				height={25}

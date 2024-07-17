@@ -16,12 +16,14 @@ import {
 	doc,
 	onSnapshot,
 } from "firebase/firestore";
+import Loading from "../components/utilities/Loading";
 
 const ProjectsHomePage: React.FC = () => {
 	const userData = useAppSelector(state => state.userFirestoreData);
 
 	// Local states
 
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [startDate, setStartDate] = useState<Date | null>(new Date());
 	const [endDate, setEndDate] = useState<Date | null>(new Date());
 
@@ -54,13 +56,14 @@ const ProjectsHomePage: React.FC = () => {
 			db,
 			`users/${userData.uid}/userProjects`
 		);
-
+		setIsLoading(true);
 		const unsubscribe = onSnapshot(usersProjectRef, snapshot => {
 			const tempProjectIdList: string[] = [];
 			snapshot.forEach(doc => {
 				tempProjectIdList.push(doc.id);
 			});
 			setProjectIdList(tempProjectIdList);
+			setIsLoading(false);
 		});
 
 		return () => unsubscribe();
@@ -176,7 +179,9 @@ const ProjectsHomePage: React.FC = () => {
 				handleFilterProjectStatus={handleFilterProjectStatus}
 			/>
 
-			{userData.uid && (
+			{isLoading ? (
+				<Loading />
+			) : (
 				<ProjectLists
 					filterProjectStatus={filterProjectStatus}
 					projectList={projectList}

@@ -81,16 +81,14 @@ const SignupPage: React.FC = () => {
 	};
 
 	return (
-		<main className="flex w-full h-full flex-1 gap-4 justify-center items-center flex-col bg-gradient-to-tr from-black from-40%  via-[#613F5A] to-black">
+		<main className="flex bg-lightPrimary text-black w-full h-full flex-1 gap-4 justify-center items-center flex-col">
 			<form
 				onSubmit={handleSubmit}
 				id="sign-up"
 				className="flex  relative flex-col justify-center items-center h-3/4  md:w-2/4 sm:w-3/4 w-3/4 "
 			>
 				<section className="flex  flex-col w-full h-full justify-center items-center space-y-2 flex-1 ">
-					<article className="flex text-2xl font-bold text-darkText">
-						Get started
-					</article>
+					<article className="flex text-2xl font-bold">Get started</article>
 
 					<label aria-label="input display name" htmlFor="display-name-input">
 						Display name
@@ -99,7 +97,7 @@ const SignupPage: React.FC = () => {
 						id="display-name-input"
 						onChange={displayNameHandler}
 						value={displayName ?? ""}
-						className="py-2  bg-darkSecondary placeholder-darkText text-darkText border-darkBorder  outline-none border-b text-center md:w-60 w-40 rounded-md  "
+						className="py-2   border-darkBorder  outline-none border text-center md:w-60 w-40 rounded-md  "
 						placeholder="Display name"
 						type="text"
 					></input>
@@ -110,7 +108,7 @@ const SignupPage: React.FC = () => {
 						id="email-input"
 						onChange={emailHandler}
 						value={email ?? ""}
-						className="py-2  bg-darkSecondary placeholder-darkText text-darkText border-darkBorder  outline-none border-b text-center md:w-60 w-40 rounded-md  "
+						className="py-2  border-darkBorder  outline-none border text-center md:w-60 w-40 rounded-md  "
 						placeholder="Email"
 						type="email"
 					></input>
@@ -121,7 +119,7 @@ const SignupPage: React.FC = () => {
 						id="password-input"
 						onChange={passwordHandler}
 						value={password ?? ""}
-						className="py-2  bg-darkSecondary placeholder-darkText text-darkText border-darkBorder  outline-none border-b text-center md:w-60 w-40 rounded-md  "
+						className="py-2  border-darkBorder  outline-none border text-center md:w-60 w-40 rounded-md  "
 						placeholder="Password"
 						type="password"
 					></input>
@@ -131,7 +129,7 @@ const SignupPage: React.FC = () => {
 					aria-label="Create account"
 					disabled={!password}
 					type="submit"
-					className="rounded-2xl bg-darkSecondary border-darkBorder border text-darkText py-2 px-12"
+					className="rounded-2xl  border-darkBorder border  py-2 px-12"
 				>
 					CREATE FREE ACCOUNT
 				</button>

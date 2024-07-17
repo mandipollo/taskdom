@@ -14,13 +14,12 @@ import {
 } from "firebase/firestore";
 import getProfileImage from "../../../firebaseAuth/getProfileImage";
 import { ref, uploadBytesResumable } from "firebase/storage";
-import { AttachSvg, PaperPlaneSvg } from "../../../assets/Icons/Icons";
+import { AttachSvg } from "../../../assets/Icons/Icons";
 
 const ChatInput = () => {
 	const uid = useAppSelector(state => state.userFirestoreData.uid);
 	const chatState = useAppSelector(state => state.chat);
 	const [text, setText] = useState<string | null>(null);
-	const [img, setImg] = useState<File | undefined>(undefined);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	// message
@@ -29,11 +28,26 @@ const ChatInput = () => {
 		setText(e.target.value);
 	};
 
-	// image
-	const imageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files && e.target.files.length > 0) {
+	// send img to storage and get url
+	const imageHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files.length > 0 && chatState.user) {
+			const chatRef = doc(db, `chats/${chatState.user.chatId}`);
+			const messageRef = collection(chatRef, "message");
 			// input file
-			setImg(e.target.files[0]);
+
+			const storageRef = ref(storage, uuid());
+			const uploadImg = await uploadBytesResumable(
+				storageRef,
+				e.target.files[0]
+			);
+
+			const imgUrl = await getProfileImage(uploadImg.metadata.fullPath);
+			await setDoc(doc(messageRef), {
+				id: uuid(),
+				senderId: uid,
+				date: Timestamp.now(),
+				image: imgUrl,
+			});
 		}
 	};
 
@@ -47,60 +61,39 @@ const ChatInput = () => {
 		const chatRef = doc(db, `chats/${chatState.user.chatId}`);
 		const messageRef = collection(chatRef, "message");
 
-		if (img && chatState.user) {
-			const storageRef = ref(storage, uuid());
-
-			const uploadTask = await uploadBytesResumable(storageRef, img);
-
-			const url = await getProfileImage(uploadTask.metadata.fullPath);
-
+		if (text) {
 			await setDoc(doc(messageRef), {
 				id: uuid(),
+				text,
 				senderId: uid,
 				date: Timestamp.now(),
-				image: url ? url : null,
 			});
-		} else {
-			if (text) {
-				await setDoc(doc(messageRef), {
-					id: uuid(),
-					text,
-					senderId: uid,
-					date: Timestamp.now(),
-				});
-			}
-
-			// update current user last message
-
-			await updateDoc(
-				doc(db, `users/${uid}/connections/${chatState.user.uid}`),
-				{
-					lastMessage: {
-						text,
-						date: serverTimestamp(),
-					},
-				}
-			);
-			// update the chat user last message
-			await updateDoc(
-				doc(db, `users/${chatState.user.uid}/connections/${uid}`),
-				{
-					lastMessage: {
-						text,
-						date: serverTimestamp(),
-					},
-				}
-			);
 		}
+
+		// update current user last message
+
+		await updateDoc(doc(db, `users/${uid}/connections/${chatState.user.uid}`), {
+			lastMessage: {
+				text,
+				date: serverTimestamp(),
+			},
+		});
+		// update the chat user last message
+		await updateDoc(doc(db, `users/${chatState.user.uid}/connections/${uid}`), {
+			lastMessage: {
+				text,
+				date: serverTimestamp(),
+			},
+		});
+
 		setText(null);
-		setImg(undefined);
 	};
 
 	return (
 		<form
 			onSubmit={handleSend}
 			id="inputSubmit"
-			className="flex h-20 absolute bottom-0 right-0 left-0 w-full space-x-4 justify-center items-center  "
+			className="flex h-20 absolute bottom-0 right-0 left-0 w-full space-x-2 justify-center items-center  "
 		>
 			<div className="relative">
 				<input
@@ -123,21 +116,10 @@ const ChatInput = () => {
 			<input
 				value={text || ""}
 				onChange={textHandler}
-				placeholder="type a message"
-				className="rounded-md placeholder-gray-400 w-8/12 h-10 outline-darkBorder outline-2 pl-2 border-darkBorder dark:bg-darkSecondary "
+				placeholder="Type a message"
+				className="rounded-md placeholder-gray-400 w-11/12 h-10 outline-darkBorder outline-2 pl-2 border-darkBorder dark:bg-darkSecondary "
 				type="text"
 			/>
-			<button
-				type="submit"
-				onClick={handleSend}
-				className="h-10 rounded-md bg-primaryGreen flex w-32 justify-around items-center "
-			>
-				<figure className="flex space-x-2">
-					<figcaption className="text-white">Send</figcaption>
-
-					<PaperPlaneSvg width={20} height={20} className="text-white" />
-				</figure>
-			</button>
 		</form>
 	);
 };

@@ -9,11 +9,13 @@ const HomePage = () => {
 	);
 
 	return (
-		<main className="text-[#E6EDF3] flex flex-col flex-1 p-2  h-full bg-gradient-to-tr from-black from-40%  via-[#613F5A] to-black">
+		<main className="flex bg-lightPrimary flex-col flex-1 p-2  h-full text-black overflow-auto ">
 			<section className="flex mt-10 flex-1 flex-col items-center  md:space-y-20 space-y-10 ">
-				<h1 className=" text-4xl font-bold ">A smarter way to work</h1>
+				<h1 className=" text-4xl md:text-6xl font-bold text-center ">
+					Organize your work <br></br> and life, finally.
+				</h1>
 
-				<article className=" sm:text-xl font-thin ">
+				<article className=" sm:text-xl font-thin text-center">
 					With Taskdom, you can drive clarity and impact at scale by connecting
 					work <br></br> and workflows to company-wide goals.
 				</article>
@@ -118,7 +120,7 @@ const HomePage = () => {
 				</section>
 			</section>
 
-			<footer className="flex backdrop-blur bg-opacity-10 bg-white  flex-col justify-center items-center p-2 rounded-md">
+			<footer className="flex backdrop-blur bg-opacity-50 bg-slate-400  flex-col justify-center items-center p-2 rounded-md">
 				<div className="grid grid-cols-1 justify-center items-center grid-rows-1 grid-flow-col gap-4 ">
 					<img
 						src="https://hive.com/wp-content/uploads/2023/12/Group-6867.svg"

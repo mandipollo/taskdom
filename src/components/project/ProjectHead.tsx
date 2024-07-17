@@ -24,7 +24,7 @@ const ProjectHead: React.FC<ProjectHeadProps> = ({
 			</div>
 
 			<div className="flex flex-col lg:flex-row md:flex-col w-full gap-2  ">
-				<div className="hidden w-1/2 items-center gap-4 md:flex">
+				<div className="hidden  items-center gap-4 md:flex">
 					<p
 						className={`${
 							filterProjectStatus === ""

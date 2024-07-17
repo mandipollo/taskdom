@@ -15,6 +15,8 @@ import PopUpConfirmation from "../utilities/PopUpConfirmation";
 import { ProjectProps } from "../utilities/userDataProps";
 import { httpsCallable } from "firebase/functions";
 import ToggleButtonProject from "./ToggleButtonProject";
+import { hideSnackbar, setSnackBar } from "../../store/snackBarSlice";
+import { useAppDispatch } from "../../store/store";
 
 interface IndividualProjectProps {
 	userUid: string;
@@ -33,17 +35,10 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 	isOngoingTaskLoading,
 	isTotalTaskLoading,
 }) => {
-	const {
-		status,
-		description,
-		title,
-		id,
-		adminPhoto,
-		adminName,
-		startDate,
-		endDate,
-	} = project;
+	const { description, title, id, adminPhoto, adminName, startDate, endDate } =
+		project;
 
+	const dispatch = useAppDispatch();
 	// pop state
 
 	const [isPopUpOpen, setIsPopUpOpen] = useState<Boolean>(false);
@@ -72,12 +67,22 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 
 	const handleSubmitEdit = async () => {
 		const updateProjectFunction = httpsCallable(functions, "updateProject");
-		await updateProjectFunction({
-			editTitle,
-			editDescription,
-			id,
-		});
-		setIsEditing(!isEditing);
+
+		try {
+			await updateProjectFunction({
+				editTitle,
+				editDescription,
+				id,
+			});
+			setIsEditing(!isEditing);
+		} catch (err) {
+			if (err instanceof Error) {
+				dispatch(setSnackBar({ show: true, message: err.message }));
+				setTimeout(() => {
+					dispatch(hideSnackbar());
+				}, 2000);
+			}
+		}
 	};
 
 	const handleDeleteProject = () => {
@@ -86,11 +91,17 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 			try {
 				await deleteProjectFunction({ id });
 			} catch (err) {
-				console.log(err);
+				if (err instanceof Error) {
+					dispatch(setSnackBar({ show: true, message: err.message }));
+					setTimeout(() => {
+						dispatch(hideSnackbar());
+					}, 2000);
+				}
 			}
 		};
 		setCurrentAction(() => deleteProject);
 		setIsPopUpOpen(true);
+		setIsEditing(!isEditing);
 	};
 
 	const handleLinkClick = (

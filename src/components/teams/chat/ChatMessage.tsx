@@ -88,11 +88,13 @@ const ChatMessage = () => {
 													/>
 												)}
 											</div>
-											<div className="flex space-x-2 ">
-												<p className="bg-blue-400 p-2 rounded-2xl text-md">
-													{message.text}
-												</p>
-											</div>
+											{message.text && (
+												<div className="flex space-x-2 ">
+													<p className="bg-blue-400 p-2 rounded-2xl text-md">
+														{message.text}
+													</p>
+												</div>
+											)}
 										</>
 									) : (
 										<>

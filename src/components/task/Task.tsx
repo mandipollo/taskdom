@@ -3,13 +3,14 @@ import React from "react";
 
 import ToggleButton from "../utilities/ToggleButton";
 
-import { useAppSelector } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 
 import { functions } from "../../../firebase.config";
 import { httpsCallable } from "firebase/functions";
-import { BinSvg } from "../../assets/action/ActionSvgs";
+import { DeleteSvg } from "../../assets/action/ActionSvgs";
 import { CalenderSvg } from "../../assets/Icons/Icons";
 
+import { hideSnackbar, setSnackBar } from "../../store/snackBarSlice";
 interface TaskProps {
 	task: {
 		id: string;
@@ -30,6 +31,10 @@ const Task: React.FC<TaskProps> = ({
 	task,
 	handleTaskIdAndToggleAssignTask,
 }) => {
+	// error and snackbar
+
+	const dispatch = useAppDispatch();
+
 	const userData = useAppSelector(state => state.userFirestoreData);
 	const getBgColor = (priority: string) => {
 		return priority === "High"
@@ -42,15 +47,24 @@ const Task: React.FC<TaskProps> = ({
 	const deleteTask = httpsCallable(functions, "taskDelete");
 
 	const handleDelete = async (task: DocumentData) => {
-		if (task) {
-			await deleteTask({ projectId: task.projectId, taskId: task.id });
+		try {
+			if (task) {
+				await deleteTask({ projectId: task.projectId, taskId: task.id });
+			}
+		} catch (err: unknown) {
+			if (err instanceof Error) {
+				dispatch(setSnackBar({ show: true, message: err.message }));
+				setTimeout(() => {
+					dispatch(hideSnackbar());
+				}, 2000);
+			}
 		}
 	};
 
 	return (
 		<li
 			key={task.id}
-			className=" border bg-white dark:border-darkBorder shadow-md  mb-4 break-inside-avoid hover:scale-105 transition-transform duration-300 dark:bg-darkSecondary rounded-md p-2 space-y-2"
+			className=" border bg-white dark:border-darkBorder shadow-md  mb-4 break-inside-avoid transition-transform duration-300 dark:bg-darkSecondary rounded-md p-2 space-y-2"
 		>
 			<div className="flex flex-row justify-between border-b border-darkBorder">
 				<p className="text-lg">{task.title}</p>
@@ -60,7 +74,7 @@ const Task: React.FC<TaskProps> = ({
 						onClick={() => handleDelete(task)}
 						className=" flex justify-center items-center"
 					>
-						<BinSvg
+						<DeleteSvg
 							width={20}
 							height={20}
 							className="text-black dark:text-white"

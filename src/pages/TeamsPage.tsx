@@ -5,7 +5,11 @@ import { db } from "../../firebase.config";
 import TeamMembersList from "../components/teams/TeamMembersList";
 
 import ChatConnections from "../components/teams/chat/ChatConnections";
+import Loading from "../components/utilities/Loading";
 const TeamsPage = () => {
+	// loading state
+
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const userState = useAppSelector(state => state.userFirestoreData);
 
 	const { uid } = userState;
@@ -14,6 +18,7 @@ const TeamsPage = () => {
 
 	// set a listner for team members
 	useEffect(() => {
+		setIsLoading(true);
 		const unSubscribe = onSnapshot(
 			collection(db, `users/${uid}/connections`),
 			doc => {
@@ -25,6 +30,7 @@ const TeamsPage = () => {
 				});
 			}
 		);
+		setIsLoading(false);
 
 		return () => {
 			unSubscribe();
@@ -33,8 +39,9 @@ const TeamsPage = () => {
 
 	return (
 		<main className="h-full w-full  flex flex-row ">
-			<TeamMembersList teamMembers={teamMembers} />
-			<ChatConnections />
+			{isLoading && <Loading />}
+			{!isLoading && <TeamMembersList teamMembers={teamMembers} />}
+			{!isLoading && <ChatConnections />}
 		</main>
 	);
 };

@@ -7,7 +7,7 @@ interface Snackbarprops {
 const Snackbar: React.FC<Snackbarprops> = ({ message, show }) => {
 	return (
 		<div
-			className={` absolute bottom-4 left-0 right-0 w-40 flex p-2 h-10 bg-green-400 justify-center align-center rounded-sm mx-auto transition duration-500 ease-in-out transform ${
+			className={`z-10 absolute bottom-4 left-0 right-0 w-40 flex p-2 h-10 bg-primaryBlue justify-center align-center rounded-sm mx-auto transition duration-500 ease-in-out transform ${
 				show ? "opacity-100" : "opacity-0"
 			}`}
 		>

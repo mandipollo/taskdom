@@ -37,6 +37,11 @@ export default {
 				primaryBlue: "#006FC9",
 				primaryGreen: "#508D69",
 			},
+
+			backgroundImage: {
+				"homePage-section":
+					"url(https://plus.unsplash.com/premium_photo-1675805016124-86db4b3c4249?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+			},
 		},
 	},
 	variants: {

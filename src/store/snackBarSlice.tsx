@@ -14,13 +14,12 @@ const snackBarSlice = createSlice({
 	initialState: initialSnackState,
 	reducers: {
 		setSnackBar: (state, action: PayloadAction<snackState>) => {
-			return {
-				show: action.payload.show,
-				message: action.payload.message,
-			};
+			state.show = action.payload.show;
+			state.message = action.payload.message;
 		},
 		hideSnackbar: state => {
-			return { ...initialSnackState };
+			state.show = false;
+			state.message = null;
 		},
 	},
 });

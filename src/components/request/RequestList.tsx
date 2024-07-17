@@ -29,7 +29,7 @@ const RequestList: React.FC<RequestListProps> = ({ req }) => {
 	};
 	return (
 		<li
-			className="flex hover:scale-105 transition-transform duration-300 rounded-md shadow-md justify-center items-center p-2 flex-row  dark:bg-darkSurface"
+			className="flex rounded-md shadow-md justify-center items-center p-2 flex-row  dark:bg-darkSurface"
 			key={req.uid}
 		>
 			{req.profileImage ? (

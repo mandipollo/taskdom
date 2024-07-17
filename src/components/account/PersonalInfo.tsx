@@ -10,8 +10,7 @@ import { UserDataProps } from "../utilities/userDataProps";
 import { User, updateProfile } from "firebase/auth";
 import { setSnackBar, hideSnackbar } from "../../store/snackBarSlice";
 
-import Snackbar from "../utilities/Snackbar";
-import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useAppDispatch } from "../../store/store";
 import { httpsCallable } from "firebase/functions";
 import { EditSvg } from "../../assets/action/ActionSvgs";
 type personalProps = {
@@ -27,8 +26,6 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 	const dispatch = useAppDispatch();
 
 	//  snackbar
-
-	const snackbarState = useAppSelector(state => state.snackBar);
 
 	const { displayName, contactNo, workHours, jobTitle, uid } =
 		userFirestoreData;
@@ -157,7 +154,6 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 
 	return (
 		<section className="flex  h-full  w-full p-2 lg:flex-row flex-col dark:border-t-darkBorder border-t  dark:text-darkText ">
-			<Snackbar message={snackbarState.message} show={snackbarState.show} />
 			<div className="md:h-36 md:w-36 h-20 w-20 overflow-hidden flex justify-center items-center rounded-full relative 0">
 				{user?.photoURL ? (
 					<img
@@ -183,11 +179,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 					onClick={() => fileInputRef.current && fileInputRef.current.click()}
 					className="absolute flex justify-center items-center rounded-full md:h-10 md:w-10 h-5 w-5 md:bottom-5 bottom-2 right-2  bg-gray-600 text-[#E6EDF3] "
 				>
-					<EditSvg
-						width={20}
-						height={20}
-						className="text-white dark:text-black"
-					/>
+					<EditSvg width={20} height={20} className="text-white" />
 				</button>
 			</div>
 			<form

@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { DocumentData } from "firebase/firestore";
 import { functions } from "../../../firebase.config";
 import { httpsCallable } from "firebase/functions";
+import { useAppDispatch } from "../../store/store";
+
+import { hideSnackbar, setSnackBar } from "../../store/snackBarSlice";
 
 type TaskInputProps = {
 	taskId: string;
@@ -18,8 +21,10 @@ const AssignTask: React.FC<TaskInputProps> = ({
 	projectData,
 	activeTeamMembers,
 }) => {
+	// error and snackbar
+
+	const dispatch = useAppDispatch();
 	const { id } = projectData;
-	const [err, setErr] = useState<boolean>(false);
 
 	// assign task
 
@@ -40,9 +45,13 @@ const AssignTask: React.FC<TaskInputProps> = ({
 			});
 
 			handleToggleAssignTask();
-		} catch (err) {
-			console.log(err);
-			setErr(true);
+		} catch (err: unknown) {
+			if (err instanceof Error) {
+				dispatch(setSnackBar({ show: true, message: err.message }));
+				setTimeout(() => {
+					dispatch(hideSnackbar());
+				}, 2000);
+			}
 		}
 	};
 
@@ -51,11 +60,11 @@ const AssignTask: React.FC<TaskInputProps> = ({
 			className="flex-1 rounded-md p-4 bg-white dark:bg-darkSurface z-20 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  sm:w-1/2 sm:h-1/2 w-3/4 h-3/4"
 			aria-label="add project form"
 		>
-			{err && (
+			{/* {err && (
 				<span className="absolute flex flex-col top-full w-10/12 space-y-4 bg-black  divide-y divide-gray-400 border-darkBorder border p-2">
 					No users found
 				</span>
-			)}
+			)} */}
 
 			<ul className="grid grid-cols-2 overflow-hidden  p-2 w-full gap-2 flex-row">
 				{activeTeamMembers.map((member: DocumentData) => (

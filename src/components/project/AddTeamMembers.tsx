@@ -166,7 +166,7 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 								{projectData.adminUid === userUid && (
 									<button
 										type="button"
-										className="bg-primaryBlue p-2 rounded-sm"
+										className="bg-primaryBlue p-2 rounded-sm text-white"
 										onClick={() => handleAddMember(user)}
 									>
 										Add

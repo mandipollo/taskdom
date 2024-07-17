@@ -14,7 +14,10 @@ import {
 } from "../store/userFirestoreData";
 import DropDown from "../components/navbar/DropDown";
 import { onAuthStateChanged } from "firebase/auth";
+import Snackbar from "../components/utilities/Snackbar";
+
 const Root = () => {
+	const snackBarState = useAppSelector(state => state.snackBar);
 	// drop down menu
 
 	const [isDropDown, setIsDropDown] = useState<boolean>(false);
@@ -72,6 +75,7 @@ const Root = () => {
 				)}
 
 				<div className="flex flex-1 ">
+					<Snackbar message={snackBarState.message} show={snackBarState.show} />
 					<Outlet />
 				</div>
 			</main>

@@ -20,8 +20,12 @@ import AddTeamMembers from "../components/project/AddTeamMembers";
 import AssignTask from "../components/task/AssignTask";
 import { ProjectProps } from "../components/utilities/userDataProps";
 import { httpsCallable } from "firebase/functions";
+import Loading from "../components/utilities/Loading";
 
 const ProjectsPage = () => {
+	// loading state
+
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const userUid = useAppSelector(state => state.userFirestoreData.uid);
 
 	const url = useParams();
@@ -31,6 +35,7 @@ const ProjectsPage = () => {
 		undefined
 	);
 
+	const [err, setErr] = useState<string | null>(null);
 	// fetch project data from cloud functions
 
 	const fetchProjectData = httpsCallable(functions, "fetchProjectData");
@@ -42,8 +47,11 @@ const ProjectsPage = () => {
 				const data = response.data as ProjectProps;
 
 				setProjectData(data);
+				setErr(null);
 			} catch (err) {
-				console.log(err);
+				if (err instanceof Error) {
+					setErr(err.message);
+				}
 			}
 		};
 
@@ -105,7 +113,7 @@ const ProjectsPage = () => {
 
 	useEffect(() => {
 		let unsubscribe: Unsubscribe | undefined;
-
+		setIsLoading(true);
 		if (userUid && projectData) {
 			const taskRef = collection(db, `projects/${projectData.id}/tasks`);
 			unsubscribe = onSnapshot(taskRef, snapshot => {
@@ -116,6 +124,7 @@ const ProjectsPage = () => {
 					setTaskList(prev => [...prev, data]);
 				});
 			});
+			setIsLoading(false);
 		}
 
 		return () => {
@@ -256,6 +265,7 @@ const ProjectsPage = () => {
 				/>
 			)}
 
+			{err && <p>err</p>}
 			{projectData && userUid && (
 				<ProjectDetails
 					userUid={userUid}
@@ -270,7 +280,9 @@ const ProjectsPage = () => {
 				/>
 			)}
 
-			{userUid && (
+			{isLoading ? (
+				<Loading />
+			) : (
 				<Tasks
 					userUid={userUid}
 					sortBy={sortBy}

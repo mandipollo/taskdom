@@ -52,7 +52,7 @@ const LoginPage: React.FC = () => {
 		}
 	};
 	return (
-		<main className="flex gap-4 h-full w-full justify-center items-center flex-col bg-gradient-to-br from-black from-40%  via-[#613F5A] to-black">
+		<main className="bg-lightPrimary  text-black flex gap-4 h-full w-full justify-center items-center flex-col ">
 			<form
 				onSubmit={handleSubmit}
 				id="login-form"
@@ -67,7 +67,7 @@ const LoginPage: React.FC = () => {
 						autoFocus={true}
 						onChange={emailHandler}
 						value={email ?? ""}
-						className="py-2 bg-darkSecondary placeholder-darkText text-darkText border-darkBorder outline-none border-b  text-center md:w-60 w-40 rounded-md  "
+						className="py-2 bg-lightPrimary border  border-darkBorder outline-none text-center md:w-60 w-40 rounded-md  "
 						placeholder="Enter your email"
 						type="email"
 					></input>
@@ -79,7 +79,7 @@ const LoginPage: React.FC = () => {
 						id="password-input"
 						onChange={passwordHandler}
 						value={password ?? ""}
-						className="py-2  bg-darkSecondary placeholder-darkText text-darkText border-darkBorder  outline-none border-b text-center md:w-60 w-40 rounded-md "
+						className="py-2  bg-lightPrimary  border border-darkBorder  outline-none  text-center md:w-60 w-40 rounded-md "
 						placeholder="Enter your password"
 						type="password"
 					></input>
@@ -88,7 +88,7 @@ const LoginPage: React.FC = () => {
 				<button
 					aria-label="Sign in"
 					type="submit"
-					className="  rounded-2xl bg-darkSecondary border-darkBorder border text-darkText py-2 px-12 "
+					className="  rounded-2xl bg-lightPrimary border-darkBorder border  py-2 px-12 "
 				>
 					Sign in
 				</button>
