@@ -6,6 +6,27 @@ type dateTaskProps = {
 	time: string;
 	noTask: number;
 };
+
+// const [currentDateTime, setCurrentDateTime] = useState(new Date());
+
+// useEffect(() => {
+// 	const intervalId = setInterval(() => {
+// 		setCurrentDateTime(new Date());
+// 	}, 1000); // Update every second
+
+// 	return () => clearInterval(intervalId); // Cleanup on component unmount
+// }, []);
+
+// const day = currentDateTime.toLocaleString("en-UK", { weekday: "long" });
+// const date = currentDateTime.toLocaleString("en-UK", {
+// 	day: "numeric",
+// });
+// const time = currentDateTime.toLocaleString("en-UK", {
+// 	hour: "numeric",
+// 	minute: "numeric",
+// 	second: "numeric",
+// 	hour12: true, // Use 12-hour clock format
+// });
 const DateTaskDisplay: React.FC<dateTaskProps> = ({
 	day,
 	date,

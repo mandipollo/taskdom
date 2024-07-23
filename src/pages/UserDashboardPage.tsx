@@ -1,71 +1,136 @@
 import { useState, useEffect } from "react";
 
 import { useAppSelector } from "../store/store";
-import DateTaskDisplay from "../components/userDashboard/DateTaskDisplay";
+
 import UpcomingMeetingDisplay from "../components/userDashboard/UpcomingMeetingDisplay";
-import TaskDashboard from "../components/userDashboard/TaskDashboard";
-import { doc, getDoc } from "firebase/firestore";
+
+import {
+	collection,
+	CollectionReference,
+	doc,
+	DocumentData,
+	getDoc,
+	getDocs,
+	onSnapshot,
+} from "firebase/firestore";
 import { db } from "../../firebase.config";
 import { TaskProps } from "../components/utilities/userDataProps";
+import ProjectSnapShot from "../components/userDashboard/ProjectSnapshot";
+import { defineProject } from "vitest/dist/config.js";
 
 const UserDashboardPage: React.FC = () => {
 	const userState = useAppSelector(state => state.userFirestoreData);
-	const [taskList, setTaskList] = useState<
-		{ id: string; title: string; status: string }[]
-	>([]);
 
-	const [noTask, setNoTask] = useState<number>(0);
+	// err
 
-	const [currentDateTime, setCurrentDateTime] = useState(new Date());
+	const [err, setErr] = useState<string>("");
+	// fetch user project ids
 
+	const [projectIdList, setProjectIdList] = useState<{}[]>([]);
+	const [ongoingProjectCount, setOngoingProjectCount] = useState<number>(0);
+	const [completedProjectCount, setCompletedProjectCount] = useState<number>(0);
+
+	// fetch user project ids
 	useEffect(() => {
-		const intervalId = setInterval(() => {
-			setCurrentDateTime(new Date());
-		}, 1000); // Update every second
+		if (!userState.uid) return;
 
-		return () => clearInterval(intervalId); // Cleanup on component unmount
-	}, []);
+		const fetchProjectIds = async () => {
+			const usersProjectRef: CollectionReference = collection(
+				db,
+				`users/${userState.uid}/userProjects`
+			);
+			setProjectIdList([]);
 
-	const day = currentDateTime.toLocaleString("en-UK", { weekday: "long" });
-	const date = currentDateTime.toLocaleString("en-UK", {
-		day: "numeric",
-	});
-	const time = currentDateTime.toLocaleString("en-UK", {
-		hour: "numeric",
-		minute: "numeric",
-		second: "numeric",
-		hour12: true, // Use 12-hour clock format
-	});
-
-	useEffect(() => {
-		const fetchTask = async () => {
-			if (userState.uid) {
-				const taskRef = doc(db, `tasks/${userState.uid}`);
-				const data = (await getDoc(taskRef)).data();
-				if (data && data.tasks) {
-					const todayTasks = data.tasks.filter(
-						(task: TaskProps) => task.status !== "complete"
-					);
-
-					setTaskList(todayTasks);
-					const length = todayTasks.length;
-					setNoTask(length);
+			try {
+				const snapShot = await getDocs(usersProjectRef);
+				const projectIds = snapShot.docs.map(doc => doc.id);
+				setProjectIdList(projectIds);
+			} catch (err) {
+				if (err instanceof Error) {
+					console.log(err.message);
+					setErr(err.message);
 				}
 			}
 		};
 
-		fetchTask();
-	}, []);
+		fetchProjectIds();
+	}, [userState.uid]);
+
+	// fetch completed and ongoing projects count
+
+	useEffect(() => {
+		if (projectIdList.length === 0) return;
+
+		const fetchData = async () => {
+			let ongoingCount = 0;
+			let completedCount = 0;
+			for (const projectId of projectIdList) {
+				const projectRef = doc(db, `projects/${projectId}`);
+
+				try {
+					const projectDoc = await getDoc(projectRef);
+					const projectData = projectDoc.data();
+
+					if (projectData && projectData.status === "Ongoing") {
+						ongoingCount++;
+					} else if (projectData && projectData.status === "Complete") {
+						completedCount++;
+					}
+				} catch (err) {
+					if (err instanceof Error) {
+						setErr(err.message);
+					}
+				}
+			}
+			setCompletedProjectCount(completedCount);
+			setOngoingProjectCount(ongoingCount);
+		};
+
+		fetchData();
+	}, [projectIdList]);
+
+	// fetch tasks status count
+	const [tasks, tasksCount] = useState<number>(0);
+	const [ongoingTaskCount, setOngoingTaskCount] = useState<number>(0);
+	const [completedTaskCount, setCompletedTaskCount] = useState<number>(0);
+
+	useEffect(() => {
+		if (projectIdList.length === 0) return;
+
+		const fetchTasks = async () => {
+			let ongoingCount = 0;
+			let completedCount = 0;
+
+			for (const projectID of projectIdList) {
+				const taskRef = collection(db, `projects/${projectID}/tasks`);
+				const taskCollection = await getDocs(taskRef);
+
+				taskCollection.forEach(task => {
+					const taskData = task.data();
+					if (taskData.status === "Ongoing") {
+						ongoingCount++;
+					} else if (taskData.status === "Complete") {
+						completedCount++;
+					}
+				});
+				setCompletedTaskCount(completedCount);
+				setOngoingTaskCount(ongoingCount);
+			}
+		};
+		fetchTasks();
+	}, [projectIdList]);
+
 	return (
-		<main className="flex flex-col w-full  h-full text-black  dark:text-darkText">
-			<section className="flex justify-center items-center h-1/2 max-h-80  ">
-				<div className="flex sm:w-2/3 w-full justify-center p-2 h-full">
-					<DateTaskDisplay date={date} day={day} time={time} noTask={noTask} />
-					<UpcomingMeetingDisplay profileImage={userState.profileImage} />
-				</div>
-				<div className=" hidden justify-center items-center  w-1/3 h-full max-h-full sm:flex p-2">
-					<TaskDashboard taskList={taskList} />
-				</div>
+		<main className="flex flex-col p-2 w-full gap-2  h-full text-black  dark:text-darkText">
+			<section className="flex gap-2  items-center h-1/2 max-h-80  ">
+				<UpcomingMeetingDisplay profileImage={userState.profileImage} />
+
+				<ProjectSnapShot
+					ongoingProjectCount={ongoingProjectCount}
+					completedProjectCount={completedProjectCount}
+					ongoingTaskCount={ongoingTaskCount}
+					completedTaskCount={completedTaskCount}
+				/>
 			</section>
 			<section className="flex justify-center items-center flex-1 ">
 				<p>progress</p>

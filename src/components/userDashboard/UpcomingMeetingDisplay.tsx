@@ -6,14 +6,14 @@ type upcomingProps = {
 const UpcomingMeetingDisplay: React.FC<upcomingProps> = ({ profileImage }) => {
 	const image = profileImage;
 	return (
-		<section className="flex flex-col w-2/3 pt-10 space-y-2   ">
+		<section className="flex flex-col w-full h-full space-y-2   ">
 			<div className="flex justify-center rounded-xl p-2 w-8/10 bg-primaryGreen ">
 				UPCOMING MEETING
 			</div>
-			<div className="flex justify-center items-center  h-1/2 rounded-xl border dark:border-darkBorder dark:bg-darkSecondary bg-lightPrimary shadow-md ">
+			<div className="flex justify-center items-center  h-full rounded-xl border dark:border-darkBorder dark:bg-darkSecondary bg-lightPrimary shadow-md ">
 				<figure className="flex justify-center w-1/4">
 					<img
-						className="rounded-full w-10 h-10 object-cover border-gray-400 border"
+						className="rounded-full w-10 h-10 object-cover "
 						src={image}
 						alt="meeting pic"
 					/>

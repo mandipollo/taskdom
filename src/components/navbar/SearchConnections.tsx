@@ -123,7 +123,7 @@ const SearchConnections = ({
 		setUserName("");
 	};
 	return (
-		<div className="flex w-full relative ">
+		<div className="flex w-11/12 relative ">
 			<input
 				type="text"
 				onKeyDown={handleKey}
