@@ -8,15 +8,14 @@ import {
 	collection,
 	CollectionReference,
 	doc,
-	DocumentData,
 	getDoc,
 	getDocs,
-	onSnapshot,
 } from "firebase/firestore";
 import { db } from "../../firebase.config";
-import { TaskProps } from "../components/utilities/userDataProps";
+
 import ProjectSnapShot from "../components/userDashboard/ProjectSnapshot";
-import { defineProject } from "vitest/dist/config.js";
+import TaskCalendar from "../components/userDashboard/TaskCalendar";
+import { TaskProps } from "../components/utilities/userDataProps";
 
 const UserDashboardPage: React.FC = () => {
 	const userState = useAppSelector(state => state.userFirestoreData);
@@ -90,7 +89,8 @@ const UserDashboardPage: React.FC = () => {
 	}, [projectIdList]);
 
 	// fetch tasks status count
-	const [tasks, tasksCount] = useState<number>(0);
+
+	const [taskList, setTaskList] = useState<TaskProps[]>([]);
 	const [ongoingTaskCount, setOngoingTaskCount] = useState<number>(0);
 	const [completedTaskCount, setCompletedTaskCount] = useState<number>(0);
 
@@ -100,13 +100,15 @@ const UserDashboardPage: React.FC = () => {
 		const fetchTasks = async () => {
 			let ongoingCount = 0;
 			let completedCount = 0;
+			const tempTaskList: TaskProps[] = [];
 
 			for (const projectID of projectIdList) {
 				const taskRef = collection(db, `projects/${projectID}/tasks`);
 				const taskCollection = await getDocs(taskRef);
 
 				taskCollection.forEach(task => {
-					const taskData = task.data();
+					const taskData = task.data() as TaskProps;
+					tempTaskList.push(taskData);
 					if (taskData.status === "Ongoing") {
 						ongoingCount++;
 					} else if (taskData.status === "Complete") {
@@ -115,26 +117,27 @@ const UserDashboardPage: React.FC = () => {
 				});
 				setCompletedTaskCount(completedCount);
 				setOngoingTaskCount(ongoingCount);
+				setTaskList(tempTaskList);
 			}
 		};
 		fetchTasks();
 	}, [projectIdList]);
 
 	return (
-		<main className="flex flex-col p-2 w-full gap-2  h-full text-black  dark:text-darkText">
-			<section className="flex gap-2  items-center h-1/2 max-h-80  ">
-				<UpcomingMeetingDisplay profileImage={userState.profileImage} />
+		<main className="flex flex-col p-2 w-full space-y-4 h-full text-black  dark:text-darkText">
+			<section className="flex gap-2 md:flex-row flex-col  items-center h-1/2 max-h-80  ">
+				<UpcomingMeetingDisplay />
 
-				<ProjectSnapShot
-					ongoingProjectCount={ongoingProjectCount}
-					completedProjectCount={completedProjectCount}
-					ongoingTaskCount={ongoingTaskCount}
-					completedTaskCount={completedTaskCount}
-				/>
+				{!err && (
+					<ProjectSnapShot
+						ongoingProjectCount={ongoingProjectCount}
+						completedProjectCount={completedProjectCount}
+						ongoingTaskCount={ongoingTaskCount}
+						completedTaskCount={completedTaskCount}
+					/>
+				)}
 			</section>
-			<section className="flex justify-center items-center flex-1 ">
-				<p>progress</p>
-			</section>
+			<TaskCalendar taskList={taskList} />
 		</main>
 	);
 };

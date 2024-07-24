@@ -17,12 +17,25 @@ export type SelectProps = {
 	profileImage: string;
 };
 
-export type TaskProps = {
-	id: string;
-	title: string;
-	status: string;
-};
+// export type TaskProps = {
+// 	id: string;
+// 	title: string;
+// 	status: string;
+// };
 
+export interface TaskProps {
+	assignedMemberImage: string | null;
+	assignedMemberName: string | null;
+	assignedMemberUid: string | null;
+	description: string;
+	id: string;
+	priority: string;
+	projectId: string;
+	status: string;
+	targetDate: Timestamp;
+
+	title: string;
+}
 export type ProjectProps = {
 	status: string;
 	description: string;
