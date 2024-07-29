@@ -16,6 +16,7 @@ import { db } from "../../firebase.config";
 import ProjectSnapShot from "../components/userDashboard/ProjectSnapshot";
 import TaskCalendar from "../components/userDashboard/TaskCalendar";
 import { TaskProps } from "../components/utilities/userDataProps";
+import MessageSnap from "../components/userDashboard/MessageSnap";
 
 const UserDashboardPage: React.FC = () => {
 	const userState = useAppSelector(state => state.userFirestoreData);
@@ -124,19 +125,26 @@ const UserDashboardPage: React.FC = () => {
 	}, [projectIdList]);
 
 	return (
-		<main className="flex flex-col p-2 w-full space-y-4 h-full text-black  dark:text-darkText">
-			<section className="flex gap-2 md:flex-row flex-col  items-center h-1/2 max-h-80  ">
+		<main className="flex flex-col p-2 w-full space-y-4 h-full text-black  dark:text-darkText overflow-auto">
+			<section
+				aria-label="project snapshot and latest message"
+				className="flex gap-2 md:flex-row flex-col  items-center  "
+			>
 				<UpcomingMeetingDisplay />
 
-				{!err && (
-					<ProjectSnapShot
-						ongoingProjectCount={ongoingProjectCount}
-						completedProjectCount={completedProjectCount}
-						ongoingTaskCount={ongoingTaskCount}
-						completedTaskCount={completedTaskCount}
-					/>
-				)}
+				<div className="flex w-full h-full rounded-xl shadow-lg dark:border-darkBorder border items-center justify-center md:w-1/2 flex-col md:flex-row dark:bg-darkSecondary bg-lightPrimary p-2">
+					{!err && (
+						<ProjectSnapShot
+							ongoingProjectCount={ongoingProjectCount}
+							completedProjectCount={completedProjectCount}
+							ongoingTaskCount={ongoingTaskCount}
+							completedTaskCount={completedTaskCount}
+						/>
+					)}
+					<MessageSnap />
+				</div>
 			</section>
+
 			<TaskCalendar taskList={taskList} />
 		</main>
 	);

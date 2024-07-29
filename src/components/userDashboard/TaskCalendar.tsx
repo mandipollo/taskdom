@@ -2,7 +2,6 @@ import React from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { TaskProps } from "../utilities/userDataProps";
 
 const renderEventContent = (eventInfo: any) => {
@@ -30,9 +29,14 @@ const TaskCalendar: React.FC<TaskCalendarProps> = ({ taskList }) => {
 	return (
 		<FullCalendar
 			eventContent={renderEventContent}
-			plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+			plugins={[dayGridPlugin, timeGridPlugin]}
 			initialView="dayGridMonth"
 			events={events}
+			headerToolbar={{
+				left: "prev,next",
+				center: "title",
+				right: "timeGridWeek,dayGridMonth",
+			}}
 		/>
 	);
 };

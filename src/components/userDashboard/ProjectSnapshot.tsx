@@ -14,7 +14,7 @@ const ProjectSnapShot: React.FC<ProjectSnapShotProps> = ({
 	completedTaskCount,
 }) => {
 	return (
-		<section className=" bg-lightPrimary dark:bg-darkSecondary border dark:border-darkBorder flex justify-center items-center shadow-xl rounded-2xl flex-col md:w-1/2 w-full h-full p-2 gap-2">
+		<section className="  flex justify-center items-center  flex-col  w-full h-full p-2 gap-2">
 			<p>Project Summary</p>
 
 			<div className="w-full flex flex-row space-x-2">

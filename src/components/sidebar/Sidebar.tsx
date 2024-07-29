@@ -46,7 +46,7 @@ const Sidebar: React.FC = () => {
 		<div
 			className={`${
 				open ? "w-14" : " sm:w-40 w-14"
-			} transition-width duration-300 flex flex-col items-center  dark:text-white text-black    `}
+			} transition-width duration-300 flex flex-col  items-center  dark:text-white text-black    `}
 		>
 			<ul className="flex flex-col space-y-6 pt-10 w-full p-2">
 				<li className="flex w-full p-2">

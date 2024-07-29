@@ -1,6 +1,6 @@
 const UpcomingMeetingDisplay = () => {
 	return (
-		<section className="flex flex-col w-full h-full space-y-2">
+		<section className="flex flex-col w-full md:w-1/2 h-full space-y-2">
 			<div className="flex text-white justify-center rounded-xl p-2  bg-primaryGreen ">
 				UPCOMING MEETING
 			</div>
