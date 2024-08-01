@@ -132,7 +132,7 @@ const UserDashboardPage: React.FC = () => {
 			>
 				<UpcomingMeetingDisplay />
 
-				<div className="flex w-full h-full rounded-xl shadow-lg dark:border-darkBorder border items-center justify-center md:w-1/2 flex-col md:flex-row dark:bg-darkSecondary bg-lightPrimary p-2">
+				<div className="flex w-full h-full gap-2  items-center justify-center md:w-1/2 flex-col md:flex-row">
 					{!err && (
 						<ProjectSnapShot
 							ongoingProjectCount={ongoingProjectCount}

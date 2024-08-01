@@ -34,7 +34,7 @@ const TaskCalendar: React.FC<TaskCalendarProps> = ({ taskList }) => {
 			events={events}
 			headerToolbar={{
 				left: "prev,next",
-				center: "title",
+				center: "today",
 				right: "timeGridWeek,dayGridMonth",
 			}}
 		/>

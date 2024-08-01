@@ -63,7 +63,7 @@ const Navbar: React.FC<NavbarProps> = ({ handleDropDown }) => {
 		<div className="flex relative justify-between flex-1 h-14 p-2 space-x-2  w-full  items-center border-b dark:border-darkBorder bg-primaryBlue dark:bg-darkPrimary ">
 			<Link
 				to={linkHomeLogo}
-				className=" md:flex w-10  justify-center items-center h-full"
+				className=" flex w-10  justify-center items-center h-full"
 			>
 				<Logo height={20} width={20} className="text-green-400" />
 			</Link>

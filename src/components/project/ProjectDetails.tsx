@@ -47,13 +47,13 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 	};
 
 	return (
-		<div className="sticky top-0 flex flex-col space-x-2  z-10 ">
+		<div className="sticky top-0 flex flex-col space-x-2   bg-lightPrimary dark:bg-darkPrimary">
 			<div className="flex h-full flex-col w-full border-b space-y-1 border-darkBorder">
 				<div className="flex  w-full items-center justify-between ">
-					<p className="text-xl">{title}</p>
+					<p className="md:text-xl text-md">{title}</p>
 					<button
 						onClick={() => handleToggleDescription()}
-						className="mt-2 cursor-pointer w-40  p-2 border border-darkBorder rounded-md dark:bg-darkSecondary"
+						className="mt-2 cursor-pointer p-2 border border-darkBorder rounded-md dark:bg-darkSecondary"
 						id="toggleButton"
 					>
 						{showMore ? "Hide" : "Project outline"}
@@ -70,7 +70,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 
 				<div className="flex items-center w-full  justify-between">
 					<div className="flex items-center space-x-2 ">
-						<p className="text-gray-400">Project Owner:</p>
+						<p className="text-gray-400 hidden md:flex">Project Owner:</p>
 						<p className=" text-sm">{adminName.toUpperCase()}</p>
 						{adminPhoto ? (
 							<img
@@ -129,7 +129,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 				</div>
 			</div>
 
-			<div className="h-20 p-2 space-x-2 flex items-center justify-between">
+			<div className="h-20  flex items-center justify-between">
 				{projectData.adminUid === userUid && (
 					<button
 						onClick={handleToggleForm}
@@ -140,8 +140,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 							height={20}
 							className="dark:text-white text-black"
 						/>
-
-						<p>Add Task</p>
+						Add Task
 					</button>
 				)}
 			</div>

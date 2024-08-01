@@ -32,18 +32,18 @@ const ProjectInput: React.FC<ProjectInputProps> = ({
 		<form
 			id="projectInput"
 			onSubmit={handleProjectSubmit}
-			className="rounded-md dark:border p-4 border-darkBorder bg-lightPrimary dark:bg-darkSurface z-10 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-80"
+			className="rounded-md  p-4 bg-white  dark:bg-darkSurface z-20 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  md:w-1/2 md:h-1/2 w-full h-full"
 			aria-label="add project form"
 		>
 			<div className="flex w-full items-center dark:border-b border-darkBorder justify-between">
-				<div className="flex md:flex-row flex-col justify-center items-center">
+				<div className="flex gap-2 md:flex-row flex-col justify-center items-center">
 					<DatePicker
-						className="flex text-center p-2 rounded-sm border-darkBorder dark:bg-darkSurface dark:text-darkText"
+						className="flex text-center p-2 rounded-sm border border-darkBorder dark:bg-darkSurface dark:text-darkText"
 						selected={startDate}
 						onChange={date => setStartDate(date)}
 					/>
 					<DatePicker
-						className="flex text-center p-2 rounded-sm border-darkBorder dark:bg-darkSurface dark:text-darkText"
+						className="flex text-center p-2 rounded-sm border border-darkBorder dark:bg-darkSurface dark:text-darkText"
 						selected={endDate}
 						onChange={date => setEndDate(date)}
 					/>
@@ -55,7 +55,7 @@ const ProjectInput: React.FC<ProjectInputProps> = ({
 					value={projectTitle}
 					type="text"
 					placeholder="Project name"
-					className="p-2 w-full rounded-sm placeholder-gray-400 outline-darkBorder outline-2 pl-2 border-darkBorder dark:bg-darkSecondary dark:text-darkText "
+					className="p-2 w-full rounded-sm placeholder-gray-400 outline-darkBorder outline-2 pl-2 border border-darkBorder dark:bg-darkSecondary dark:text-darkText "
 				/>
 			</div>
 			<div className="flex pt-2 w-full flex-1">
@@ -63,7 +63,7 @@ const ProjectInput: React.FC<ProjectInputProps> = ({
 					onChange={e => handleProjectDescription(e)}
 					value={projectDescription}
 					placeholder="Add project details"
-					className="p-2 w-full rounded-sm placeholder-gray-400 outline-darkBorder outline-2 pl-2 border-darkBorder dark:bg-darkSecondary dark:text-darkText  "
+					className="p-2 w-full rounded-sm placeholder-gray-400 outline-darkBorder outline-2 pl-2 border border-darkBorder dark:bg-darkSecondary dark:text-darkText  "
 				/>
 			</div>
 			<div className="flex"></div>

@@ -113,7 +113,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 	};
 	return (
 		<li
-			className={` hover:scale-105 transition-transform duration-300  w-full relative border-darkBorder rounded-md  grid-items p-4 bg-white dark:bg-darkSecondary dark:text-darkText shadow-lg`}
+			className=" w-full relative border-darkBorder rounded-md  grid-items p-4 bg-white dark:bg-darkSecondary dark:text-darkText shadow-lg"
 			key={id}
 		>
 			<div className="sm:flex hidden md:justify-between  ">

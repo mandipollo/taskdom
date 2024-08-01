@@ -1,9 +1,7 @@
-import React from "react";
-
 const MessageSnap = () => {
 	return (
-		<div className="flex w-1/2 h-full justify-center items-center">
-			<h1>MessageSnap</h1>
+		<div className="flex p-2 h-full justify-center items-center rounded-xl border dark:border-darkBorder dark:bg-darkSecondary bg-lightPrimary shadow-md ">
+			<h1 className="text-center">MessageSnap coming soon</h1>
 		</div>
 	);
 };

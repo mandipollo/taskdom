@@ -14,10 +14,10 @@ const ProjectSnapShot: React.FC<ProjectSnapShotProps> = ({
 	completedTaskCount,
 }) => {
 	return (
-		<section className="  flex justify-center items-center  flex-col  w-full h-full p-2 gap-2">
+		<section className="  flex justify-center items-center  flex-col  w-full h-full p-2 gap-2 rounded-xl border dark:border-darkBorder dark:bg-darkSecondary bg-lightPrimary shadow-md ">
 			<p>Project Summary</p>
 
-			<div className="w-full flex flex-row space-x-2">
+			<div className="w-full flex justify-center items-center flex-row space-x-2">
 				<p>{ongoingProjectCount + completedProjectCount}</p>
 				<p className="text-gray-400">Total Project</p>
 			</div>
@@ -47,7 +47,7 @@ const ProjectSnapShot: React.FC<ProjectSnapShotProps> = ({
 					</div>
 				</div>
 			</div>
-			<div className="w-full flex flex-row space-x-2">
+			<div className="w-full items-center justify-center flex flex-row space-x-2">
 				<p>{ongoingTaskCount + completedTaskCount}</p>
 				<p className="text-gray-400">Total Task</p>
 			</div>

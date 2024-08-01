@@ -109,7 +109,7 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 
 	return (
 		<div
-			className="rounded-md  p-4 bg-white  dark:bg-darkSurface z-20 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  sm:w-1/2 sm:h-1/2 w-3/4 h-3/4"
+			className="rounded-md  p-4 bg-white  dark:bg-darkSurface z-20 absolute flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  md:w-1/2 md:h-1/2 w-full h-full"
 			aria-label="add project form"
 		>
 			<div className="flex relative w-full p-2 items-center border-b border-darkBorderjustify-around">
@@ -189,7 +189,7 @@ const AddTeamMembers: React.FC<TaskInputProps> = ({
 				</span>
 			)}
 
-			<ul className="grid grid-cols-2 overflow-hidden  p-2 w-full gap-2 flex-row">
+			<ul className="grid md:grid-cols-2 grid-cols-1 overflow-hidden  p-2 w-full gap-2 flex-row">
 				{activeTeamMembers.map((member: DocumentData) => (
 					<li
 						key={member.uid}

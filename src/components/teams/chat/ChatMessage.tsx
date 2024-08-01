@@ -89,8 +89,8 @@ const ChatMessage = () => {
 												)}
 											</div>
 											{message.text && (
-												<div className="flex space-x-2 ">
-													<p className="bg-blue-400 p-2 rounded-2xl text-md">
+												<div className="flex space-x-2 text-wrap">
+													<p className="bg-blue-400 p-2 rounded-2xl md:text-md text-sm  break-all">
 														{message.text}
 													</p>
 												</div>
@@ -99,7 +99,7 @@ const ChatMessage = () => {
 									) : (
 										<>
 											<div className="flex space-x-2 ">
-												<p className="bg-gray-400 p-2 rounded-2xl ">
+												<p className="bg-gray-400 p-2 md:text-md text-sm rounded-2xl break-all">
 													{message.text}
 												</p>
 											</div>
