@@ -9,7 +9,7 @@ const HomePage = () => {
 	);
 
 	return (
-		<main className="flex bg-lightPrimary flex-col flex-1 p-2  h-full text-black overflow-auto ">
+		<main className="flex  flex-col flex-1 p-2  h-full text-white overflow-auto ">
 			<section className="flex mt-10 flex-1 flex-col items-center  md:space-y-20 space-y-10 ">
 				<h1 className=" text-4xl md:text-6xl font-bold text-center ">
 					Organize your work <br></br> and life, finally.

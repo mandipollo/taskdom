@@ -132,22 +132,18 @@ const SearchConnections = ({
 				placeholder="Search connections..."
 				className={`${
 					searchBar ? "w-full " : "w-8"
-				}  transition-width duration-300  ease-in-out p-2  rounded-md dark:border placeholder-gray-400  dark:outline-darkSecondary dark:outline-2 pl-10 border-darkBorder dark:bg-darkSecondary dark:text-darkText  text-black `}
+				}  transition-width duration-300  ease-in-out p-2  rounded-md border placeholder-gray-400  outline-darkSecondary outline-2 pl-10 border-darkBorder bg-darkSecondary text-darkText   `}
 			/>
 
 			<SearchSvg
 				height={25}
 				width={25}
 				onClick={handleShowSearchBar}
-				className="absolute top-2 left-3 text-black dark:text-white"
+				className="absolute top-2 left-3  text-white"
 			/>
 			{users.length > 0 && (
 				<button onClick={clearHandler} className="absolute right-1 p-2">
-					<CrossSvg
-						width={20}
-						height={20}
-						className="text-black dark:text-white"
-					/>
+					<CrossSvg width={20} height={20} className=" text-white" />
 				</button>
 			)}
 			{err && (
@@ -156,7 +152,7 @@ const SearchConnections = ({
 				</span>
 			)}
 			{users.length > 0 && (
-				<ul className="absolute  flex flex-col top-full w-full space-y-4 border-darkBorder border divide-y divide-gray-400 p-2 bg-lightPrimary  dark:bg-darkSecondary">
+				<ul className="absolute  flex flex-col top-full w-full space-y-4 border-darkBorder border divide-y divide-gray-400 p-2 bg-lightPrimary  bg-darkSecondary">
 					{users.map(user => (
 						<li
 							key={user.uid}
@@ -169,7 +165,7 @@ const SearchConnections = ({
 									alt="profile pic"
 								></img>
 							) : (
-								<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 text-black">
+								<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 ">
 									{user.displayName?.charAt(0).toUpperCase()}
 								</span>
 							)}

@@ -14,7 +14,10 @@ const ProjectSnapShot: React.FC<ProjectSnapShotProps> = ({
 	completedTaskCount,
 }) => {
 	return (
-		<section className="  flex justify-center items-center  flex-col  w-full h-full p-2 gap-2 rounded-xl border dark:border-darkBorder dark:bg-darkSecondary bg-lightPrimary shadow-md ">
+		<section
+			className="  flex justify-center items-center  flex-col  w-full h-full p-2 gap-2 rounded-xl border border-darkBorder bg-darkSecondary 
+		 "
+		>
 			<p>Project Summary</p>
 
 			<div className="w-full flex justify-center items-center flex-row space-x-2">
@@ -22,24 +25,16 @@ const ProjectSnapShot: React.FC<ProjectSnapShotProps> = ({
 				<p className="text-gray-400">Total Project</p>
 			</div>
 			<div className="flex flex-row gap-2 w-full justify-center">
-				<div className="flex justify-center items-center flex-row border dark:border-darkBorder gap-2 p-2 rounded-md">
-					<EditSvg
-						height={20}
-						width={20}
-						className="text-black dark:text-white"
-					/>
+				<div className="flex justify-center items-center flex-row border border-darkBorder gap-2 p-2 rounded-md">
+					<EditSvg height={20} width={20} className="text-black " />
 
 					<div>
 						<p className="text-gray-400">In Progress</p>
 						{ongoingProjectCount}
 					</div>
 				</div>
-				<div className="flex justify-center items-center flex-row border dark:border-darkBorder  gap-2 p-2 rounded-md">
-					<TickSvg
-						height={20}
-						width={20}
-						className="text-black dark:text-white"
-					/>
+				<div className="flex justify-center items-center flex-row border border-darkBorder  gap-2 p-2 rounded-md">
+					<TickSvg height={20} width={20} className="text-black " />
 
 					<div>
 						<p className="text-gray-400">Completed</p>
@@ -52,24 +47,16 @@ const ProjectSnapShot: React.FC<ProjectSnapShotProps> = ({
 				<p className="text-gray-400">Total Task</p>
 			</div>
 			<div className="flex flex-row gap-2 w-full justify-center">
-				<div className="flex justify-center items-center flex-row border dark:border-darkBorder  gap-2 p-2 rounded-md">
-					<EditSvg
-						height={20}
-						width={20}
-						className="text-black dark:text-white"
-					/>
+				<div className="flex justify-center items-center flex-row border border-darkBorder  gap-2 p-2 rounded-md">
+					<EditSvg height={20} width={20} className="text-black " />
 
 					<div>
 						<p className="text-gray-400">In Progress</p>
 						{ongoingTaskCount}
 					</div>
 				</div>
-				<div className="flex justify-center items-center flex-row border dark:border-darkBorder  gap-2 p-2 rounded-md">
-					<TickSvg
-						height={20}
-						width={20}
-						className="text-black dark:text-white"
-					/>
+				<div className="flex justify-center items-center flex-row border border-darkBorder  gap-2 p-2 rounded-md">
+					<TickSvg height={20} width={20} className="text-black " />
 
 					<div>
 						<p className="text-gray-400">Completed</p>

@@ -113,7 +113,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 	};
 	return (
 		<li
-			className=" w-full relative border-darkBorder rounded-md  grid-items p-4 bg-white dark:bg-darkSecondary dark:text-darkText shadow-lg"
+			className=" w-full relative border-darkBorder rounded-md  grid-items p-4  bg-darkSecondary text-darkText shadow-lg"
 			key={id}
 		>
 			<div className="sm:flex hidden md:justify-between  ">
@@ -125,7 +125,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 						<input
 							value={editTitle}
 							onChange={e => handleEditTitle(e.target.value)}
-							className=" rounded-md border placeholder-gray-400 p-2  outline-darkBorder outline-2  border-darkBorder  dark:bg-darkSecondary dark:text-darkText "
+							className=" rounded-md border placeholder-gray-400 p-2  outline-darkBorder outline-2  border-darkBorder  bg-darkSecondary text-darkText "
 						></input>
 					) : (
 						<p className="text-xl  flex flex-row justify-center">{title}</p>
@@ -133,43 +133,27 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 
 					<button onClick={handleIsEditing}>
 						{isEditing && (
-							<CrossSvg
-								height={20}
-								width={20}
-								className="dark:text-white text-black"
-							/>
+							<CrossSvg height={20} width={20} className="text-white " />
 						)}
 
 						{!isEditing && (
-							<EditSvg
-								height={20}
-								width={20}
-								className="dark:text-white text-black"
-							/>
+							<EditSvg height={20} width={20} className="text-white " />
 						)}
 					</button>
 					<button onClick={handleSubmitEdit}>
 						{isEditing && (
-							<TickSvg
-								height={20}
-								width={20}
-								className="dark:text-white text-black"
-							/>
+							<TickSvg height={20} width={20} className="text-white " />
 						)}
 					</button>
 
 					<button onClick={handleDeleteProject}>
 						{isEditing && (
-							<DeleteSvg
-								height={20}
-								width={20}
-								className="dark:text-white text-black"
-							/>
+							<DeleteSvg height={20} width={20} className="text-white " />
 						)}
 					</button>
 
 					{!isEditing && startDate && endDate && (
-						<p className="dark:text-gray-400">
+						<p className="text-gray-400">
 							{startDate.toDate().toLocaleDateString()}-
 							{endDate.toDate().toLocaleDateString()}
 						</p>
@@ -188,7 +172,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 						<ToggleButtonProject userUid={userUid} project={project} />
 						{!isOngoingTaskLoading && !isTotalTaskLoading && (
 							<div className="flex flex-row">
-								<p className="dark:text-gray-400">
+								<p className="text-gray-400">
 									Tasks:
 									{onGoingCounts[project.id] !== undefined &&
 										onGoingCounts[project.id]}
@@ -207,44 +191,28 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 						<input
 							value={editTitle}
 							onChange={e => handleEditTitle(e.target.value)}
-							className=" rounded-md border placeholder-gray-400  outline-darkBorder outline-2  border-darkBorder dark:bg-darkSecondary text-darkText "
+							className=" rounded-md border placeholder-gray-400  outline-darkBorder outline-2  border-darkBorder bg-darkSecondary text-darkText "
 						></input>
 					) : (
 						<p className="text-xl  flex flex-row justify-center">{title}</p>
 					)}
 					<button onClick={handleIsEditing}>
 						{isEditing && (
-							<CrossSvg
-								height={20}
-								width={20}
-								className="dark:text-white text-black"
-							/>
+							<CrossSvg height={20} width={20} className="text-white " />
 						)}
 
 						{!isEditing && (
-							<EditSvg
-								height={20}
-								width={20}
-								className="dark:text-white text-black"
-							/>
+							<EditSvg height={20} width={20} className="text-white " />
 						)}
 					</button>
 					<button onClick={handleSubmitEdit}>
 						{isEditing && (
-							<TickSvg
-								height={20}
-								width={20}
-								className="dark:text-white text-black"
-							/>
+							<TickSvg height={20} width={20} className="text-white " />
 						)}
 					</button>
 					<button onClick={handleDeleteProject}>
 						{isEditing && (
-							<DeleteSvg
-								height={20}
-								width={20}
-								className="dark:text-white text-black"
-							/>
+							<DeleteSvg height={20} width={20} className="text-white " />
 						)}
 					</button>
 				</div>
@@ -277,7 +245,7 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 						<input
 							value={editDescription}
 							onChange={e => handleEditDescription(e.target.value)}
-							className=" w-full p-2 rounded-md border placeholder-gray-400  outline-darkBorder outline-2  border-darkBorder dark:bg-darkSecondary dark:text-darkText "
+							className=" w-full p-2 rounded-md border placeholder-gray-400  outline-darkBorder outline-2  border-darkBorder bg-darkSecondary text-darkText "
 						></input>
 					) : (
 						<p className="text-gray-400 ">{description}</p>
@@ -292,11 +260,11 @@ const IndividualProject: React.FC<IndividualProjectProps> = ({
 								className="rounded-full w-10 h-10 object-cover"
 							></img>
 						) : (
-							<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 text-black">
+							<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 ">
 								{adminName.charAt(0).toUpperCase()}
 							</span>
 						)}
-						<p className="dark:text-gray-400">{adminName}</p>
+						<p className="text-gray-400">{adminName}</p>
 					</div>
 				</div>
 			</Link>

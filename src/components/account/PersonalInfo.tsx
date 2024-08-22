@@ -153,7 +153,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 	};
 
 	return (
-		<section className="flex  h-full  w-full p-2 lg:flex-row flex-col dark:border-t-darkBorder border-t  dark:text-darkText ">
+		<section className="flex  h-full  w-full p-2 lg:flex-row flex-col border-t-darkBorder border-t  text-darkText ">
 			<div className="md:h-36 md:w-36 h-20 w-20 overflow-hidden flex justify-center items-center rounded-full relative 0">
 				{user?.photoURL ? (
 					<img
@@ -162,7 +162,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 						className="rounded-full object-cover w-32 h-32"
 					></img>
 				) : (
-					<span className="flex justify-center items-center text-black text-4xl rounded-full w-32 h-32 p-2 bg-gray-300">
+					<span className="flex justify-center items-center  text-4xl rounded-full w-32 h-32 p-2 bg-gray-300">
 						{defaultPic}
 					</span>
 				)}
@@ -192,7 +192,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 						<label
 							aria-label="input display name"
 							htmlFor="display-name-input"
-							className="dark:text-gray-400 text-black"
+							className="text-gray-400 "
 						>
 							Display Name
 						</label>
@@ -203,14 +203,14 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 							onChange={nameHandler}
 							value={name || ""}
 							type="text"
-							className="flex p-2 md:w-60 rounded-md focus:outline-0 dark:bg-[#161B22] dark:placeholder-[#E6EDF3] dark:text-[#E6EDF3] text-black  outline-none "
+							className="flex p-2 md:w-60 rounded-md focus:outline-0 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]   outline-none "
 						/>
 					</div>
 					<div className="flex flex-col">
 						<label
 							aria-label="Input work hours"
 							htmlFor="work-hours-input"
-							className="dark:text-gray-400 text-black"
+							className="text-gray-400 "
 						>
 							Work hours
 						</label>
@@ -220,7 +220,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 							placeholder={workHours || ""}
 							onChange={workTimeHandler}
 							value={workTime || ""}
-							className="flex p-2 md:w-60 rounded-md focus:outline-0 dark:bg-[#161B22] dark:placeholder-darkText dark:text-darkText text-black outline-none "
+							className="flex p-2 md:w-60 rounded-md focus:outline-0 bg-[#161B22] placeholder-darkText text-darkText  outline-none "
 							type="text"
 						/>
 					</div>
@@ -230,7 +230,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 						<label
 							aria-label="input job title"
 							htmlFor="job-title-input"
-							className="dark:text-gray-400 text-black"
+							className="text-gray-400 "
 						>
 							Job Title
 						</label>
@@ -241,14 +241,14 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 							type="text"
 							onChange={jobHandler}
 							value={job || ""}
-							className="flex p-2 md:w-60 rounded-md focus:outline-0 dark:bg-darkSecondary dark:placeholder-darkText dark:text-darkText text-black outline-none "
+							className="flex p-2 md:w-60 rounded-md focus:outline-0 bg-darkSecondary placeholder-darkText text-darkText  outline-none "
 						/>
 					</div>
 					<div className="flex flex-col">
 						<label
 							aria-label="input contact number"
 							htmlFor="contact-input"
-							className="dark:text-gray-400 text-black"
+							className="text-gray-400 "
 						>
 							Contact no.
 						</label>
@@ -258,7 +258,7 @@ const PersonalInfo: React.FC<personalProps> = ({ userFirestoreData }) => {
 							placeholder={contactNo || ""}
 							onChange={contactPhHandler}
 							value={contactPh || ""}
-							className="flex p-2 md:w-60 rounded-md focus:outline-0 dark:bg-darkSecondary dark:placeholder-darkText dark:text-darkText text-black outline-none "
+							className="flex p-2 md:w-60 rounded-md focus:outline-0 bg-darkSecondary placeholder-darkText text-darkText  outline-none "
 							type="text"
 						/>
 					</div>

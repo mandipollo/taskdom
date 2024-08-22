@@ -64,7 +64,7 @@ const Task: React.FC<TaskProps> = ({
 	return (
 		<li
 			key={task.id}
-			className=" border bg-white dark:border-darkBorder shadow-md  mb-4 break-inside-avoid transition-transform duration-300 dark:bg-darkSecondary rounded-md p-2 space-y-2"
+			className=" border  border-darkBorder shadow-md  mb-4 break-inside-avoid transition-transform duration-300 bg-darkSecondary rounded-md p-2 space-y-2"
 		>
 			<div className="flex flex-row justify-between border-b border-darkBorder">
 				<p className="text-lg">{task.title}</p>
@@ -74,11 +74,7 @@ const Task: React.FC<TaskProps> = ({
 						onClick={() => handleDelete(task)}
 						className=" flex justify-center items-center"
 					>
-						<DeleteSvg
-							width={20}
-							height={20}
-							className="text-black dark:text-white"
-						/>
+						<DeleteSvg width={20} height={20} className="text-white" />
 					</button>
 				</div>
 			</div>
@@ -99,11 +95,7 @@ const Task: React.FC<TaskProps> = ({
 			</div>
 
 			<div className="flex flex-row space-x-2">
-				<CalenderSvg
-					width={20}
-					height={20}
-					className="text-black dark:text-white"
-				/>
+				<CalenderSvg width={20} height={20} className="text-white" />
 
 				<p className="text-gray-400">
 					{task.targetDate.toDate().toLocaleDateString()}
@@ -113,7 +105,7 @@ const Task: React.FC<TaskProps> = ({
 			<div className="flex items-center flex-row space-x-2">
 				<button
 					onClick={() => handleTaskIdAndToggleAssignTask(task.id)}
-					className="flex dark:border rounded-md hover:border-gray-400 p-2  border-darkBorder bg-primaryBlue dark:bg-darkSecondary placeholder-darkText text-darkText"
+					className="flex border rounded-md hover:border-gray-400 p-2  border-darkBorder  bg-darkSecondary placeholder-darkText text-darkText"
 				>
 					Assign task
 				</button>

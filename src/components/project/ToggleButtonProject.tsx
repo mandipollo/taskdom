@@ -26,7 +26,7 @@ const ToggleButtonProject: React.FC<ToggleProps> = ({ project, userUid }) => {
 	return (
 		<button
 			onClick={toggleStatus}
-			className={`w-24 h-6 flex items-center rounded-full hover:border-gray-400 border dark:border-darkBorder p-1 transition duration-300 ${
+			className={`w-24 h-6 flex items-center rounded-full hover:border-gray-400 border border-darkBorder p-1 transition duration-300 ${
 				status === "Complete" ? "bg-gray-300" : "bg-green-500"
 			}`}
 		>

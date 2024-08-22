@@ -125,7 +125,7 @@ const UserDashboardPage: React.FC = () => {
 	}, [projectIdList]);
 
 	return (
-		<main className="flex flex-col p-2 w-full space-y-4 h-full text-black  dark:text-darkText overflow-auto">
+		<main className="flex flex-col p-2 w-full space-y-4 h-full text-darkText overflow-auto">
 			<section
 				aria-label="project snapshot and latest message"
 				className="flex gap-2 md:flex-row flex-col  items-center  "

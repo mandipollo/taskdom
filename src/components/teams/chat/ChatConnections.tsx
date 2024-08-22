@@ -34,11 +34,7 @@ const ChatConnections: React.FC<ChatConnectionsProps> = ({}) => {
 					onClick={handleResetUser}
 				>
 					<figure>
-						<CrossSvg
-							width={20}
-							height={20}
-							className="text-black dark:text-white"
-						/>
+						<CrossSvg width={20} height={20} className="text-white" />
 					</figure>
 				</button>
 			</div>

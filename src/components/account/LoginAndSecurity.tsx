@@ -12,7 +12,7 @@ const LoginAndSecurity: React.FC<LoginAndSecurityProps> = ({}) => {
 	const snackbarState = useAppSelector(state => state.snackBar);
 
 	// css classes
-	const inputClass = `flex p-2 rounded-md focus:outline-0 dark:bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none `;
+	const inputClass = `flex p-2 rounded-md focus:outline-0 bg-[#161B22] placeholder-[#E6EDF3] text-[#E6EDF3]  outline-none `;
 	const inputDivClass = `flex flex-col space-y-2 md:w-60`;
 
 	// local states
@@ -53,7 +53,7 @@ const LoginAndSecurity: React.FC<LoginAndSecurityProps> = ({}) => {
 		}
 	};
 	return (
-		<section className="flex  h-full  w-full pt-2 md:flex-row md:space-x-10 flex-col dark:border-t-darkBorder border-t  dark:text-darkText ">
+		<section className="flex  h-full  w-full pt-2 md:flex-row md:space-x-10 flex-col border-t-darkBorder border-t  text-darkText ">
 			<Snackbar message={snackbarState.message} show={snackbarState.show} />
 			<form
 				id="personal-info"

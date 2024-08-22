@@ -17,7 +17,7 @@ const DropDown: React.FC<DropDownProps> = ({ handleDropDown }) => {
 		handleDropDown();
 	};
 	return (
-		<ul className="absolute z-20 w-40 transition-colors duration-300 ease-in-out rounded-md text-black dark:text-white bg-gray-100 dark:bg-darkSecondary border border-darkBorder top-10 right-4  p-2 flex flex-col gap-2">
+		<ul className="absolute z-20 w-40 transition-colors duration-300 ease-in-out rounded-md  text-white  bg-darkSecondary border border-darkBorder top-10 right-4  p-2 flex flex-col gap-2">
 			<li onClick={() => handleDropDown()}>
 				<ConnectionRequest />
 			</li>

@@ -33,7 +33,7 @@ const Sidebar: React.FC = () => {
 	const classP = `${open ? "hidden" : "hidden sm:block "}`;
 
 	const active =
-		" dark:text-darkText text-black p-2 rounded-md bg-white dark:bg-darkSecondary shadow-lg  w-full h-full";
+		" text-darkText text-black p-2 rounded-md bg-darkSecondary shadow-lg  w-full h-full";
 
 	// sign out
 	const signOutHandler = () => {
@@ -46,7 +46,7 @@ const Sidebar: React.FC = () => {
 		<div
 			className={`${
 				open ? "w-14" : " sm:w-40 w-14"
-			} transition-width duration-300 flex flex-col  items-center  dark:text-white text-black    `}
+			} transition-width duration-300 flex flex-col  items-center  text-white   `}
 		>
 			<ul className="flex flex-col space-y-6 pt-10 w-full p-2">
 				<li className="flex w-full p-2">
@@ -56,11 +56,7 @@ const Sidebar: React.FC = () => {
 						type="button"
 						className={menu}
 					>
-						<CollapseSvg
-							height={20}
-							width={20}
-							className="dark:text-white text-black"
-						/>
+						<CollapseSvg height={20} width={20} className="text-white " />
 					</button>
 				</li>
 				<li className="flex w-full h-full">
@@ -69,11 +65,7 @@ const Sidebar: React.FC = () => {
 						className={({ isActive }) => (isActive ? active : " p-2")}
 					>
 						<button className={classBtn}>
-							<DashboardSvg
-								width={20}
-								height={20}
-								className="dark:text-white text-black"
-							/>
+							<DashboardSvg width={20} height={20} className="text-white " />
 
 							<p className={classP}>Dashboard</p>
 						</button>
@@ -85,11 +77,7 @@ const Sidebar: React.FC = () => {
 						className={({ isActive }) => (isActive ? active : " p-2")}
 					>
 						<button className={classBtn}>
-							<ProjectSvg
-								width={20}
-								height={20}
-								className="dark:text-white text-black"
-							/>
+							<ProjectSvg width={20} height={20} className="text-white " />
 							<p className={classP}>Projects</p>
 						</button>
 					</NavLink>
@@ -101,11 +89,7 @@ const Sidebar: React.FC = () => {
 						className={({ isActive }) => (isActive ? active : " p-2")}
 					>
 						<button className={classBtn}>
-							<TeamSvg
-								width={20}
-								height={20}
-								className="dark:text-white text-black"
-							/>
+							<TeamSvg width={20} height={20} className="text-white " />
 
 							<p className={classP}>Teams</p>
 						</button>
@@ -118,11 +102,7 @@ const Sidebar: React.FC = () => {
 						className={({ isActive }) => (isActive ? active : " p-2")}
 					>
 						<button className={classBtn}>
-							<SettingSvg
-								width={20}
-								height={20}
-								className="dark:text-white text-black"
-							/>
+							<SettingSvg width={20} height={20} className="text-white " />
 
 							<p className={classP}>Settings</p>
 						</button>
@@ -130,11 +110,7 @@ const Sidebar: React.FC = () => {
 				</li>
 				<li className="flex p-2">
 					<button onClick={signOutHandler} className={classBtn}>
-						<SignOutSvg
-							width={20}
-							height={20}
-							className="dark:text-white text-black"
-						/>
+						<SignOutSvg width={20} height={20} className="text-white " />
 
 						<p className={classP}>Sign out</p>
 					</button>

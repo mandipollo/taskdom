@@ -81,7 +81,7 @@ const SignupPage: React.FC = () => {
 	};
 
 	return (
-		<main className="flex bg-lightPrimary text-black w-full h-full flex-1 gap-4 justify-center items-center flex-col">
+		<main className="flex  text-white w-full h-full flex-1 gap-4 justify-center items-center flex-col">
 			<form
 				onSubmit={handleSubmit}
 				id="sign-up"
@@ -97,7 +97,7 @@ const SignupPage: React.FC = () => {
 						id="display-name-input"
 						onChange={displayNameHandler}
 						value={displayName ?? ""}
-						className="py-2   border-darkBorder  outline-none border text-center md:w-60 w-40 rounded-md  "
+						className="py-2 text-black   border-darkBorder  outline-none border text-center md:w-60 w-40 rounded-md  "
 						placeholder="Display name"
 						type="text"
 					></input>
@@ -108,7 +108,7 @@ const SignupPage: React.FC = () => {
 						id="email-input"
 						onChange={emailHandler}
 						value={email ?? ""}
-						className="py-2  border-darkBorder  outline-none border text-center md:w-60 w-40 rounded-md  "
+						className="py-2 text-black  border-darkBorder  outline-none border text-center md:w-60 w-40 rounded-md  "
 						placeholder="Email"
 						type="email"
 					></input>
@@ -119,7 +119,7 @@ const SignupPage: React.FC = () => {
 						id="password-input"
 						onChange={passwordHandler}
 						value={password ?? ""}
-						className="py-2  border-darkBorder  outline-none border text-center md:w-60 w-40 rounded-md  "
+						className="py-2 text-black  border-darkBorder  outline-none border text-center md:w-60 w-40 rounded-md  "
 						placeholder="Password"
 						type="password"
 					></input>

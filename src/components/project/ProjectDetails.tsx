@@ -47,13 +47,13 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 	};
 
 	return (
-		<div className="sticky top-0 flex flex-col space-x-2   bg-lightPrimary dark:bg-darkPrimary">
+		<div className="sticky top-0 flex flex-col space-x-2  bg-darkPrimary">
 			<div className="flex h-full flex-col w-full border-b space-y-1 border-darkBorder">
 				<div className="flex  w-full items-center justify-between ">
 					<p className="md:text-xl text-md">{title}</p>
 					<button
 						onClick={() => handleToggleDescription()}
-						className="mt-2 cursor-pointer p-2 border border-darkBorder rounded-md dark:bg-darkSecondary"
+						className="mt-2 cursor-pointer p-2 border border-darkBorder rounded-md bg-darkSecondary"
 						id="toggleButton"
 					>
 						{showMore ? "Hide" : "Project outline"}
@@ -78,7 +78,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 								className="rounded-full w-8 h-8 object-cover"
 							></img>
 						) : (
-							<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 text-black">
+							<span className="text-center rounded-full bg-gray-300 h-10 w-10 p-2 ">
 								{adminName.charAt(0).toUpperCase()}
 							</span>
 						)}
@@ -86,13 +86,9 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 					<div className="flex flex-row space-x-2">
 						<button
 							onClick={handleToggleAddTeamMembers}
-							className="flex flex-row space-x-2 p-2 border border-darkBorder dark:bg-darkSecondary "
+							className="flex flex-row space-x-2 p-2 border border-darkBorder bg-darkSecondary "
 						>
-							<TeamSvg
-								width={20}
-								height={20}
-								className="dark:text-white text-black"
-							/>
+							<TeamSvg width={20} height={20} className="text-white " />
 
 							{!teamMembers && (
 								<p className="text-gray-400">Invite Team Members</p>
@@ -112,14 +108,14 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 												className="rounded-full border border-gray-400 w-8 h-8 object-cover"
 											></img>
 										) : (
-											<span className="flex border border-gray-400 justify-center items-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
+											<span className="flex border border-gray-400 justify-center items-center rounded-full bg-gray-300 h-8 w-8 p-2 ">
 												{member.displayName.charAt(0).toUpperCase()}
 											</span>
 										)}
 									</li>
 								))}
 								<li className="flex justify-center items-center ">
-									<span className="flex border border-gray-400 justify-center items-center rounded-full bg-gray-300 h-8 w-8 p-2 text-black">
+									<span className="flex border border-gray-400 justify-center items-center rounded-full bg-gray-300 h-8 w-8 p-2 ">
 										+{remainingMembers.length}
 									</span>
 								</li>
@@ -133,13 +129,9 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 				{projectData.adminUid === userUid && (
 					<button
 						onClick={handleToggleForm}
-						className="rounded-md flex dark:bg-darkSecondary shadow-md  p-2"
+						className="rounded-md flex bg-darkSecondary shadow-md  p-2"
 					>
-						<AddSvg
-							width={20}
-							height={20}
-							className="dark:text-white text-black"
-						/>
+						<AddSvg width={20} height={20} className="text-white " />
 						Add Task
 					</button>
 				)}
@@ -151,7 +143,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 						<button
 							className={` ${
 								filterStatus === ""
-									? "dark:text-white text-black underline underline-offset-4"
+									? "text-white  underline underline-offset-4"
 									: "text-gray-400"
 							} `}
 							onClick={() => handleFilterStatus("")}
@@ -163,7 +155,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 						<button
 							className={` ${
 								filterStatus === "Ongoing"
-									? "dark:text-white text-black underline underline-offset-4"
+									? "text-white  underline underline-offset-4"
 									: "text-gray-400"
 							} `}
 							onClick={() => handleFilterStatus("Ongoing")}
@@ -176,7 +168,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 						<button
 							className={` ${
 								filterStatus === "Complete"
-									? "dark:text-white text:black underline underline-offset-4"
+									? "text-white text:black underline underline-offset-4"
 									: "text-gray-400"
 							} `}
 							onClick={() => handleFilterStatus("Complete")}
@@ -191,16 +183,12 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 						onClick={handleSortTask}
 						className="relative"
 					>
-						<SortSvg
-							width={20}
-							height={20}
-							className="dark:text-white text-black"
-						/>
+						<SortSvg width={20} height={20} className="text-white " />
 					</button>
 					<ul
 						className={` ${
 							sortTask ? "flex" : "hidden"
-						} absolute rounded-md top-0 right-6 z-10 text-sm space-y-4 flex-col border border-darkBorder  w-36 p-2.5 bg-lightPrimary dark:bg-darkSecondary `}
+						} absolute rounded-md top-0 right-6 z-10 text-sm space-y-4 flex-col border border-darkBorder  w-36 p-2.5 bg-lightPrimary bg-darkSecondary `}
 					>
 						<li className=" text-gray-400">Sort by</li>
 						<li

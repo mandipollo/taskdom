@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { Logo } from "../../assets/logos/Logo";
+import logo from "../../assets/logos/Logo.svg";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { auth, db } from "../../../firebase.config";
@@ -12,7 +12,6 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { setUserFirestoreData } from "../../store/userFirestoreData";
 import { UserDataProps } from "../utilities/userDataProps";
 import SearchConnections from "./SearchConnections";
-import Modeswitcher from "../utilities/ModeSwitcher";
 
 interface NavbarProps {
 	handleDropDown: () => void;
@@ -60,12 +59,12 @@ const Navbar: React.FC<NavbarProps> = ({ handleDropDown }) => {
 	}, [uid]);
 
 	return (
-		<div className="flex relative justify-between flex-1 h-14 p-2 space-x-2  w-full  items-center border-b dark:border-darkBorder bg-primaryBlue dark:bg-darkPrimary ">
+		<div className="flex relative justify-between flex-1 h-14 p-2 space-x-2  w-full  items-center border-b border-darkBorder  bg-darkPrimary ">
 			<Link
 				to={linkHomeLogo}
 				className=" flex w-10  justify-center items-center h-full"
 			>
-				<Logo height={20} width={20} className="text-green-400" />
+				<img src={logo} alt="" />
 			</Link>
 			{/* nav routes */}
 			{pathname === "/teams" && (
@@ -82,8 +81,6 @@ const Navbar: React.FC<NavbarProps> = ({ handleDropDown }) => {
 
 			{!isLoading && (
 				<div className="flex gap-1 justify-center items-center">
-					{user && <Modeswitcher />}
-
 					{user && (
 						<div
 							onClick={() => handleDropDown()}

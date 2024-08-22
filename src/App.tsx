@@ -60,7 +60,7 @@ const Route = createBrowserRouter([
 
 function App() {
 	return (
-		<div className="  flex flex-col items-center h-screen w-screen dark:text-white text-black font-mono dark:bg-darkPrimary bg-lightPrimary ">
+		<div className="  flex flex-col items-center h-screen w-screen text-white  font-mono bg-darkPrimary ">
 			<Provider store={store}>
 				<PersistGate loading={null} persistor={persistor}>
 					<RouterProvider router={Route}></RouterProvider>

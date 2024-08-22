@@ -33,7 +33,6 @@ export default {
 				darkSurface: "#0D1117",
 				darkBorder: "#30363E",
 				darkText: "#E6EDF3",
-				lightPrimary: "#F2F2F2",
 				primaryBlue: "#006FC9",
 				primaryGreen: "#508D69",
 			},

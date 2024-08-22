@@ -12,7 +12,7 @@ const ProjectHead: React.FC<ProjectHeadProps> = ({
 	filterProjectStatus,
 }) => {
 	return (
-		<div className="flex w-full p-2 z-10 flex-col sticky top-0 left-0 bg-lightPrimary dark:bg-darkPrimary dark:text-white text-black ">
+		<div className="flex w-full p-2 z-10 flex-col sticky top-0 left-0  bg-darkPrimary text-white ">
 			<div className="flex-1 flex gap-4 items-center">
 				<p className="text-xl">Dashboard</p>
 				<button

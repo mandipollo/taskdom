@@ -29,7 +29,7 @@ const RequestList: React.FC<RequestListProps> = ({ req }) => {
 	};
 	return (
 		<li
-			className="flex rounded-md shadow-md justify-center items-center p-2 flex-row  dark:bg-darkSurface"
+			className="flex rounded-md shadow-md justify-center items-center p-2 flex-row  bg-darkSurface"
 			key={req.uid}
 		>
 			{req.profileImage ? (
@@ -52,7 +52,7 @@ const RequestList: React.FC<RequestListProps> = ({ req }) => {
 				<div className="h-1/2 flex space-x-2 p-2">
 					<button
 						onClick={() => handleDecline(req)}
-						className="bg-[#006FC9] py-1 px-4 rounded-md text-white dark:border border-darkBorder "
+						className="bg-[#006FC9] py-1 px-4 rounded-md text-white border border-darkBorder "
 					>
 						Decline
 					</button>

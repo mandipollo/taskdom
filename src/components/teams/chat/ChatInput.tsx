@@ -117,7 +117,7 @@ const ChatInput = () => {
 				value={text || ""}
 				onChange={textHandler}
 				placeholder="Type a message"
-				className="rounded-md placeholder-gray-400 w-10/12 h-10 outline-darkBorder outline-2 pl-2 border-darkBorder dark:bg-darkSecondary "
+				className="rounded-md placeholder-gray-400 w-10/12 h-10 outline-darkBorder outline-2 pl-2 border-darkBorder bg-darkSecondary "
 				type="text"
 			/>
 		</form>
